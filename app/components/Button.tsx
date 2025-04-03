@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react **/
+import theme from "@/style/theme";
 import { css } from "@emotion/react"
 
 type Props = {
@@ -14,12 +15,12 @@ const buttonStyle = {
     display: "inline-block",
     cursor: "pointer",
     border: "0",
-    borderRadius: "3em",
+    borderRadius: "1rem",
     fontWeight: "700",
     lineHeight: "1",
-    fontFamily: `'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif`,
+    fontFamily: `${theme.validTheme.fontFamilyJa}`,
     "&--primary": {
-      backgroundColor: "#555ab9",
+      backgroundColor: `${theme.validTheme.backgroundColor}`,
       color: "white"
     },
     "&--secondary": {
@@ -42,7 +43,7 @@ const buttonStyle = {
   })
 }
 
-export default function Button(props: Props) {
+const Button = (props: Props) => {
   const { primary = false, size = 'medium', backgroundColor, label = 'ラベル' } = props
   const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
   return (
@@ -59,4 +60,6 @@ export default function Button(props: Props) {
       `}</style>
     </button>
   )
-}
+};
+
+export default Button;

@@ -8,10 +8,17 @@ declare module "@mui/material/styles" {
       fontFamilyJa: string,
       fontFamilyEn: string,
 
+      // title
+      heroSubTitleFont: string,
+      // header
+      navigationFont: string,
+
+      // card
+      cardSubtitleColor: string,
+
       // common
       backgroundColor: string,
       backgroundColor1: string,
-
     }
   }
   interface ThemeOptions {

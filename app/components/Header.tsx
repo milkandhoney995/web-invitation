@@ -1,86 +1,64 @@
 /** @jsxImportSource @emotion/react **/
-import  Button  from '@/app/components/Button';
+"use client";
+
+import theme from '@/style/theme';
 import { css } from "@emotion/react"
+import { menuItems } from "@/constants/menuItems"
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 const styles = {
   header: css({
     display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
-    padding: "15px 20px",
-    fontFamily: `'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif`,
-    "& svg": {
-      display: "inline-block",
-      verticalAlign: "top"
-    },
-    "& h1": {
-      display: "inline-block",
-      verticalAlign: "top",
-      margin: "6px 0 6px 10px",
-      fontWeight: "700",
-      fontSize: "20px",
-      lineHeight: "1"
-    },
-    "& button + button": {
-      marginLeft: "10px",
-    },
-    "& .welcome": {
-      marginRight: "10px",
+    justifyContent: "flex-end",
+    padding: "20px 25px",
+    transition: "background-color 0.3s ease",
+    "& nav a": {
+      marginRight: "2rem",
       color: "#333",
-      fontSize: "14px",
+      fontSize: "1.5rem",
+      fontFamily: `${theme.validTheme.navigationFont}`
     },
   }),
 }
 
-type User = {
-  name: string;
+const Header = () => {
+  const [isSticky, setIsSticky] = useState<boolean>(false)
+
+  const handleScroll = () => {
+    if (window.scrollY > 300) setIsSticky(true);
+    else setIsSticky(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    // クリーンアップ関数
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+  return (
+    <header css={[
+      styles.header,
+      css`
+        opacity: ${isSticky ? '1' : '0'};
+        position: ${isSticky ? 'fixed' : 'absolute'};
+        top: 0;
+        left: 0;
+        right: 0;
+      `,
+      ]}>
+      <nav>
+        {/* メニューの一覧を表示 */}
+        {menuItems.map((item, index) => (
+          <Link key={index} href={item.url}>
+            {item.text}
+          </Link>
+        ))}
+      </nav>
+    </header>
+  )
 };
 
-export interface HeaderProps {
-  user?: User;
-  onLogin?: () => void;
-  onLogout?: () => void;
-  onCreateAccount?: () => void;
-}
-
-export const Header = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps) => (
-  <header>
-    <div css={styles.header}>
-      <div>
-        <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-          <g fill="none" fillRule="evenodd">
-            <path
-              d="M10 0h12a10 10 0 0110 10v12a10 10 0 01-10 10H10A10 10 0 010 22V10A10 10 0 0110 0z"
-              fill="#FFF"
-            />
-            <path
-              d="M5.3 10.6l10.4 6v11.1l-10.4-6v-11zm11.4-6.2l9.7 5.5-9.7 5.6V4.4z"
-              fill="#555AB9"
-            />
-            <path
-              d="M27.2 10.6v11.2l-10.5 6V16.5l10.5-6zM15.7 4.4v11L6 10l9.7-5.5z"
-              fill="#91BAF8"
-            />
-          </g>
-        </svg>
-        <h1>Acme</h1>
-      </div>
-      <div>
-        {user ? (
-          <>
-            <span className="welcome">
-              Welcome, <b>{user.name}</b>!
-            </span>
-            <Button size="small" onClick={onLogout} label="Log out" />
-          </>
-        ) : (
-          <>
-            <Button size="small" onClick={onLogin} label="Log in" />
-            <Button primary size="small" onClick={onCreateAccount} label="Sign up" />
-          </>
-        )}
-      </div>
-    </div>
-  </header>
-);
+export default Header;
