@@ -133,7 +133,7 @@ const WeddingInvitationForm = () => {
               </Grid>
 
               {/* 名前 */}
-              <Grid size={{ xs: 12, md: 6 }}>
+              <Grid size={12}>
                 <TextField
                   fullWidth
                   label="お名前"
@@ -146,7 +146,7 @@ const WeddingInvitationForm = () => {
               </Grid>
 
               {/* 名前かな */}
-              <Grid size={{ xs: 12, md: 6 }}>
+              <Grid size={12}>
                 <TextField
                   fullWidth
                   label="お名前（かな）"
@@ -158,24 +158,11 @@ const WeddingInvitationForm = () => {
                 />
               </Grid>
 
-              {/* アレルギー */}
-              <Grid size={12}>
-                <TextareaAutosize
-                  minRows={3}
-                  placeholder="アレルギー（あれば記入）"
-                  name="allergies"
-                  value={guest.allergies}
-                  onChange={(e) => handleGuestChange(index, e)}
-                  style={{ width: '100%' }}
-                  disabled={index !== 0} // 最初のゲスト以外はアレルギーを入力できないように
-                />
-              </Grid>
-
               {/* 最初のゲスト以外には、以下の項目を表示しない */}
               {index === 0 && (
                 <>
                   {/* 郵便番号 */}
-                  <Grid size={{ xs: 12, md: 6 }}>
+                  <Grid size={12}>
                     <TextField
                       fullWidth
                       label="郵便番号"
@@ -187,7 +174,7 @@ const WeddingInvitationForm = () => {
                   </Grid>
 
                   {/* 住所 */}
-                  <Grid size={{ xs: 12, md: 6 }}>
+                  <Grid size={12}>
                     <TextField
                       fullWidth
                       label="住所"
@@ -199,7 +186,7 @@ const WeddingInvitationForm = () => {
                   </Grid>
 
                   {/* 建物名 */}
-                  <Grid size={{ xs: 12, md: 6 }}>
+                  <Grid size={12}>
                     <TextField
                       fullWidth
                       label="建物名"
@@ -210,7 +197,7 @@ const WeddingInvitationForm = () => {
                   </Grid>
 
                   {/* 電話番号 */}
-                  <Grid size={{ xs: 12, md: 6 }}>
+                  <Grid size={12}>
                     <TextField
                       fullWidth
                       label="電話番号"
@@ -222,7 +209,7 @@ const WeddingInvitationForm = () => {
                   </Grid>
 
                   {/* メールアドレス */}
-                  <Grid size={{ xs: 12, md: 6 }}>
+                  <Grid size={12}>
                     <TextField
                       fullWidth
                       label="メールアドレス"
@@ -230,6 +217,19 @@ const WeddingInvitationForm = () => {
                       value={guest.email}
                       onChange={(e) => handleGuestChange(index, e)}
                       required
+                    />
+                  </Grid>
+
+                  {/* アレルギー */}
+                  <Grid size={12}>
+                    <TextareaAutosize
+                      minRows={3}
+                      placeholder="アレルギー（あれば記入）"
+                      name="allergies"
+                      value={guest.allergies}
+                      onChange={(e) => handleGuestChange(index, e)}
+                      style={{ width: '100%' }}
+                      disabled={index !== 0} // 最初のゲスト以外はアレルギーを入力できないように
                     />
                   </Grid>
 
