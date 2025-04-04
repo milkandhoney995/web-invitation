@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react **/
 import theme from "@/style/theme";
-import { css } from "@emotion/react"
+import { SerializedStyles, css } from "@emotion/react"
 import { ReactNode } from "react";
 
 const styles = {
@@ -9,12 +9,13 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-evenly",
-    padding: "15px 20px",
-    height: "100vh",
+    height: "fit-content",
+    padding: "4rem",
     "& h2": {
       color: "#333",
-      fontSize: "3rem",
-      fontFamily: `${theme.validTheme.fontFamilyEn}`
+      fontSize: "5rem",
+      fontFamily: `${theme.validTheme.fontFamilyEn}`,
+      marginBottom: "4rem"
     },
     "& .textContainer": {
       display: "flex",
@@ -34,11 +35,12 @@ type Props = {
   title?: string,
   id?: string,
   children?: ReactNode,
-  backgroundColor?: string
+  backgroundColor?: string,
+  propCss?: SerializedStyles
 }
 
 const Section = (props: Props) => {
-  const { title = 'ラベル', id, children, backgroundColor } = props;
+  const { title, id, children, backgroundColor, propCss } = props;
   return (
     <section
       id={id}
@@ -46,11 +48,14 @@ const Section = (props: Props) => {
         styles.section,
         css`
           background: ${backgroundColor}
-        `
+        `,
+        propCss
       ]}
     >
         <h2>{title}</h2>
-        <div className="textContainer">{children}</div>
+        <div
+          className="textContainer"
+        >{children}</div>
     </section>
   )
 };

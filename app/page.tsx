@@ -4,9 +4,18 @@ import Hero from "./components/Hero";
 import Section from "./components/Section";
 import Image from 'next/image'
 import { css } from "@emotion/react"
-import CardTitle from "./components/CardTitle";
-import CardSubtitle from "./components/CardSubtitle";
 import theme from "@/style/theme";
+import CardMain from "./components/CardMain";
+import CardBody from "./components/CardBody";
+import WeddingInvitationForm from "./components/WeddingInvitationForm";
+
+const style = {
+  textContainer: css({
+    "& .textContainer": {
+      alignItems: "baseline"
+    }
+  })
+}
 
 export default function Home() {
   return (
@@ -50,44 +59,60 @@ export default function Home() {
         id="event"
         title="Event"
         backgroundColor={theme.validTheme.backgroundColor1}
+        propCss={style.textContainer}
       >
         <div>
-          <CardTitle label="挙式" />
-          <CardSubtitle>
+          <CardMain
+            img="/images/church.avif"
+            title="挙式"
+          >
             2025年9月27日(土)<br />
             受付：午後2:30<br />
             開始：午後3:00
-          </CardSubtitle>
-          <h5>国際基督教大学教会</h5>
-          <p>
-            住所：〒181-8585 東京都三鷹市大沢 3-10-2<br />
+          </CardMain>
+          <CardBody
+            title="国際基督教大学教会"
+            img="/images/terakoya_map.png"
+          >
+            〒181-8585　東京都三鷹市大沢 3-10-2<br />
             <br />
-             ＊JR中央線三鷹駅からお越しの場合<br />
+            ＊JR中央線三鷹駅からお越しの場合<br />
             南口の5番乗り場から小田急バス「（鷹51）国際基督教大学」行終点下車<br />
             <br />
             ＊JR中央線武蔵境駅からお越しの場合<br />
-            南口の2番乗り場から小田急バス「（境93）国際基督教大学」行終点下車
+            南口の2番乗り場から小田急バス「（境93）国際基督教大学」行終点下車<br />
             <br />
             ＊調布駅からお越しの場合<br />
-            北口の14番乗り場から小田急バス「（境91）武蔵境駅南口」行 または「（ 鷹51）三鷹駅（西野御塔坂下経由）」行 乗車「富士重工前」下車 徒歩10分
-          </p>
+            北口の14番乗り場から小田急バス「（境91）武蔵境駅南口」行<br />
+            または「（ 鷹51）三鷹駅（西野御塔坂下経由）」行乗車「富士重工前」下車 徒歩10分
+          </CardBody>
         </div>
         <div>
-          <CardTitle label="披露宴" />
-          <CardSubtitle>
+          <CardMain
+            title="披露宴"
+            img="/images/terakoya.jpeg"
+          >
             2025年9月27日(土)<br />
-            受付：午後2:30<br />
-            開始：午後3:00
-          </CardSubtitle>
-          <h5>TERAKOYA</h5>
-          <p>
+            受付：午後4:30<br />
+            開始：午後5:00
+          </CardMain>
+          <CardBody
+            title="TERAKOYA"
+            img="/images/terakoya_map.png"
+          >
             〒184-0013　東京都小金井市前原町3-33-32<br />
+            電話番号: 042-388-9555<br />
             <br />
-            挙式後、国際基督教大学教会より送迎バスをご用意しております ご利用の方は出欠の回答画面にて、お知らせくださいますよう お願い申し上げます。<br />
-            <br />
-            電話番号: 042-388-9555
-          </p>
+            挙式後、国際基督教大学教会より送迎バスをご用意しております。<br />
+            ご利用の方は出欠の回答画面にて、お知らせくださいますようお願い申し上げます。<br />
+          </CardBody>
         </div>
+      </Section>
+      <Section
+        id="rsvp"
+        title="RSVP"
+      >
+        <WeddingInvitationForm />
       </Section>
     </div>
   );

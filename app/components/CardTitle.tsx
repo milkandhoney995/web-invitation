@@ -6,9 +6,14 @@ type Props = {
   label?: string
 }
 
+const style = css({
+  fontSize: "2.5rem",
+  marginBottom: "1rem"
+})
+
 const CardTitle = (props: Props) => {
   const { label = 'ラベル' } = props
-  return <h3>{label}</h3>
+  return <h3 css={style}>{label}</h3>
 };
 
 export default CardTitle;

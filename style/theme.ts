@@ -44,6 +44,18 @@ const themeStyle: { [ key: string ]: any } = {
 
 const theme = createTheme({
   validTheme: themeStyle["default"],
+  typography: {
+    fontFamily: `${themeStyle.default.fontFamilyJa}, ${enFont.style.fontFamily}, sans-serif`, // フォントファミリーの設定
+    h1: {
+      fontFamily: enHeaderTitleFont.style.fontFamily, // ヘッダー用フォント
+    },
+    h2: {
+      fontFamily: forum.style.fontFamily, // サブタイトルやナビゲーション用フォント
+    },
+    body1: {
+      fontFamily: `${themeStyle.default.fontFamilyJa}`, // 本文用フォント
+    },
+  },
 })
 
 export default responsiveFontSizes(theme)

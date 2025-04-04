@@ -14,24 +14,17 @@ const globalStyles = css({
 
 })
 const resetCss = css({
+  "*": {
+    margin: "0",
+    padding: "0",
+    boxSizing: "border-box",
+    fontWeight: "normal"
+  },
   html: {
     fontFamily: "sans-serif"
   },
   body: {
     fontFamily: "sans-serif",
-    margin: "0",
-    padding: "0",
-    boxSizing: "border-box"
-  },
-  h1: {
-    margin: "0",
-    padding: "0",
-    boxSizing: "border-box"
-  },
-  h2: {
-    margin: "0",
-    padding: "0",
-    boxSizing: "border-box"
   },
   h4: {
     fontWeight: "normal",
@@ -41,10 +34,6 @@ const resetCss = css({
   },
   ul: {
     listStyle: "none"
-  },
-  img: {
-    position: "relative",
-    maxWidth: "100%"
   }
 
 })
