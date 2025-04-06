@@ -108,6 +108,7 @@ const WeddingInvitationForm = () => {
       [name]: value,
     };
     setGuests(newGuests);
+    console.log(newGuests[0])
   };
 
   const handleRadioChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -285,7 +286,7 @@ const WeddingInvitationForm = () => {
 
               {/* アレルギー */}
               <Textarea
-                placeholder="アレルギー（あれば記入）"
+                label="アレルギー（あれば記入）"
                 name="allergies"
                 value={guest.allergies}
                 onChange={(e) => handleGuestChange(index, e)}
@@ -293,7 +294,7 @@ const WeddingInvitationForm = () => {
 
               {/* メッセージ */}
               <Textarea
-                placeholder="メッセージ（自由にどうぞ）"
+                label="メッセージ（自由にどうぞ）"
                 name="message"
                 value={guest.message}
                 onChange={(e) => handleGuestChange(index, e)}
