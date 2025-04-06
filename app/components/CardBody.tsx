@@ -4,44 +4,51 @@ import { css } from "@emotion/react"
 import CardTitle from "./CardTitle";
 import CardSubtitle from "./CardSubtitle";
 import Image from 'next/image'
-import { Typography } from "@mui/material";
+import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/material";
 
 type Props = {
   title?: string
   children?: React.ReactNode
-  img: string
+  mainImg: string
+  bodyImg: string
 }
 
 const style = {
-  card: css({
-    display: "flex",
-    flexDirection: "column",
-    "& h5": {
-      fontWeight: "200",
-      fontSize: "1.5rem",
-      marginBottom: "1rem"
-    }
+  cardMedia: css({
+    filter: "brightness(0.9) contrast(70%)"
   })
 }
 
 const CardBody = (props: Props) => {
-  const { title, children, img } = props
+  const { title, children, mainImg, bodyImg } = props
   return (
-    <div css={style.card}>
-      <h5>{title}</h5>
-      <Typography variant="body1" gutterBottom>
-        {children}
-      </Typography>
-      <Image
-        src={img}
-        alt="thanks"
-        width={660}
-        height={400}
-        layout="intrinsic"
-        objectFit="cover"
-        quality={100}
-      />
-    </div>
+    <>
+      <Card>
+        <CardActionArea>
+          <CardMedia
+            component="img"
+            height="400"
+            image={mainImg}
+            alt={title}
+            css={style.cardMedia}
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {title}
+            </Typography>
+            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+              {children}
+            </Typography>
+          </CardContent>
+          <CardMedia
+            component="img"
+            height="400"
+            image={bodyImg}
+            alt={title}
+          />
+        </CardActionArea>
+      </Card>
+    </>
   )
 };
 

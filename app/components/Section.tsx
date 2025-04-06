@@ -49,10 +49,10 @@ const Section = (props: Props) => {
         propCss
       ]}
     >
-        <h2>{title}</h2>
-        <div
-          className="textContainer"
-        >{children}</div>
+      <h2>{title}</h2>
+      <div
+        className="textContainer"
+      >{children}</div>
     </section>
   )
 };

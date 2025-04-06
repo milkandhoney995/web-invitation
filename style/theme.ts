@@ -61,7 +61,7 @@ const theme = createTheme({
   validTheme: themeStyle["default"],
   palette: {
     primary: {
-      main: `${themeStyle["default"].buttonColor}`,
+      main: themeStyle["default"].buttonColor,
     }
   },
   typography: {
@@ -73,16 +73,16 @@ const theme = createTheme({
       fontFamily: forum.style.fontFamily, // サブタイトルやナビゲーション用フォント
     },
     body1: {
-      fontFamily: `${themeStyle.default.fontFamilyJa}`, // 本文用フォント
+      fontFamily: themeStyle.default.fontFamilyJa, // 本文用フォント
     },
   },
   components: {
     MuiContainer: {
       styleOverrides: {
         root: {
-          padding: `${themeStyle["default"].num16}`,
+          padding: themeStyle["default"].num16,
           '@media (min-width: 600px)': {
-            padding: `${themeStyle["default"].num32}`,
+            padding: themeStyle["default"].num32,
           },
         }
       }
@@ -90,9 +90,10 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         containedPrimary: {
+          color: themeStyle["default"].buttonFontColor,
           '&:hover': {
-            backgroundColor: `${themeStyle["default"].buttonFontColor}`,
-            color: `${themeStyle["default"].buttonColor}`
+            backgroundColor: themeStyle["default"].buttonFontColor,
+            color: themeStyle["default"].buttonColor
           },
         },
       }

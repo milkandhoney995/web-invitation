@@ -8,7 +8,6 @@ import Image from 'next/image'
 type Props = {
   title?: string
   children?: React.ReactNode
-  img: string
 }
 
 const style = {
@@ -21,23 +20,11 @@ const style = {
 }
 
 const CardMain = (props: Props) => {
-  const { title, children, img } = props
+  const { title, children } = props
   return (
     <div css={style.card}>
       <CardTitle label={title} />
       <CardSubtitle>{children}</CardSubtitle>
-      <Image
-        src={img}
-        alt="thanks"
-        width={660}
-        height={400}
-        layout="intrinsic"
-        objectFit="cover"
-        quality={100}
-        css={css`
-          filter: brightness(0.9) contrast(70%);
-        `}
-      />
     </div>
   )
 };
