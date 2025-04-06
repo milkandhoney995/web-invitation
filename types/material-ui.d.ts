@@ -16,9 +16,23 @@ declare module "@mui/material/styles" {
       // card
       cardSubtitleColor: string,
 
+      // form
+      formBackground: string,
+      formRadius: string,
+      formPadding: string,
+
       // common
       backgroundColor: string,
       backgroundColor1: string,
+      buttonColor: string,
+      buttonFontColor: string,
+
+      // padding
+      num16: string,
+      num32: string,
+      num48: string,
+      num64: string
+      num80: string
     }
   }
   interface ThemeOptions {

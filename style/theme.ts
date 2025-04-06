@@ -34,9 +34,24 @@ const themeStyle: { [ key: string ]: any } = {
 
     // card
     cardSubtitleColor: "#757575",
+
+    // form
+    formBackground: "rgba(255, 255, 255, 0.8)",
+    formRadius: "1rem",
+    formPadding: "3rem 4rem",
+
     // common
     backgroundColor: "#E8DDD4",
     backgroundColor1: "#FFFBF7",
+    buttonColor: "#FFB4AC",
+    buttonFontColor: "#ffffff",
+
+    // padding
+    num16: "1rem",
+    num32: "2rem",
+    num48: "3rem",
+    num64: "4rem",
+    num80: "5rem",
 
 
   }
@@ -44,6 +59,11 @@ const themeStyle: { [ key: string ]: any } = {
 
 const theme = createTheme({
   validTheme: themeStyle["default"],
+  palette: {
+    primary: {
+      main: `${themeStyle["default"].buttonColor}`,
+    }
+  },
   typography: {
     fontFamily: `${themeStyle.default.fontFamilyJa}, ${enFont.style.fontFamily}, sans-serif`, // フォントファミリーの設定
     h1: {
@@ -56,6 +76,28 @@ const theme = createTheme({
       fontFamily: `${themeStyle.default.fontFamilyJa}`, // 本文用フォント
     },
   },
+  components: {
+    MuiContainer: {
+      styleOverrides: {
+        root: {
+          padding: `${themeStyle["default"].num16}`,
+          '@media (min-width: 600px)': {
+            padding: `${themeStyle["default"].num32}`,
+          },
+        }
+      }
+    },
+    MuiButton: {
+      styleOverrides: {
+        containedPrimary: {
+          '&:hover': {
+            backgroundColor: `${themeStyle["default"].buttonFontColor}`,
+            color: `${themeStyle["default"].buttonColor}`
+          },
+        },
+      }
+    },
+  }
 })
 
 export default responsiveFontSizes(theme)

@@ -24,9 +24,6 @@ const styles = {
       color: "#333",
       fontSize: "16px",
       fontFamily: `${theme.validTheme.fontFamilyJa}`,
-      "& div:last-child": {
-        marginLeft: "2rem"
-      }
     },
   }),
 }

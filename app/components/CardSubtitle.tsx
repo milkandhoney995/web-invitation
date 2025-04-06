@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react **/
 import theme from "@/style/theme";
 import { css } from "@emotion/react"
+import { Typography } from "@mui/material";
 
 type Props = {
   children?: React.ReactNode
@@ -8,15 +9,13 @@ type Props = {
 
 const style = {
   title: css({
-    color: `${theme.validTheme.cardSubtitleColor}`,
-    fontSize: "1.75rem",
-    marginBottom: "1rem"
+    color: `${theme.validTheme.cardSubtitleColor}`
   })
 }
 
 const CardSubtitle = (props: Props) => {
   const { children } = props
-  return <h4 css={style.title}>{children}</h4>
+  return <Typography variant="subtitle1" gutterBottom css={style.title}>{children}</Typography>
 };
 
 export default CardSubtitle;

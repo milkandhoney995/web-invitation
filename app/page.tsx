@@ -11,10 +11,15 @@ import WeddingInvitationForm from "./components/WeddingInvitationForm";
 
 const style = {
   textContainer: css({
+    "& div:last-child": {
+      marginLeft: "2rem"
+    }
+  }),
+  textContainerEvent: css({
     "& .textContainer": {
       alignItems: "baseline"
     }
-  })
+  }),
 }
 
 export default function Home() {
@@ -24,6 +29,7 @@ export default function Home() {
       <Section
         id="message"
         title="Message"
+        propCss={style.textContainer}
       >
         <Image
           src="/images/img_thanks.jpg"
@@ -59,7 +65,7 @@ export default function Home() {
         id="event"
         title="Event"
         backgroundColor={theme.validTheme.backgroundColor1}
-        propCss={style.textContainer}
+        propCss={style.textContainerEvent}
       >
         <div>
           <CardMain
