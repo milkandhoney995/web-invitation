@@ -6,6 +6,9 @@ import theme from '@/style/theme';
 import Textarea from './Textarea';
 import TextFielldController from './TextFieldController';
 import RadioGroupController from './RadioGroupController';
+import axios from "axios";
+import { z } from 'zod';
+import { formSchema, nameSchema, kanaSchema, postalCodeSchema, phoneNumberSchema, emailSchema } from '@/utils/validation';
 
 const style = {
   container: css({
@@ -100,6 +103,8 @@ const WeddingInvitationForm = () => {
     },
   ]);
 
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
   const handleGuestChange = (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     const newGuests = [...guests];
@@ -108,7 +113,42 @@ const WeddingInvitationForm = () => {
       [name]: value,
     };
     setGuests(newGuests);
-    console.log(newGuests[0])
+
+    // 入力された項目のみをバリデーション
+    try {
+      switch (name) {
+        case 'name':
+          nameSchema.parse(value); // 名前のバリデーション
+          break;
+        case 'kana':
+          kanaSchema.parse(value); // 名前かなのバリデーション
+          break;
+        case 'postalCode':
+          postalCodeSchema.parse(value); // 郵便番号のバリデーション
+          break;
+        case 'phoneNumber':
+          phoneNumberSchema.parse(value); // 電話番号のバリデーション
+          break;
+        case 'email':
+          emailSchema.parse(value); // メールアドレスのバリデーション
+          break;
+        default:
+          break;
+      }
+
+      // バリデーションが成功した場合、該当するエラーを削除
+      setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
+    } catch (e) {
+      if (e instanceof z.ZodError) {
+        // バリデーションエラーの場合、エラーメッセージを更新
+        const error = e.errors[0]; // 最初のエラーを取得
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          [name]: error.message,
+        }));
+      }
+    }
+
   };
 
   const handleRadioChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -144,9 +184,14 @@ const WeddingInvitationForm = () => {
     setGuests(newGuests);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('送信されたデータ:', guests);
+
+    try {
+      await axios.post("https://invite-project.onrender.com/submit", guests);
+    } catch (error) {
+      console.error("送信エラー", error);
+    }
   };
 
   return (
@@ -184,7 +229,7 @@ const WeddingInvitationForm = () => {
 
             <Grid
               container
-              spacing={2}
+              spacing={5}
               sx={style.body}
             >
               {/* 最初のゲスト以外には、以下の項目を表示しない */}
@@ -225,6 +270,8 @@ const WeddingInvitationForm = () => {
                 name="name"
                 value={guest.name}
                 onChange={(e) => handleGuestChange(index, e)}
+                error={!!errors.name}
+                helperText={errors.name}
                 required
               />
 
@@ -234,6 +281,8 @@ const WeddingInvitationForm = () => {
                 name="kana"
                 value={guest.kana}
                 onChange={(e) => handleGuestChange(index, e)}
+                error={!!errors.name}
+                helperText={errors.name}
                 required
               />
 
@@ -246,6 +295,8 @@ const WeddingInvitationForm = () => {
                     name="postalCode"
                     value={guest.postalCode}
                     onChange={(e) => handlePostalCodeChange(index, e)}
+                    error={!!errors.name}
+                    helperText={errors.name}
                   />
 
                   {/* 住所 */}
@@ -270,6 +321,8 @@ const WeddingInvitationForm = () => {
                     name="phone"
                     value={guest.phone}
                     onChange={(e) => handleGuestChange(index, e)}
+                    error={!!errors.name}
+                    helperText={errors.name}
                     required
                   />
 
@@ -279,6 +332,8 @@ const WeddingInvitationForm = () => {
                     name="email"
                     value={guest.email}
                     onChange={(e) => handleGuestChange(index, e)}
+                    error={!!errors.name}
+                    helperText={errors.name}
                     required
                   />
                 </>

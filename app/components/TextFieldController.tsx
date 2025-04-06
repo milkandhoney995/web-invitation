@@ -9,10 +9,12 @@ type Props = {
   value?: string
   required?: boolean
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  error?: boolean
+  helperText?: string
 }
 
 const TextFielldController = (props: Props) => {
-  const { label, name, value, required = false, onChange } = props
+  const { label, name, value, required = false, onChange, error, helperText} = props
 
   return (
     <FormControl fullWidth>
@@ -23,6 +25,8 @@ const TextFielldController = (props: Props) => {
         value={value}
         onChange={onChange}
         required={required}
+        error={error}
+        helperText={helperText}
       />
     </FormControl>
   )
