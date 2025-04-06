@@ -7,13 +7,9 @@ import { css } from "@emotion/react"
 import theme from "@/style/theme";
 import WeddingInvitationForm from "./components/WeddingInvitationForm";
 import CardController from "./components/CardController";
+import { Typography } from "@mui/material";
 
 const style = {
-  textContainer: css({
-    "& div:last-child": {
-      marginLeft: "2rem"
-    }
-  }),
   textContainerEvent: css({
     "& .textContainer": {
       alignItems: "baseline"
@@ -28,7 +24,6 @@ export default function Home() {
       <Section
         id="message"
         title="Message"
-        propCss={style.textContainer}
       >
         <Image
           src="/images/img_thanks.jpg"
@@ -44,7 +39,7 @@ export default function Home() {
             mix-blend-mode: hard-light;
           `}
         />
-        <div>
+        <Typography variant="body1">
           謹啓<br />
           <br />
           皆様におかれましては<br />
@@ -58,7 +53,7 @@ export default function Home() {
           ぜひご出席をいただきたく　ご案内申し上げます。<br />
           <br />
           謹白
-        </div>
+        </Typography>
       </Section>
       <Section
         id="event"
@@ -71,6 +66,7 @@ export default function Home() {
           mainTitle="挙式"
           bodyTitle="国際基督教大学教会"
           bodyImg="/images/terakoya_map.png"
+          mapUrl="https://maps.app.goo.gl/Dp5Fxs2ZkpE51jcH6"
         >
           <>
             2025年9月27日(土)<br />
@@ -97,6 +93,7 @@ export default function Home() {
           mainTitle="披露宴"
           bodyTitle="TERAKOYA"
           bodyImg="/images/terakoya_map.png"
+          mapUrl="https://maps.app.goo.gl/HynmTCntUGfewvLx7"
         >
           <>
             2025年9月27日(土)<br />

@@ -10,10 +10,11 @@ interface Props  {
   children: React.ReactNode[]
   mainImg: string
   bodyImg: string
+  mapUrl: string
 }
 
 const CardController = (props: Props) => {
-  const { mainTitle, bodyTitle, children, mainImg, bodyImg } = props
+  const { mainTitle, bodyTitle, children, mainImg, bodyImg, mapUrl } = props
 
   return (
     <div>
@@ -26,6 +27,7 @@ const CardController = (props: Props) => {
         title={bodyTitle}
         mainImg={mainImg}
         bodyImg={bodyImg}
+        mapUrl={mapUrl}
       >
         {children[1]}
       </CardBody>

@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react **/
 import theme from '@/style/theme';
 import { css } from "@emotion/react"
+import { Typography } from '@mui/material';
 import Image from 'next/image'
 
 const styles = {
@@ -16,12 +17,10 @@ const styles = {
       position: "absolute",
       textAlign: "center",
       "&  h1": {
-        fontSize: "10rem",
         color: "#fff",
         fontWeight: "100"
       },
       "& h2": {
-        fontSize: "3rem",
         color: "#fff",
         fontFamily: `${theme.validTheme.heroSubTitleFont}`,
         fontWeight: "100"
@@ -48,8 +47,26 @@ const Hero = () => (
       />
     </div>
     <div className='textContainer'>
-      <h1>Our Wedding</h1>
-      <h2>TAISHU & UTANO</h2>
+      <Typography
+        variant="h1"
+        sx={{
+          fontSize: {
+            xs: '6rem',
+            sm: '8rem',
+            md: '10rem'
+          },
+        }}
+      >Our Wedding</Typography>
+      <Typography
+        variant="h2"
+        sx={{
+          fontSize: {
+            xs: '2rem',
+            sm: '4rem',
+            md: '5rem'
+          },
+        }}
+      >TAISHU & UTANO</Typography>
     </div>
   </section>
 );

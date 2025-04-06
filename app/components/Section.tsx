@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react **/
 import theme from "@/style/theme";
 import { SerializedStyles, css } from "@emotion/react"
+import { Grid, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
 const styles = {
@@ -18,12 +19,11 @@ const styles = {
       marginBottom: "4rem"
     },
     "& .textContainer": {
-      display: "flex",
-      flexDirection: "row",
+      // display: "flex",
+      // flexDirection: "row",
       alignItems: "center",
       color: "#333",
       fontSize: "16px",
-      fontFamily: `${theme.validTheme.fontFamilyJa}`,
     },
   }),
 }
@@ -49,10 +49,13 @@ const Section = (props: Props) => {
         propCss
       ]}
     >
-      <h2>{title}</h2>
-      <div
+      <Typography variant="h2">{title}</Typography>
+      <Grid
+        container
+        spacing={6}
+        justifyContent="center"
         className="textContainer"
-      >{children}</div>
+      >{children}</Grid>
     </section>
   )
 };
