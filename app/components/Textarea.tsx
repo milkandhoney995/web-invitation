@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react **/
 import theme from "@/style/theme";
 import { css } from "@emotion/react";
-import { FormControl, InputLabel, TextField, FormHelperText } from '@mui/material';
+import { FormControl, TextField, FormHelperText } from '@mui/material';
 
 type Props = {
   label: string;
@@ -13,26 +13,21 @@ type Props = {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Textarea = (props: Props) => {
-  const { label, name, value, onChange, required, error, helperText } = props;
+const style = css({
+  width: "100%",
+  fontSize: "1rem",
+  transition: "border-color 0.3s, box-shadow 0.3s",
+  "&:focus": {
+    borderColor: `${theme.palette.primary.main}`,
+    boxShadow: `0 0 5px ${theme.palette.primary.main}`
+  },
+})
 
-  const inputStyle = css`
-    width: 100%;
-    // padding: 12px;
-    font-size: 1rem;
-    // border-radius: 4px;
-    // border: 1px solid ${error ? theme.palette.error.main : theme.palette.grey[300]};
-    transition: border-color 0.3s, box-shadow 0.3s;
-    &:focus {
-      border-color: ${theme.palette.primary.main};
-      box-shadow: 0 0 5px ${theme.palette.primary.main};
-    }
-  `;
+const Textarea = (props: Props) => {
+  const { label, name, value, onChange, required = false, error = false, helperText } = props;
 
   return (
     <FormControl fullWidth variant="outlined" required={required} error={error}>
-      {/* InputLabel と TextField を適切に連携させる */}
-      <InputLabel htmlFor={name}>{label}</InputLabel>
       <TextField
         id={name}
         name={name}
@@ -40,10 +35,10 @@ const Textarea = (props: Props) => {
         onChange={onChange}
         multiline
         minRows={3}
-        variant="outlined"
-        css={inputStyle}
-        label={label}  // TextField に label を直接渡す
-        placeholder=""  // placeholder は不要なので空にする
+        variant="outlined"  // variantは"outlined"で問題ない
+        label={label}  // TextFieldが内部でInputLabelを制御するので、InputLabelを明示的に追加する必要はない
+        css={style}
+        placeholder=""  // placeholderは空にする
       />
       {helperText && <FormHelperText id={`${name}-helper-text`}>{helperText}</FormHelperText>}
     </FormControl>
