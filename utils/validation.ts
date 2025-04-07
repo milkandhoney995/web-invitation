@@ -1,4 +1,4 @@
-// validation.ts
+// utils/validation.ts
 import { z } from 'zod';
 
 // 名前のバリデーション（漢字、ひらがな、カタカナ）
@@ -26,11 +26,24 @@ export const emailSchema = z.string()
   .min(1, 'メールアドレスは必須です')
   .max(50, 'メールアドレスは50文字以内で入力してください');
 
-// フォーム全体のスキーマ（オプション）
-export const formSchema = z.object({
+// ゲスト情報（配列）のバリデーション
+export const guestSchema = z.object({
   name: nameSchema,
   kana: kanaSchema,
   postalCode: postalCodeSchema,
-  phoneNumber: phoneNumberSchema,
+  phone: phoneNumberSchema,
   email: emailSchema,
+  // バリデーションなしのフィールド
+  attendingCeremony: z.boolean(),
+  attendingReception: z.boolean(),
+  useBus: z.boolean(),
+  address: z.string().optional(),
+  buildingName: z.string().optional(),
+  allergies: z.string().optional(),
+  message: z.string().optional(),
+});
+
+// ゲストリスト全体の型
+export const formSchema = z.object({
+  guests: z.array(guestSchema), // ゲスト配列
 });
