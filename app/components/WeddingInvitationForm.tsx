@@ -1,14 +1,15 @@
 import { useState } from 'react';
-import { FormControl, TextField, Button, Box, Grid, Typography, Container, Radio, RadioGroup, FormControlLabel, IconButton, FormLabel } from '@mui/material';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { css } from "@emotion/react"
 import theme from '@/style/theme';
-import Textarea from './Textarea';
-import TextFielldController from './TextFieldController';
+import { Button, Box, Typography, Container, Grid, IconButton } from '@mui/material';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RadioGroupController from './RadioGroupController';
+import TextFieldController from './TextFieldController';
+import Textarea from './Textarea';
+import { Guest } from '@/types/Guest';
+import { IFormInput } from '@/types/FormData';
 import axios from "axios";
-import { z } from 'zod';
-import { formSchema, nameSchema, kanaSchema, postalCodeSchema, phoneNumberSchema, emailSchema } from '@/utils/validation';
 
 const style = {
   container: css({
@@ -28,6 +29,7 @@ const style = {
   }),
   body: css({
     display: "flex",
+    flexDirection: "column",
     marginBottom: "2rem"
   }),
   iconButton: css({
@@ -69,22 +71,6 @@ const fetchAddressFromPostalCode = async (postalCode: string) => {
   }
 };
 
-// ゲストフォームの項目の型を定義
-interface Guest {
-  name: string;
-  kana: string;
-  attendingCeremony: boolean;
-  attendingReception: boolean;
-  useBus: boolean;
-  postalCode: string;
-  address: string;
-  buildingName: string;
-  phone: string;
-  email: string;
-  allergies: string;
-  message: string;
-}
-
 const WeddingInvitationForm = () => {
   const [guests, setGuests] = useState<Guest[]>([
     {
@@ -102,8 +88,28 @@ const WeddingInvitationForm = () => {
       message: '',
     },
   ]);
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    trigger, // triggerメソッドを使用
+  } = useForm<IFormInput>();
 
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  // フォームの送信時に呼ばれる関数
+  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+    console.log('フォーム送信', data);
+
+    // try {
+    //   await axios.post("https://invite-project.onrender.com/submit", guests);
+    // } catch (error) {
+    //   console.error("送信エラー", error);
+    // }
+  };
+
+  // バリデーションをonBlur時にも実行
+  const handleBlur = async (fieldName: keyof IFormInput) => {
+    await trigger(fieldName);
+  };
 
   const handleGuestChange = (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -113,41 +119,6 @@ const WeddingInvitationForm = () => {
       [name]: value,
     };
     setGuests(newGuests);
-
-    // 入力された項目のみをバリデーション
-    try {
-      switch (name) {
-        case 'name':
-          nameSchema.parse(value); // 名前のバリデーション
-          break;
-        case 'kana':
-          kanaSchema.parse(value); // 名前かなのバリデーション
-          break;
-        case 'postalCode':
-          postalCodeSchema.parse(value); // 郵便番号のバリデーション
-          break;
-        case 'phoneNumber':
-          phoneNumberSchema.parse(value); // 電話番号のバリデーション
-          break;
-        case 'email':
-          emailSchema.parse(value); // メールアドレスのバリデーション
-          break;
-        default:
-          break;
-      }
-
-      // バリデーションが成功した場合、該当するエラーを削除
-      setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
-    } catch (e) {
-      if (e instanceof z.ZodError) {
-        // バリデーションエラーの場合、エラーメッセージを更新
-        const error = e.errors[0]; // 最初のエラーを取得
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          [name]: error.message,
-        }));
-      }
-    }
 
   };
 
@@ -172,7 +143,7 @@ const WeddingInvitationForm = () => {
     setGuests([...guests, newGuest]);
   };
 
-  const handlePostalCodeChange = async (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePostalCodeChange = async (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const postalCode = e.target.value;
     const address = await fetchAddressFromPostalCode(postalCode);
     const newGuests = [...guests];
@@ -182,16 +153,6 @@ const WeddingInvitationForm = () => {
       address,
     };
     setGuests(newGuests);
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    try {
-      await axios.post("https://invite-project.onrender.com/submit", guests);
-    } catch (error) {
-      console.error("送信エラー", error);
-    }
   };
 
   return (
@@ -219,7 +180,7 @@ const WeddingInvitationForm = () => {
       <Box
         component="form"
         sx={style.form}
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
       >
         {guests.map((guest, index) => (
           <div key={index}>
@@ -229,7 +190,7 @@ const WeddingInvitationForm = () => {
 
             <Grid
               container
-              spacing={5}
+              spacing={2}
               sx={style.body}
             >
               {/* 最初のゲスト以外には、以下の項目を表示しない */}
@@ -238,135 +199,137 @@ const WeddingInvitationForm = () => {
                   {/* 挙式への出席 */}
                   <RadioGroupController
                     legend='挙式への出席'
-                    value={String(guest.attendingCeremony)}
-                    onChange={(e) => handleRadioChange(index, e)}
                     name="attendingCeremony"
+                    control={control}
+                    handleBlur={handleBlur}
+                    onChange={(e) => handleRadioChange(index, e)}
                     items={[ { value: "true", label: "出席"}, { value: "false", label: "欠席"} ]}
                   />
 
                   {/* 披露宴への出席 */}
                   <RadioGroupController
                     legend='披露宴への出席'
-                    value={String(guest.attendingReception)}
-                    onChange={(e) => handleRadioChange(index, e)}
                     name="attendingReception"
+                    control={control}
+                    handleBlur={handleBlur}
+                    onChange={(e) => handleRadioChange(index, e)}
                     items={[ { value: "true", label: "出席"}, { value: "false", label: "欠席"} ]}
                   />
 
                   {/* 披露宴会場へのバス利用 */}
                   <RadioGroupController
                     legend='披露宴会場へのバス利用'
-                    value={String(guest.useBus)}
-                      onChange={(e) => handleRadioChange(index, e)}
-                      name="useBus"
+                    handleBlur={handleBlur}
+                    onChange={(e) => handleRadioChange(index, e)}
+                    name="useBus"
+                    control={control}
                     items={[ { value: "true", label: "利用する"}, { value: "false", label: "利用しない"} ]}
                   />
                 </>
               )}
 
-              {/* 名前 */}
-              <TextFielldController
+              {/* お名前 */}
+              <TextFieldController
                 label="お名前"
                 name="name"
-                value={guest.name}
+                control={control}
                 onChange={(e) => handleGuestChange(index, e)}
-                error={!!errors.name}
-                helperText={errors.name}
-                required
+                handleBlur={handleBlur}
+                errors={errors}
               />
-
-              {/* 名前かな */}
-              <TextFielldController
-                label="お名前（かな）"
+              {/* かな */}
+              <TextFieldController
+                label="かな"
                 name="kana"
-                value={guest.kana}
+                control={control}
                 onChange={(e) => handleGuestChange(index, e)}
-                error={!!errors.name}
-                helperText={errors.name}
-                required
+                handleBlur={handleBlur}
+                errors={errors}
               />
 
               {/* 最初のゲスト以外には、以下の項目を表示しない */}
               {index === 0 && (
                 <>
                   {/* 郵便番号 */}
-                  <TextFielldController
+                  <TextFieldController
                     label="郵便番号"
                     name="postalCode"
-                    value={guest.postalCode}
+                    control={control}
                     onChange={(e) => handlePostalCodeChange(index, e)}
-                    error={!!errors.name}
-                    helperText={errors.name}
+                    handleBlur={handleBlur}
+                    errors={errors}
                   />
 
-                  {/* 住所 */}
-                  <TextFielldController
-                    label="住所"
-                    name="address"
-                    value={guest.address}
-                    onChange={(e) => handleGuestChange(index, e)}
-                  />
+                {/* 住所 */}
+                <TextFieldController
+                  label="住所"
+                  name="address"
+                  control={control}
+                  onChange={(e) => handleGuestChange(index, e)}
+                  handleBlur={handleBlur}
+                  errors={errors}
+                />
+                {/* 建物名 */}
+                <TextFieldController
+                  label="建物名"
+                  name="buildingName"
+                  control={control}
+                  onChange={(e) => handleGuestChange(index, e)}
+                  handleBlur={handleBlur}
+                  errors={errors}
+                />
 
-                  {/* 建物名 */}
-                  <TextFielldController
-                    label="建物名"
-                    name="buildingName"
-                    value={guest.buildingName}
-                    onChange={(e) => handleGuestChange(index, e)}
-                  />
-
-                  {/* 電話番号 */}
-                  <TextFielldController
-                    label="電話番号"
-                    name="phone"
-                    value={guest.phone}
-                    onChange={(e) => handleGuestChange(index, e)}
-                    error={!!errors.name}
-                    helperText={errors.name}
-                    required
-                  />
+                {/* 電話番号 */}
+                <TextFieldController
+                  label="電話番号"
+                  name="phone"
+                  control={control}
+                  onChange={(e) => handleGuestChange(index, e)}
+                  handleBlur={handleBlur}
+                  errors={errors}
+                />
 
                   {/* メールアドレス */}
-                  <TextFielldController
+                  <TextFieldController
                     label="メールアドレス"
                     name="email"
-                    value={guest.email}
+                    control={control}
                     onChange={(e) => handleGuestChange(index, e)}
-                    error={!!errors.name}
-                    helperText={errors.name}
-                    required
+                    handleBlur={handleBlur}
+                    errors={errors}
                   />
-                </>
-              )}
-
-              {/* アレルギー */}
-              <Textarea
-                label="アレルギー（あれば記入）"
-                name="allergies"
-                value={guest.allergies}
-                onChange={(e) => handleGuestChange(index, e)}
-              />
-
-              {/* メッセージ */}
-              <Textarea
-                label="メッセージ（自由にどうぞ）"
-                name="message"
-                value={guest.message}
-                onChange={(e) => handleGuestChange(index, e)}
-              />
-
-            </Grid>
-
-            {index === 0 && (
-              <Grid container spacing={12} sx={style.iconButton}>
-                <IconButton
-                  color="primary"
-                  onClick={handleAddGuest}
-                >
-                  <AddCircleOutlineIcon />
-                </IconButton>
-              </Grid>
+              </>
             )}
+
+            {/* アレルギー */}
+            <Textarea
+              control={control}
+              label="アレルギー（あれば記入）"
+              name="allergies"
+              value={guest.allergies}
+              onChange={(e) => handleGuestChange(index, e)}
+            />
+
+            {/* メッセージ */}
+            <Textarea
+              control={control}
+              label="メッセージ（自由にどうぞ）"
+              name="message"
+              value={guest.message}
+              onChange={(e) => handleGuestChange(index, e)}
+            />
+          </Grid>
+
+          {index === 0 && (
+            <Grid container spacing={12} sx={style.iconButton}>
+              <IconButton
+                color="primary"
+                onClick={handleAddGuest}
+              >
+                <AddCircleOutlineIcon />
+              </IconButton>
+            </Grid>
+          )}
           </div>
         ))}
 

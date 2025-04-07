@@ -1,15 +1,16 @@
-/** @jsxImportSource @emotion/react **/
 import theme from "@/style/theme";
 import { css } from "@emotion/react";
-import { FormControl, TextField, FormHelperText } from '@mui/material';
+import { Controller, Control, FieldValues } from 'react-hook-form';
+import { FormControl, TextField } from '@mui/material';
+import { IFormInput } from "@/types/FormData";
 
-type Props = {
+type  TextFieldControllerProps<T extends FieldValues> = {
+  name: keyof IFormInput
+  control: Control<IFormInput>
   label: string;
-  name?: string;
   value?: string;
   required?: boolean;
-  error?: boolean;
-  helperText?: string;
+  rows?: number;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -23,26 +24,40 @@ const style = css({
   },
 })
 
-const Textarea = (props: Props) => {
-  const { label, name, value, onChange, required = false, error = false, helperText } = props;
-
+const Textarea = <T extends FieldValues>({
+  name,
+  control,
+  label,
+  value,
+  required = false,
+  rows = 4,
+  onChange
+}:  TextFieldControllerProps<T>) => {
   return (
-    <FormControl fullWidth variant="outlined" required={required} error={error}>
-      <TextField
-        id={name}
+    <FormControl fullWidth variant="outlined" required={required}>
+      <Controller
         name={name}
-        value={value}
-        onChange={onChange}
-        multiline
-        minRows={3}
-        variant="outlined"  // variantは"outlined"で問題ない
-        label={label}  // TextFieldが内部でInputLabelを制御するので、InputLabelを明示的に追加する必要はない
-        css={style}
-        placeholder=""  // placeholderは空にする
+        control={control}
+        render={({ field, fieldState }) => (
+          <TextField
+            {...field}
+            id={name}
+            value={value}
+            onChange={onChange}
+            label={label}
+            fullWidth
+            margin="normal"
+            multiline
+            minRows={3}
+            variant="outlined"
+            rows={rows}
+            error={!!fieldState?.error}
+            helperText={fieldState?.error ? fieldState?.error.message : ''}
+          />
+        )}
       />
-      {helperText && <FormHelperText id={`${name}-helper-text`}>{helperText}</FormHelperText>}
     </FormControl>
-  )
-}
+  );
+};
 
 export default Textarea;

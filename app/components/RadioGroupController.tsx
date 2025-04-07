@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { FormControl, Radio, RadioGroup, FormControlLabel, FormLabel } from '@mui/material';
-import { css } from "@emotion/react"
+import React from 'react';
+import { Controller, Control, FieldValues, Path } from 'react-hook-form';
+import { RadioGroup, FormControlLabel, Radio, FormLabel, FormControl } from '@mui/material';
 import theme from '@/style/theme';
 
 interface Items {
@@ -8,34 +8,63 @@ interface Items {
   label: string
 }
 
-type Props = {
-  legend: string
-  name?: string
-  value?: string
-  items: Array<Items>
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+interface RadioGroupControllerProps<T extends FieldValues> {
+  name: Path<T>;
+  control: Control<T>;
+  handleBlur: (fieldName: Path<T>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  legend: string;
+  items: Array<Items>;
 }
 
-const RadioGroupController = (props: Props) => {
-  const { legend, name, value, items, onChange } = props
-
+const RadioGroupController = <T extends FieldValues>({
+  name,
+  control,
+  handleBlur,
+  onChange,
+  legend,
+  items
+}: RadioGroupControllerProps<T>) => {
   return (
-    <>
-      <FormLabel component="legend">{legend}</FormLabel>
-      <FormControl fullWidth>
-        <RadioGroup
-          row
-          value={value}
-          onChange={onChange}
-          name={name}
-          sx={{ paddingLeft: 12 }}
-        >
-          <FormControlLabel value={items[0].value} control={<Radio />} label={items[0].label} sx={{ sm: `${theme.validTheme.num16}` } } />
-          <FormControlLabel value={items[1].value} control={<Radio />} label={items[1].label} />
-        </RadioGroup>
-      </FormControl>
-    </>
-  )
-}
+    <div>
+      <Controller
+        name={name}
+        control={control}
+        defaultValue={items[0].value}  // ここで初期値を設定（最初のラジオボタンが選択される）
+        render={({ field }) => (
+          <>
+            <FormLabel component="legend">{legend}</FormLabel>
+            <FormControl fullWidth>
+              <RadioGroup
+                {...field}
+                value={field.value}
+                onBlur={() => handleBlur(name)}
+                onChange={(e) => {
+                  field.onChange(e); // react-hook-form の onChange
+                  if (onChange) onChange(e); // 親から渡された onChange を呼び出し
+                }}
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  gap: 2,
+                }}
+              >
+                {/* ここでラジオボタンを表示 */}
+                {items.map((item) => (
+                  <FormControlLabel
+                    key={item.value}
+                    value={item.value}
+                    control={<Radio />}
+                    label={item.label}
+                  />
+                ))}
+              </RadioGroup>
+            </FormControl>
+          </>
+        )}
+      />
+    </div>
+  );
+};
 
 export default RadioGroupController;

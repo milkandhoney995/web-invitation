@@ -22,6 +22,7 @@ export const phoneNumberSchema = z.string()
 
 // メールアドレスのバリデーション
 export const emailSchema = z.string()
+  // .email(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/, '有効なメールアドレスを入力してください')
   .email('有効なメールアドレスを入力してください')
   .min(1, 'メールアドレスは必須です')
   .max(50, 'メールアドレスは50文字以内で入力してください');
