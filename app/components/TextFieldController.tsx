@@ -1,6 +1,6 @@
 import { Controller, Control, FieldValues, FieldErrors, Path } from 'react-hook-form';
 import { FormControl, TextField } from '@mui/material';
-import { DynamicGuestField, GuestField } from '@/types/DynamicGuestField';
+import { DynamicGuestField } from '@/types/DynamicGuestField';
 import { IFormInput } from '@/types/FormData';
 
 interface TextFieldControllerProps<T extends FieldValues> {
@@ -18,13 +18,14 @@ const TextFieldController = <T extends FieldValues>({
   errors,
   handleBlur,
   label,
-  onChange
+  onChange,
 }: TextFieldControllerProps<T>) => {
+  const fieldIndex = parseInt(name.split('[')[1]?.split(']')[0] || '0', 10); // インデックスを取得
+
   return (
     <Controller
       name={name as Path<T>}
       control={control}
-      rules={{ required: '名前は必須です' }}
       render={({ field, fieldState }) => (
         <FormControl fullWidth>
           <TextField
@@ -35,7 +36,7 @@ const TextFieldController = <T extends FieldValues>({
             margin="normal"
             error={!!fieldState?.error}
             helperText={fieldState?.error?.message || ''}
-            onBlur={() => handleBlur(name.split('.')[name.split('.').length - 1] as keyof IFormInput, parseInt(name.split('[')[1]?.split(']')[0]))}
+            onBlur={() => handleBlur(name.split('.')[name.split('.').length - 1] as keyof IFormInput, fieldIndex)}
             onChange={(e) => {
               if (onChange) onChange(e)
               field.onChange(e)
@@ -47,4 +48,4 @@ const TextFieldController = <T extends FieldValues>({
   )
 }
 
-export default TextFieldController;
+export default TextFieldController

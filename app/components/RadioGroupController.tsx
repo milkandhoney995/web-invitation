@@ -27,43 +27,41 @@ const RadioGroupController = <T extends FieldValues>({
   items
 }: RadioGroupControllerProps<T>) => {
   return (
-    <div>
-      <Controller
-        name={name as Path<T>}
-        control={control}
-        defaultValue={items[0].value as PathValue<T, Path<T>>}
-        render={({ field }) => (
-          <>
-            <FormLabel component="legend">{legend}</FormLabel>
-            <FormControl fullWidth>
-              <RadioGroup
-                {...field}
-                value={field.value}
-                onBlur={() => handleBlur(name as GuestField)}
-                onChange={(e) => {
-                  field.onChange(e)
-                  if (onChange) onChange(e)
-                }}
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  gap: 2,
-                }}
-              >
-                {items.map((item) => (
-                  <FormControlLabel
-                    key={item.value}
-                    value={item.value}
-                    control={<Radio />}
-                    label={item.label}
-                  />
-                ))}
-              </RadioGroup>
-            </FormControl>
-          </>
-        )}
-      />
-    </div>
+    <Controller
+      name={name as Path<T>}
+      control={control}
+      defaultValue={items[0].value as PathValue<T, Path<T>>}
+      render={({ field }) => (
+        <>
+          <FormLabel component="legend">{legend}</FormLabel>
+          <FormControl fullWidth>
+            <RadioGroup
+              {...field}
+              value={field.value}
+              onBlur={() => handleBlur(name as GuestField)}
+              onChange={(e) => {
+                field.onChange(e)
+                if (onChange) onChange(e)
+              }}
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                gap: 2,
+              }}
+            >
+              {items.map((item) => (
+                <FormControlLabel
+                  key={item.value}
+                  value={item.value}
+                  control={<Radio />}
+                  label={item.label}
+                />
+              ))}
+            </RadioGroup>
+          </FormControl>
+        </>
+      )}
+    />
   );
 };
 

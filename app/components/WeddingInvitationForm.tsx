@@ -8,8 +8,10 @@ import Textarea from '@/app/components/Textarea';
 import { Button, Box, Typography, Container, Grid, IconButton } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Guest } from '@/types/Guest';
-import { IFormInput, IFormType } from '@/types/FormData';
+import { IFormInput  } from '@/types/FormData';
 import axios from "axios";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { formSchema, IFormType } from '@/utils/validation';
 
 const style = {
   container: css({
@@ -25,7 +27,11 @@ const style = {
   form: css({
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
+    width: "100%",
+    "& div:not(:last-child)": {
+      width: "100%"
+    }
   }),
   body: css({
     display: "flex",
@@ -95,10 +101,11 @@ const WeddingInvitationForm = () => {
     trigger,
   } = useForm<IFormType>({
     mode: 'onBlur',
+    resolver: zodResolver(formSchema),
   });
 
   // フォームの送信時に呼ばれる関数
-  const onSubmit: SubmitHandler<IFormType> = (data) => {
+  const onSubmit = (data: IFormType) => {
     console.log('フォーム送信', data);
 
     // try {
@@ -136,7 +143,7 @@ const WeddingInvitationForm = () => {
 
   const handleAddGuest = () => {
     const newGuest = {
-      ...guests[0], // 最初のゲストの情報をコピー
+      ...guests[0],
       name: '',
       kana: '',
       allergies: '',
@@ -167,7 +174,7 @@ const WeddingInvitationForm = () => {
         }
       ]}
     >
-      <Typography variant="h6" gutterBottom>
+      <Typography variant="h6" sx={{ marginBottom: `${theme.validTheme.num48}` }}>
         郵送でのご案内状に代わり、当招待状をお送りしております<br />
         <br />
         お手数ではございますが、出席情報のご登録をお願い申し上げます<br />
@@ -192,10 +199,8 @@ const WeddingInvitationForm = () => {
 
             <Grid
               container
-              spacing={2}
               sx={style.body}
             >
-              {/* 最初のゲスト以外には、以下の項目を表示しない */}
               { index === 0 && (
                 <>
                   {/* 挙式への出席 */}
@@ -249,7 +254,6 @@ const WeddingInvitationForm = () => {
                 errors={errors}
               />
 
-              {/* 最初のゲスト以外には、以下の項目を表示しない */}
               {index === 0 && (
                 <>
                   {/* 郵便番号 */}
@@ -333,16 +337,14 @@ const WeddingInvitationForm = () => {
           </div>
         ))}
 
-        <Grid container spacing={2} style={{ marginTop: '20px' }}>
-          <Grid size={12}>
-            <Button variant="contained" color="primary" type="submit">
-              送信
-            </Button>
-          </Grid>
+        <Grid container spacing={2}>
+          <Button variant="contained" color="primary" type="submit">
+            送信
+          </Button>
         </Grid>
       </Box>
     </Container>
-  );
+  )
 }
 
 export default WeddingInvitationForm;
