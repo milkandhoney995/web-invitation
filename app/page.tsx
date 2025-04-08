@@ -65,7 +65,7 @@ export default function Home() {
           mainImg="/images/church.avif"
           mainTitle="挙式"
           bodyTitle="国際基督教大学教会"
-          bodyImg="/images/terakoya_map.png"
+          bodyImg="/images/church_map.png"
           mapUrl="https://maps.app.goo.gl/Dp5Fxs2ZkpE51jcH6"
         >
           <>
