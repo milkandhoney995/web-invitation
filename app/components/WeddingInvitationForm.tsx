@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { css } from "@emotion/react"
 import theme from '@/style/theme';
+import RadioGroupController from '@/app/components/RadioGroupController';
+import TextFieldController from '@/app/components/TextFieldController';
+import Textarea from '@/app/components/Textarea';
 import { Button, Box, Typography, Container, Grid, IconButton } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import RadioGroupController from './RadioGroupController';
-import TextFieldController from './TextFieldController';
-import Textarea from './Textarea';
 import { Guest } from '@/types/Guest';
-import { IFormInput } from '@/types/FormData';
+import { IFormInput, IFormType } from '@/types/FormData';
 import axios from "axios";
 
 const style = {
@@ -42,7 +42,7 @@ const style = {
     color: theme.validTheme.buttonFontColor
   }),
   textareaAutosize: css({
-    fontSize: '1rem',
+    fontSize: `${theme.validTheme.num16}`,
     lineHeight: '1.5',
     padding: '12px 14px',
     borderRadius: '4px',
@@ -92,23 +92,25 @@ const WeddingInvitationForm = () => {
     handleSubmit,
     control,
     formState: { errors },
-    trigger, // triggerメソッドを使用
-  } = useForm<IFormInput>();
+    trigger,
+  } = useForm<IFormType>({
+    mode: 'onBlur',
+  });
 
   // フォームの送信時に呼ばれる関数
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+  const onSubmit: SubmitHandler<IFormType> = (data) => {
     console.log('フォーム送信', data);
 
     // try {
-    //   await axios.post("https://invite-project.onrender.com/submit", guests);
+    //   await axios.post("https://invite-project.onrender.com/submit", data);
     // } catch (error) {
     //   console.error("送信エラー", error);
     // }
   };
 
   // バリデーションをonBlur時にも実行
-  const handleBlur = async (fieldName: keyof IFormInput) => {
-    await trigger(fieldName);
+  const handleBlur = (fieldName: keyof IFormInput, index: number) => {
+    trigger(`guests.${index}.${fieldName}`)
   };
 
   const handleGuestChange = (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -199,9 +201,9 @@ const WeddingInvitationForm = () => {
                   {/* 挙式への出席 */}
                   <RadioGroupController
                     legend='挙式への出席'
-                    name="attendingCeremony"
+                    name={`guests[${index}].attendingCeremony`}
                     control={control}
-                    handleBlur={handleBlur}
+                    handleBlur={(e) => handleBlur(e, index)}
                     onChange={(e) => handleRadioChange(index, e)}
                     items={[ { value: "true", label: "出席"}, { value: "false", label: "欠席"} ]}
                   />
@@ -209,9 +211,9 @@ const WeddingInvitationForm = () => {
                   {/* 披露宴への出席 */}
                   <RadioGroupController
                     legend='披露宴への出席'
-                    name="attendingReception"
+                    name={`guests[${index}].attendingReception`}
                     control={control}
-                    handleBlur={handleBlur}
+                    handleBlur={(e) => handleBlur(e, index)}
                     onChange={(e) => handleRadioChange(index, e)}
                     items={[ { value: "true", label: "出席"}, { value: "false", label: "欠席"} ]}
                   />
@@ -219,9 +221,9 @@ const WeddingInvitationForm = () => {
                   {/* 披露宴会場へのバス利用 */}
                   <RadioGroupController
                     legend='披露宴会場へのバス利用'
-                    handleBlur={handleBlur}
+                    handleBlur={(e) => handleBlur(e, index)}
                     onChange={(e) => handleRadioChange(index, e)}
-                    name="useBus"
+                    name={`guests[${index}].useBus`}
                     control={control}
                     items={[ { value: "true", label: "利用する"}, { value: "false", label: "利用しない"} ]}
                   />
@@ -231,19 +233,19 @@ const WeddingInvitationForm = () => {
               {/* お名前 */}
               <TextFieldController
                 label="お名前"
-                name="name"
+                name={`guests[${index}].name`}
                 control={control}
                 onChange={(e) => handleGuestChange(index, e)}
-                handleBlur={handleBlur}
+                handleBlur={(e) => handleBlur(e, index)}
                 errors={errors}
               />
               {/* かな */}
               <TextFieldController
                 label="かな"
-                name="kana"
+                name={`guests[${index}].kana`}
                 control={control}
                 onChange={(e) => handleGuestChange(index, e)}
-                handleBlur={handleBlur}
+                handleBlur={(e) => handleBlur(e, index)}
                 errors={errors}
               />
 
@@ -253,49 +255,49 @@ const WeddingInvitationForm = () => {
                   {/* 郵便番号 */}
                   <TextFieldController
                     label="郵便番号"
-                    name="postalCode"
+                    name={`guests[${index}].postalCode`}
                     control={control}
                     onChange={(e) => handlePostalCodeChange(index, e)}
-                    handleBlur={handleBlur}
+                    handleBlur={(e) => handleBlur(e, index)}
                     errors={errors}
                   />
 
                 {/* 住所 */}
                 <TextFieldController
                   label="住所"
-                  name="address"
+                  name={`guests[${index}].address`}
                   control={control}
                   onChange={(e) => handleGuestChange(index, e)}
-                  handleBlur={handleBlur}
+                  handleBlur={(e) => handleBlur(e, index)}
                   errors={errors}
                 />
                 {/* 建物名 */}
                 <TextFieldController
                   label="建物名"
-                  name="buildingName"
+                  name={`guests[${index}].buildingName`}
                   control={control}
                   onChange={(e) => handleGuestChange(index, e)}
-                  handleBlur={handleBlur}
+                  handleBlur={(e) => handleBlur(e, index)}
                   errors={errors}
                 />
 
                 {/* 電話番号 */}
                 <TextFieldController
                   label="電話番号"
-                  name="phone"
+                  name={`guests[${index}].phone`}
                   control={control}
                   onChange={(e) => handleGuestChange(index, e)}
-                  handleBlur={handleBlur}
+                  handleBlur={(e) => handleBlur(e, index)}
                   errors={errors}
                 />
 
                   {/* メールアドレス */}
                   <TextFieldController
                     label="メールアドレス"
-                    name="email"
+                    name={`guests[${index}].email`}
                     control={control}
                     onChange={(e) => handleGuestChange(index, e)}
-                    handleBlur={handleBlur}
+                    handleBlur={(e) => handleBlur(e, index)}
                     errors={errors}
                   />
               </>
@@ -305,8 +307,7 @@ const WeddingInvitationForm = () => {
             <Textarea
               control={control}
               label="アレルギー（あれば記入）"
-              name="allergies"
-              value={guest.allergies}
+              name={`guests[${index}].allergies`}
               onChange={(e) => handleGuestChange(index, e)}
             />
 
@@ -314,8 +315,7 @@ const WeddingInvitationForm = () => {
             <Textarea
               control={control}
               label="メッセージ（自由にどうぞ）"
-              name="message"
-              value={guest.message}
+              name={`guests[${index}].message`}
               onChange={(e) => handleGuestChange(index, e)}
             />
           </Grid>

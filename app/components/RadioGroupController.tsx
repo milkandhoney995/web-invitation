@@ -1,7 +1,8 @@
 import React from 'react';
-import { Controller, Control, FieldValues, Path } from 'react-hook-form';
+import { Controller, Control, FieldValues, Path, PathValue } from 'react-hook-form';
 import { RadioGroup, FormControlLabel, Radio, FormLabel, FormControl } from '@mui/material';
 import theme from '@/style/theme';
+import { DynamicGuestField, GuestField } from '@/types/DynamicGuestField';
 
 interface Items {
   value: string
@@ -9,9 +10,9 @@ interface Items {
 }
 
 interface RadioGroupControllerProps<T extends FieldValues> {
-  name: Path<T>;
+  name: DynamicGuestField
   control: Control<T>;
-  handleBlur: (fieldName: Path<T>) => void;
+  handleBlur: (fieldName: GuestField) => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   legend: string;
   items: Array<Items>;
@@ -28,9 +29,9 @@ const RadioGroupController = <T extends FieldValues>({
   return (
     <div>
       <Controller
-        name={name}
+        name={name as Path<T>}
         control={control}
-        defaultValue={items[0].value}  // ここで初期値を設定（最初のラジオボタンが選択される）
+        defaultValue={items[0].value as PathValue<T, Path<T>>}
         render={({ field }) => (
           <>
             <FormLabel component="legend">{legend}</FormLabel>
@@ -38,10 +39,10 @@ const RadioGroupController = <T extends FieldValues>({
               <RadioGroup
                 {...field}
                 value={field.value}
-                onBlur={() => handleBlur(name)}
+                onBlur={() => handleBlur(name as GuestField)}
                 onChange={(e) => {
-                  field.onChange(e); // react-hook-form の onChange
-                  if (onChange) onChange(e); // 親から渡された onChange を呼び出し
+                  field.onChange(e)
+                  if (onChange) onChange(e)
                 }}
                 sx={{
                   display: 'flex',
@@ -49,7 +50,6 @@ const RadioGroupController = <T extends FieldValues>({
                   gap: 2,
                 }}
               >
-                {/* ここでラジオボタンを表示 */}
                 {items.map((item) => (
                   <FormControlLabel
                     key={item.value}

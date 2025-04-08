@@ -1,14 +1,14 @@
 import theme from "@/style/theme";
 import { css } from "@emotion/react";
-import { Controller, Control, FieldValues } from 'react-hook-form';
+import { Controller, Control, FieldValues, Path } from 'react-hook-form';
 import { FormControl, TextField } from '@mui/material';
 import { IFormInput } from "@/types/FormData";
+import { DynamicGuestField } from "@/types/DynamicGuestField";
 
 type  TextFieldControllerProps<T extends FieldValues> = {
-  name: keyof IFormInput
-  control: Control<IFormInput>
+  name: DynamicGuestField
+  control: Control<T>
   label: string;
-  value?: string;
   required?: boolean;
   rows?: number;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -28,7 +28,6 @@ const Textarea = <T extends FieldValues>({
   name,
   control,
   label,
-  value,
   required = false,
   rows = 4,
   onChange
@@ -36,21 +35,20 @@ const Textarea = <T extends FieldValues>({
   return (
     <FormControl fullWidth variant="outlined" required={required}>
       <Controller
-        name={name}
+        name={name as Path<T>}
         control={control}
         render={({ field, fieldState }) => (
           <TextField
             {...field}
             id={name}
-            value={value}
+            value={field.value}
             onChange={onChange}
             label={label}
             fullWidth
             margin="normal"
             multiline
-            minRows={3}
             variant="outlined"
-            rows={rows}
+            rows={3}
             error={!!fieldState?.error}
             helperText={fieldState?.error ? fieldState?.error.message : ''}
           />

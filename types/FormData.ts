@@ -12,3 +12,7 @@ export interface IFormInput {
   allergies: string;
   message: string;
 }
+
+export type IFormType = {
+  guests: IFormInput[]
+}

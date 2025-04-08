@@ -1,14 +1,15 @@
-import { Controller, Control, FieldValues, FieldErrors } from 'react-hook-form';
+import { Controller, Control, FieldValues, FieldErrors, Path } from 'react-hook-form';
 import { FormControl, TextField } from '@mui/material';
+import { DynamicGuestField, GuestField } from '@/types/DynamicGuestField';
 import { IFormInput } from '@/types/FormData';
 
 interface TextFieldControllerProps<T extends FieldValues> {
-  name: keyof IFormInput;
-  control: Control<IFormInput>;
-  errors: FieldErrors<T>;
-  handleBlur: (fieldName: keyof T) => void;
-  label: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  name: DynamicGuestField
+  control: Control<T>
+  errors: FieldErrors<T>
+  handleBlur: (fieldName: keyof IFormInput, index: number) => void
+  label: string
+  onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
 }
 
 const TextFieldController = <T extends FieldValues>({
@@ -21,23 +22,23 @@ const TextFieldController = <T extends FieldValues>({
 }: TextFieldControllerProps<T>) => {
   return (
     <Controller
-      name={name}
+      name={name as Path<T>}
       control={control}
-      rules={{ required: '名前は必須です' }}  // 必須バリデーション
-      render={({ field }) => (
+      rules={{ required: '名前は必須です' }}
+      render={({ field, fieldState }) => (
         <FormControl fullWidth>
           <TextField
-            {...field}  // field の属性（value, onChange, onBlurなど）を展開して渡す
+            {...field}
             fullWidth
             label={label}
             variant="outlined"
             margin="normal"
-            error={!!errors && !!errors[name]}
-            helperText={errors[name]?.message as string || ''}
-            onBlur={() => handleBlur(name)}
+            error={!!fieldState?.error}
+            helperText={fieldState?.error?.message || ''}
+            onBlur={() => handleBlur(name.split('.')[name.split('.').length - 1] as keyof IFormInput, parseInt(name.split('[')[1]?.split(']')[0]))}
             onChange={(e) => {
-              if (onChange) onChange(e);  // 親コンポーネントのonChangeを呼び出す
-              field.onChange(e);  // react-hook-formのonChangeも呼び出す
+              if (onChange) onChange(e)
+              field.onChange(e)
             }}
           />
         </FormControl>
