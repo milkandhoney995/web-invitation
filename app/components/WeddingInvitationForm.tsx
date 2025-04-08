@@ -266,34 +266,34 @@ const WeddingInvitationForm = () => {
                     errors={errors}
                   />
 
-                {/* 住所 */}
-                <TextFieldController
-                  label="住所"
-                  name={`guests[${index}].address`}
-                  control={control}
-                  onChange={(e) => handleGuestChange(index, e)}
-                  handleBlur={(e) => handleBlur(e, index)}
-                  errors={errors}
-                />
-                {/* 建物名 */}
-                <TextFieldController
-                  label="建物名"
-                  name={`guests[${index}].buildingName`}
-                  control={control}
-                  onChange={(e) => handleGuestChange(index, e)}
-                  handleBlur={(e) => handleBlur(e, index)}
-                  errors={errors}
-                />
+                  {/* 住所 */}
+                  <TextFieldController
+                    label="住所"
+                    name={`guests[${index}].address`}
+                    control={control}
+                    onChange={(e) => handleGuestChange(index, e)}
+                    handleBlur={(e) => handleBlur(e, index)}
+                    errors={errors}
+                  />
+                  {/* 建物名 */}
+                  <TextFieldController
+                    label="建物名"
+                    name={`guests[${index}].buildingName`}
+                    control={control}
+                    onChange={(e) => handleGuestChange(index, e)}
+                    handleBlur={(e) => handleBlur(e, index)}
+                    errors={errors}
+                  />
 
-                {/* 電話番号 */}
-                <TextFieldController
-                  label="電話番号"
-                  name={`guests[${index}].phone`}
-                  control={control}
-                  onChange={(e) => handleGuestChange(index, e)}
-                  handleBlur={(e) => handleBlur(e, index)}
-                  errors={errors}
-                />
+                  {/* 電話番号 */}
+                  <TextFieldController
+                    label="電話番号"
+                    name={`guests[${index}].phone`}
+                    control={control}
+                    onChange={(e) => handleGuestChange(index, e)}
+                    handleBlur={(e) => handleBlur(e, index)}
+                    errors={errors}
+                  />
 
                   {/* メールアドレス */}
                   <TextFieldController
@@ -304,40 +304,37 @@ const WeddingInvitationForm = () => {
                     handleBlur={(e) => handleBlur(e, index)}
                     errors={errors}
                   />
-              </>
-            )}
+                </>
+              )}
 
-            {/* アレルギー */}
-            <Textarea
-              control={control}
-              label="アレルギー（あれば記入）"
-              name={`guests[${index}].allergies`}
-              onChange={(e) => handleGuestChange(index, e)}
-            />
+              {/* アレルギー */}
+              <Textarea
+                control={control}
+                label="アレルギー（あれば記入）"
+                name={`guests[${index}].allergies`}
+                onChange={(e) => handleGuestChange(index, e)}
+              />
 
-            {/* メッセージ */}
-            <Textarea
-              control={control}
-              label="メッセージ（自由にどうぞ）"
-              name={`guests[${index}].message`}
-              onChange={(e) => handleGuestChange(index, e)}
-            />
-          </Grid>
-
-          {index === 0 && (
-            <Grid container spacing={12} sx={style.iconButton}>
-              <IconButton
-                color="primary"
-                onClick={handleAddGuest}
-              >
-                <AddCircleOutlineIcon />
-              </IconButton>
+              {/* メッセージ */}
+              <Textarea
+                control={control}
+                label="メッセージ（自由にどうぞ）"
+                name={`guests[${index}].message`}
+                onChange={(e) => handleGuestChange(index, e)}
+              />
             </Grid>
-          )}
           </div>
         ))}
 
-        <Grid container spacing={2}>
+        <Grid sx={style.form} container>
+          <Grid container spacing={12} sx={style.iconButton}>
+            <IconButton
+              color="primary"
+              onClick={handleAddGuest}
+            >
+              <AddCircleOutlineIcon />
+            </IconButton>
+          </Grid>
           <Button variant="contained" color="primary" type="submit">
             送信
           </Button>
