@@ -7,6 +7,7 @@ import TextFieldController from '@/app/components/TextFieldController';
 import Textarea from '@/app/components/Textarea';
 import { Button, Box, Typography, Container, Grid, IconButton } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { Guest } from '@/types/Guest';
 import { IFormInput  } from '@/types/FormData';
 import axios from "axios";
@@ -31,6 +32,15 @@ const style = {
     width: "100%",
     "& div:not(:last-child)": {
       width: "100%"
+    }
+  }),
+  title: css({
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    "& .MuiButtonBase-root": {
+      padding: "0"
     }
   }),
   body: css({
@@ -152,6 +162,10 @@ const WeddingInvitationForm = () => {
     setGuests([...guests, newGuest]);
   };
 
+  const handleRemoveGuest = (index: number) => {
+    setGuests(guests.filter((_, i) => i !== index));
+  };
+
   const handlePostalCodeChange = async (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const postalCode = e.target.value;
     const address = await fetchAddressFromPostalCode(postalCode);
@@ -194,7 +208,18 @@ const WeddingInvitationForm = () => {
         {guests.map((guest, index) => (
           <div key={index}>
             { index !== 0 &&
-              <Typography variant="h6" gutterBottom>{index + 1}人目</Typography>
+              (
+                <Grid sx={style.title} container>
+                  <Typography variant="h6" sx={{ flex: 1 }}>{index + 1}人目</Typography>
+                  <IconButton
+                    color="primary"
+                    onClick={() => handleRemoveGuest(index)}
+                    sx={{ marginLeft: 'auto' }}
+                  >
+                    <DeleteOutlineOutlinedIcon />
+                  </IconButton>
+                </Grid>
+              )
             }
 
             <Grid
