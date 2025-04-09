@@ -98,6 +98,18 @@ const theme = createTheme({
         },
       }
     },
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          fontFamily: themeStyle["default"].fontFamilyEn,
+          textDecoration: 'none', // 下線を消す
+          color: themeStyle["default"].buttonFontColor,
+          '&:hover': {
+            color: themeStyle["default"].buttonColor
+          },
+        },
+      },
+    },
   }
 })
 

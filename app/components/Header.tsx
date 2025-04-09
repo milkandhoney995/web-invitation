@@ -2,21 +2,51 @@
 "use client";
 
 import theme from '@/style/theme';
-import { css } from "@emotion/react"
-import { menuItems } from "@/constants/menuItems"
+import { css } from "@emotion/react";
+import { menuItems } from "@/constants/menuItems";
 import Link from 'next/link';
+import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
-import { AppBar, Toolbar, IconButton, Menu, MenuItem, useMediaQuery, useTheme } from '@mui/material';
+import { AppBar, Toolbar, IconButton, Menu, MenuItem, useMediaQuery, useTheme, Link as MuiLink, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 
+// メニューアニメーション用のキー・フレーム定義
+const slideIn = css`
+  @keyframes slideIn {
+    from {
+      transform: translate(-50%, -50%) scale(0.5);
+      opacity: 0;
+    }
+    to {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+  }
+`;
+
 const styles = {
+  toolbar: css({
+    padding: "0",
+    "& div:last-child": {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      height: "100vh",
+      width: "100vw",
+      backgroundColor: `${theme.validTheme.backgroundColor}`,
+      overflow: "hidden"
+    },
+    "& .MuiMenuItem-root": {
+      justifyContent: "center",
+    },
+  }),
   navLink: css({
     marginRight: `${theme.validTheme.num32}`,
     color: "#333",
     fontSize: "1.5rem",
     fontFamily: `${theme.validTheme.navigationFont}`,
-    textDecoration: "none", // リンクの下線を消す
+    textDecoration: "none",
   }),
   menu: css({
     "& .MuiPaper-root": {
@@ -24,12 +54,16 @@ const styles = {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: "center",
-      position: 'relative',
-      width: '100vw',
-      height: '100vh',
+      position: 'fixed',
       top: 0,
       left: 0,
+      transform: 'translate(-50%, -50%)',
+      width: '100vw',
+      height: '100vh',
       backgroundColor: `${theme.validTheme.backgroundColor}`,
+      zIndex: 1300,
+      opacity: 0,
+      animation: 'slideIn 0.5s ease-out forwards',
     }
   }),
   menuItem: css({
@@ -37,23 +71,31 @@ const styles = {
     fontFamily: `${theme.validTheme.navigationFont}`,
     padding: "20px 30px",
   }),
-  menuIconContainer: css({
-    position: 'relative'
+  closeButton: css({
+    position: 'absolute',
+    top: '20px',
+    right: '20px',
+    zIndex: 1400,
   }),
   menuIcon: css({
     position: 'absolute',
-    top: 0,
-    left: 0,
+    top: '20px',
+    right: '20px',
+    zIndex: 1300,
   }),
-  closeButton: css({
-    position: 'absolute',
-    top: 0,
-    left: 0,
-  }),
-}
+  link: css({
+    color: 'inherit',
+    textDecoration: 'none',
+    fontSize: `${theme.validTheme.num48}`,
+    fontFamily: `${theme.validTheme.fontFamilyEn}`,
+    '&:hover': {
+      color: 'inherit',
+    }
+  })
+};
 
 const Header = () => {
-  const [isSticky, setIsSticky] = useState<boolean>(false)
+  const [isSticky, setIsSticky] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openMenu, setOpenMenu] = useState(false);
   const theme = useTheme();
@@ -83,11 +125,11 @@ const Header = () => {
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
 
-    // クリーンアップ関数
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
   return (
     <AppBar
       position={isSticky ? "fixed" : "absolute"}
@@ -100,39 +142,47 @@ const Header = () => {
         boxShadow: 'none',
         padding: `${isMobile ? '0' : '10px 20px'}`,
         transition: "background-color 0.3s ease",
+        zIndex: 1200, // AppBar より下に配置
       }}
     >
-      <Toolbar>
+      <Toolbar css={styles.toolbar}>
         <div css={{ flexGrow: 1 }} />
-        {/* スマホの場合のハンバーガーメニュー */}
+        {/* モバイル用のメニューアイコン */}
         {isMobile ? (
           <>
-            <IconButton onClick={handleMenuClick}>
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              open={openMenu}
-              onClose={handleMenuClose}
-              sx={styles.menu}
-            >
-
-              {/* 閉じるボタン */}
-              <IconButton css={styles.closeButton} onClick={handleMenuClose}>
-                <CloseIcon />
+            {/* MenuIcon はメニューが閉じている時のみ表示 */}
+            {!openMenu && (
+              <IconButton onClick={handleMenuClick} css={styles.menuIcon}>
+                <MenuIcon />
               </IconButton>
-              {menuItems.map((item, index) => (
-                <MenuItem key={index} onClick={handleLinkClick} sx={{ width: '100%', textAlign: 'center' }}>
-                  <Link href={item.url} css={styles.menuItem}>
-                    {item.text}
-                  </Link>
-                </MenuItem>
-              ))}
-            </Menu>
+            )}
+
+            {/* メニューが開かれている場合 */}
+            {openMenu && (
+              <div css={styles.menu}>
+                <IconButton css={styles.closeButton} onClick={handleMenuClose}>
+                  <CloseIcon />
+                </IconButton>
+
+                {/* メニューアイテム */}
+                {menuItems.map((item, index) => (
+                  <MenuItem key={index} onClick={handleLinkClick} sx={{ width: '100%', textAlign: 'center' }}>
+                    {/* MUIのLinkコンポーネントでNext.jsのLinkをラップ */}
+                    <MuiLink
+                      component={NextLink} // Next.jsのLinkコンポーネントを使う
+                      href={item.url}
+                      sx={styles.link}
+                    >
+                        {item.text}
+                    </MuiLink>
+                  </MenuItem>
+                ))}
+              </div>
+            )}
           </>
         ) : (
           <nav>
-            {/* メニューの一覧を表示 (デスクトップ版) */}
+            {/* デスクトップ用のナビゲーションリンク */}
             {menuItems.map((item, index) => (
               <Link key={index} href={item.url} css={styles.navLink}>
                 {item.text}
@@ -142,7 +192,7 @@ const Header = () => {
         )}
       </Toolbar>
     </AppBar>
-  )
+  );
 };
 
 export default Header;

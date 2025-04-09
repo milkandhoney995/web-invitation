@@ -21,10 +21,14 @@ const resetCss = css({
     fontWeight: "normal"
   },
   html: {
-    fontFamily: "sans-serif"
+    fontFamily: "sans-serif",
+    height: "100%",
+    margin: "0"
   },
   body: {
     fontFamily: "sans-serif",
+    height: "100%",
+    margin: "0"
   },
   h4: {
     fontWeight: "normal",

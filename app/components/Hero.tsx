@@ -3,6 +3,7 @@ import theme from '@/style/theme';
 import { css } from "@emotion/react"
 import { Typography } from '@mui/material';
 import Image from 'next/image'
+import { useState, useEffect } from 'react'
 
 const styles = {
   hero: css({
@@ -27,48 +28,77 @@ const styles = {
       }
     },
     "& .imageContainer": {
-      position: "relative",
+      position: "absolute",
       width: "100%",
       height: "100%",
-      filter: "opacity(0.6)"
+      filter: "opacity(0.6)",
+      transition: "opacity 1.5s ease, transform 1.5s ease",
+      opacity: 0,
+      transform: "scale(1.05)",
+    },
+    "& .imageContainer.visible": {
+      opacity: 1,
+      transform: "scale(1)",
     }
   }),
-}
+};
 
-const Hero = () => (
-  <section css={styles.hero}>
-    <div className='imageContainer'>
-      <Image
-        src="/images/img_hero.jpg"
-        alt="main_visual"
-        layout="fill"
-        objectFit="cover"
-        quality={100} // 高品質で表示
-      />
-    </div>
-    <div className='textContainer'>
-      <Typography
-        variant="h1"
-        sx={{
-          fontSize: {
-            xs: '6rem',
-            sm: '8rem',
-            md: '10rem'
-          },
-        }}
-      >Our Wedding</Typography>
-      <Typography
-        variant="h2"
-        sx={{
-          fontSize: {
-            xs: '2rem',
-            sm: '4rem',
-            md: '5rem'
-          },
-        }}
-      >TAISHU & UTANO</Typography>
-    </div>
-  </section>
-);
+const Hero = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const images = [
+    "/images/img_hero_1.jpg",
+    "/images/img_hero_2.jpg",
+    "/images/img_hero_3.jpg"
+  ];
+
+  // スライドショーの切り替え
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsVisible(false); // 画像をフェードアウトさせる
+      setTimeout(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+        setIsVisible(true);
+      }, 1500);
+    }, 1500);
+    return () => clearInterval(interval); // クリーンアップ
+  }, []);
+
+  return (
+    <section css={styles.hero}>
+      <div className={`imageContainer ${isVisible ? 'visible' : ''}`} key={currentIndex}>
+        <Image
+          src={images[currentIndex]}
+          alt={`hero_image_${currentIndex}`}
+          layout="fill"
+          objectFit="cover"
+          quality={100}
+        />
+      </div>
+      <div className="textContainer">
+        <Typography
+          variant="h1"
+          sx={{
+            fontSize: {
+              xs: '6rem',
+              sm: '8rem',
+              md: '10rem'
+            },
+          }}
+        >Our Wedding</Typography>
+        <Typography
+          variant="h2"
+          sx={{
+            fontSize: {
+              xs: '2rem',
+              sm: '4rem',
+              md: '5rem'
+            },
+          }}
+        >TAISHU & UTANO</Typography>
+      </div>
+    </section>
+  );
+};
 
 export default Hero;
