@@ -5,12 +5,12 @@ import { Forum } from 'next/font/google';
 
 // Google Fonts (Parisienne) をインポート
 const enFont = Josefin_Sans({
-  weight: '400', // 使用するウェイトを指定
-  subsets: ['latin'],     // 使用するサブセット（必要に応じて指定）
+  weight: '400',
+  subsets: ['latin'],
 });
 const forum = Forum({
-  weight: '400', // 使用するウェイトを指定
-  subsets: ['latin'],     // 使用するサブセット（必要に応じて指定）
+  weight: '400',
+  subsets: ['latin'],
 });
 
 const enHeaderTitleFont = Pinyon_Script({
