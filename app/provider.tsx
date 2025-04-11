@@ -1,11 +1,33 @@
 "use client";
+import { Metadata } from 'next';
+import Loading from '@/app/components/Loading';
 import { ThemeProvider } from "@mui/material/styles";
 import GlobalStyles from "@/style/GlobalStyles";
 import RootStyleRegistry from "./emotion";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import theme from "@/style/theme";
 
+
+export const metadata: Metadata = {
+  title: 'Web招待状',
+  description: 'Web招待状の詳細ページです。',
+};
+
 export default function Provider({ children }: { children: React.ReactNode }) {
+
+  const [loading, setLoading] = useState(true);
+
+  // ページが完全に読み込まれるまでローディングを表示
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <Loading />
+  }
   return (
     <RootStyleRegistry>
       <ThemeProvider theme={theme}>

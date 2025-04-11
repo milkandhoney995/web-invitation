@@ -110,6 +110,14 @@ const theme = createTheme({
         },
       },
     },
+    MuiCircularProgress: {
+      styleOverrides: {
+        root: {
+          // カスタム色を直接指定
+          color: '#ff6347', // 例: トマト色
+        },
+      },
+    },
   }
 })
 

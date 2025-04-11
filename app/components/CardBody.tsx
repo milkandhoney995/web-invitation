@@ -39,9 +39,16 @@ const CardBody = (props: Props) => {
         </CardContent>
         <CardMedia
           component="img"
-          height="400"
           image={bodyImg}
           alt={title}
+          sx={{
+            height: { xs: 200, sm: 300, md: 400 },
+            width: '100%',
+            objectFit: {
+              xs: 'contain',
+              sm: 'cover',
+            },
+          }}
         />
         <CardActions>
           <Button
