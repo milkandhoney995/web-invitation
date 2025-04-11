@@ -25,6 +25,7 @@ const themeStyle: { [ key: string ]: any } = {
 
     fontFamilyJa: ` "游明朝体", "Yu Mincho", YuMincho, "ヒラギノ明朝 Pro", "Hiragino Mincho Pro", "MS P明朝", "MS PMincho", serif;`,
     fontFamilyEn: enHeaderTitleFont.style.fontFamily,
+    fontFamilySubEn: forum.style.fontFamily,
 
     // title
     heroSubTitleFont: forum.style.fontFamily,

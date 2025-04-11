@@ -7,6 +7,7 @@ declare module "@mui/material/styles" {
 
       fontFamilyJa: string,
       fontFamilyEn: string,
+      fontFamilySubEn: string,
 
       // title
       heroSubTitleFont: string,

@@ -1,6 +1,7 @@
 import React from "react";
 import Provider from "./provider";
-import Header from "./components/Header";
+import Header from "@/app/components/Header";
+import Footer from "@/app/components/Footer";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -9,6 +10,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <Header />
         <Provider>{children}</Provider>
+        <Footer />
       </body>
     </html>
   );
