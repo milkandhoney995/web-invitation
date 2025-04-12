@@ -10,8 +10,7 @@ type  TextFieldControllerProps<T extends FieldValues> = {
   control: Control<T>
   label: string;
   required?: boolean;
-  rows?: number;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 };
 
 const style = css({
@@ -29,7 +28,6 @@ const Textarea = <T extends FieldValues>({
   control,
   label,
   required = false,
-  rows = 4,
   onChange
 }:  TextFieldControllerProps<T>) => {
   return (
@@ -42,7 +40,14 @@ const Textarea = <T extends FieldValues>({
             {...field}
             id={name}
             value={field.value}
-            onChange={onChange}
+            onChange={(e) => {
+              // `field.onChange` を呼び出して値を更新
+              field.onChange(e);
+              // 必要であれば、追加の処理を onChange に渡すこともできる
+              if (onChange) {
+                onChange(e);
+              }
+            }}
             label={label}
             fullWidth
             margin="normal"

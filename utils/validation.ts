@@ -16,12 +16,12 @@ export const postalCodeSchema = z.string()
 
 export const phoneNumberSchema = z.string()
   .min(1, '必須項目です')
-  .regex(/^0\d{1,4}-\d{1,4}-\d{4}$/, '電話番号はXXX-XXXX-XXXXの形式で入力してください');
+  .regex(/^0\d{1,4}\d{1,4}\d{4}$/, '電話番号はXXXXXXXXXXXの形式で入力してください');
 
 export const emailSchema = z.string()
-  .email('有効なメールアドレスを入力してください')
   .min(1, '必須項目です')
-  .max(50, 'メールアドレスは50文字以内で入力してください');
+  .max(50, 'メールアドレスは50文字以内で入力してください')
+  .email('有効なメールアドレスを入力してください');
 
 // ゲスト情報（配列）のバリデーション
 export const guestSchema = z.object({

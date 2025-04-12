@@ -30,17 +30,17 @@ const RadioGroupController = <T extends FieldValues>({
     <Controller
       name={name as Path<T>}
       control={control}
-      defaultValue={items[0].value as PathValue<T, Path<T>>}
       render={({ field }) => (
         <>
           <FormLabel component="legend">{legend}</FormLabel>
           <FormControl fullWidth>
             <RadioGroup
               {...field}
-              value={field.value}
+              value={String(field.value)}
               onBlur={() => handleBlur(name as GuestField)}
               onChange={(e) => {
-                field.onChange(e)
+                const value = e.target.value === 'true';
+                field.onChange(value)
                 if (onChange) onChange(e)
               }}
               sx={{

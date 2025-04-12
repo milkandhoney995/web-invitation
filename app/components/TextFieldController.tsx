@@ -30,6 +30,7 @@ const TextFieldController = <T extends FieldValues>({
         <FormControl fullWidth>
           <TextField
             {...field}
+            value={field.value ?? ''}
             fullWidth
             label={label}
             variant="outlined"

@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+'use client';
+
+import { useForm, useFieldArray } from 'react-hook-form';
 import { css } from "@emotion/react"
 import theme from '@/style/theme';
 import RadioGroupController from '@/app/components/RadioGroupController';
@@ -8,11 +9,12 @@ import Textarea from '@/app/components/Textarea';
 import { Button, Box, Typography, Container, Grid, IconButton } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import { Guest } from '@/types/Guest';
 import { IFormInput  } from '@/types/FormData';
-import axios from "axios";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formSchema, IFormType } from '@/utils/validation';
+import { useRouter } from 'next/navigation';
+import { DynamicGuestField } from '@/types/DynamicGuestField';
+import { useEffect } from 'react';
 
 const style = {
   container: css({
@@ -88,35 +90,59 @@ const fetchAddressFromPostalCode = async (postalCode: string) => {
 };
 
 const WeddingInvitationForm = () => {
-  const [guests, setGuests] = useState<Guest[]>([
-    {
-      name: '',
-      kana: '',
-      attendingCeremony: true,
-      attendingReception: true,
-      useBus: true,
-      postalCode: '',
-      address: '',
-      buildingName: '',
-      phone: '',
-      email: '',
-      allergies: '',
-      message: '',
-    },
-  ]);
+  const router = useRouter()
+  const defaultValues: IFormType = {
+    guests: [
+      {
+        attendingCeremony: true,
+        attendingReception: true,
+        useBus: true,
+        name: '',
+        kana: '',
+        postalCode: '',
+        address: '',
+        buildingName: '',
+        phone: '',
+        email: '',
+        allergies: '',
+        message: '',
+      },
+    ],
+  };
+
   const {
     handleSubmit,
     control,
     formState: { errors },
     trigger,
+    setValue
   } = useForm<IFormType>({
     mode: 'onBlur',
+    defaultValues,
     resolver: zodResolver(formSchema),
   });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "guests",
+  });
+
+  useEffect(() => {
+    if (fields.length > 1) {
+      // 1人目の情報を基に、2人目以降のフィールドに初期値を設定する
+      fields.slice(1).forEach((field, index) => {
+        setValue(`guests.${index + 1}.postalCode`, fields[0].postalCode);
+        setValue(`guests.${index + 1}.address`, fields[0].address);
+        setValue(`guests.${index + 1}.phone`, fields[0].phone);
+        setValue(`guests.${index + 1}.email`, fields[0].email);
+      });
+    }
+  }, [fields])
 
   // フォームの送信時に呼ばれる関数
   const onSubmit = (data: IFormType) => {
     console.log('フォーム送信', data);
+    router.push('/completed');
 
     // try {
     //   await axios.post("https://invite-project.onrender.com/submit", data);
@@ -125,57 +151,68 @@ const WeddingInvitationForm = () => {
     // }
   };
 
-  // バリデーションをonBlur時にも実行
+  const onInvalid = (errors: any) => {
+    console.log('バリデーションエラー', errors);
+  };
+
   const handleBlur = (fieldName: keyof IFormInput, index: number) => {
     trigger(`guests.${index}.${fieldName}`)
   };
 
   const handleGuestChange = (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    const newGuests = [...guests];
-    newGuests[index] = {
-      ...newGuests[index],
-      [name]: value,
-    };
-    setGuests(newGuests);
-
+    const fieldName = `guests[${index}].${name}` as DynamicGuestField
+    setValue(fieldName, value);
   };
 
   const handleRadioChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const newGuests = [...guests];
-    newGuests[index] = {
-      ...newGuests[index],
-      [name]: value === 'true',
-    };
-    setGuests(newGuests);
+    const fieldName = `guests[${index}].${name}` as DynamicGuestField;
+    const booleanValue = value === 'true';
+    setValue(fieldName, booleanValue);
   };
 
   const handleAddGuest = () => {
-    const newGuest = {
-      ...guests[0],
+    // 1人目のデータを取得
+    const first = fields[0] ?? {
       name: '',
       kana: '',
-      allergies: '',
-      message: '',
+      postalCode: '',
+      phone: '',
+      email: '',
+      address: '',
+      buildingName: '',
+      attendingCeremony: true,
+      attendingReception: true,
+      useBus: true,
     };
-    setGuests([...guests, newGuest]);
+
+    // 新しいゲストを追加
+    append({
+      name: '',
+      kana: '',
+      allergies: first.allergies,
+      message: first.message,
+      postalCode: first.postalCode || '',
+      phone: first.phone || '',
+      email: first.email || '',
+      address: first.address || '',
+      buildingName: first.buildingName || '',
+      attendingCeremony: first.attendingCeremony,
+      attendingReception: first.attendingReception,
+      useBus: first.useBus,
+    });
   };
 
   const handleRemoveGuest = (index: number) => {
-    setGuests(guests.filter((_, i) => i !== index));
+    remove(index)
   };
 
   const handlePostalCodeChange = async (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const postalCode = e.target.value;
     const address = await fetchAddressFromPostalCode(postalCode);
-    const newGuests = [...guests];
-    newGuests[index] = {
-      ...newGuests[index],
-      postalCode,
-      address,
-    };
-    setGuests(newGuests);
+    setValue(`guests[${index}].postalCode` as any, postalCode);
+    setValue(`guests[${index}].address` as any, address);
   };
 
   return (
@@ -203,10 +240,10 @@ const WeddingInvitationForm = () => {
       <Box
         component="form"
         sx={style.form}
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit, onInvalid)}
       >
-        {guests.map((guest, index) => (
-          <div key={index}>
+        {fields.map((field, index) => (
+          <div key={field.id}>
             { index !== 0 &&
               (
                 <Grid sx={style.title} container>
@@ -231,7 +268,7 @@ const WeddingInvitationForm = () => {
                   {/* 挙式への出席 */}
                   <RadioGroupController
                     legend='挙式への出席'
-                    name={`guests[${index}].attendingCeremony`}
+                    name={`guests.${index}.attendingCeremony` as DynamicGuestField}
                     control={control}
                     handleBlur={(e) => handleBlur(e, index)}
                     onChange={(e) => handleRadioChange(index, e)}
@@ -241,7 +278,7 @@ const WeddingInvitationForm = () => {
                   {/* 披露宴への出席 */}
                   <RadioGroupController
                     legend='披露宴への出席'
-                    name={`guests[${index}].attendingReception`}
+                    name={`guests.${index}.attendingReception` as DynamicGuestField}
                     control={control}
                     handleBlur={(e) => handleBlur(e, index)}
                     onChange={(e) => handleRadioChange(index, e)}
@@ -253,7 +290,7 @@ const WeddingInvitationForm = () => {
                     legend='披露宴会場へのバス利用'
                     handleBlur={(e) => handleBlur(e, index)}
                     onChange={(e) => handleRadioChange(index, e)}
-                    name={`guests[${index}].useBus`}
+                    name={`guests.${index}.useBus` as DynamicGuestField}
                     control={control}
                     items={[ { value: "true", label: "利用する"}, { value: "false", label: "利用しない"} ]}
                   />
@@ -263,7 +300,7 @@ const WeddingInvitationForm = () => {
               {/* お名前 */}
               <TextFieldController
                 label="お名前"
-                name={`guests[${index}].name`}
+                name={`guests.${index}.name` as DynamicGuestField}
                 control={control}
                 onChange={(e) => handleGuestChange(index, e)}
                 handleBlur={(e) => handleBlur(e, index)}
@@ -272,7 +309,7 @@ const WeddingInvitationForm = () => {
               {/* かな */}
               <TextFieldController
                 label="かな"
-                name={`guests[${index}].kana`}
+                name={`guests.${index}.kana` as DynamicGuestField}
                 control={control}
                 onChange={(e) => handleGuestChange(index, e)}
                 handleBlur={(e) => handleBlur(e, index)}
@@ -284,7 +321,7 @@ const WeddingInvitationForm = () => {
                   {/* 郵便番号 */}
                   <TextFieldController
                     label="郵便番号"
-                    name={`guests[${index}].postalCode`}
+                    name={`guests.${index}.postalCode` as DynamicGuestField}
                     control={control}
                     onChange={(e) => handlePostalCodeChange(index, e)}
                     handleBlur={(e) => handleBlur(e, index)}
@@ -294,7 +331,7 @@ const WeddingInvitationForm = () => {
                   {/* 住所 */}
                   <TextFieldController
                     label="住所"
-                    name={`guests[${index}].address`}
+                    name={`guests.${index}.address` as DynamicGuestField}
                     control={control}
                     onChange={(e) => handleGuestChange(index, e)}
                     handleBlur={(e) => handleBlur(e, index)}
@@ -303,7 +340,7 @@ const WeddingInvitationForm = () => {
                   {/* 建物名 */}
                   <TextFieldController
                     label="建物名"
-                    name={`guests[${index}].buildingName`}
+                    name={`guests.${index}.buildingName` as DynamicGuestField}
                     control={control}
                     onChange={(e) => handleGuestChange(index, e)}
                     handleBlur={(e) => handleBlur(e, index)}
@@ -313,7 +350,7 @@ const WeddingInvitationForm = () => {
                   {/* 電話番号 */}
                   <TextFieldController
                     label="電話番号"
-                    name={`guests[${index}].phone`}
+                    name={`guests.${index}.phone` as DynamicGuestField}
                     control={control}
                     onChange={(e) => handleGuestChange(index, e)}
                     handleBlur={(e) => handleBlur(e, index)}
@@ -323,7 +360,7 @@ const WeddingInvitationForm = () => {
                   {/* メールアドレス */}
                   <TextFieldController
                     label="メールアドレス"
-                    name={`guests[${index}].email`}
+                    name={`guests.${index}.email` as DynamicGuestField}
                     control={control}
                     onChange={(e) => handleGuestChange(index, e)}
                     handleBlur={(e) => handleBlur(e, index)}
@@ -336,7 +373,7 @@ const WeddingInvitationForm = () => {
               <Textarea
                 control={control}
                 label="アレルギー（あれば記入）"
-                name={`guests[${index}].allergies`}
+                name={`guests.${index}.allergies` as DynamicGuestField}
                 onChange={(e) => handleGuestChange(index, e)}
               />
 
@@ -344,7 +381,7 @@ const WeddingInvitationForm = () => {
               <Textarea
                 control={control}
                 label="メッセージ（自由にどうぞ）"
-                name={`guests[${index}].message`}
+                name={`guests.${index}.message` as DynamicGuestField}
                 onChange={(e) => handleGuestChange(index, e)}
               />
             </Grid>
