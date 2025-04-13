@@ -7,7 +7,7 @@ import { css } from "@emotion/react"
 import theme from "@/style/theme";
 import WeddingInvitationForm from "./components/WeddingInvitationForm";
 import CardController from "./components/CardController";
-import { Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
 const style = {
   textContainerEvent: css({
@@ -21,39 +21,44 @@ export default function Home() {
   return (
     <div>
       <Hero />
-      <Section
-        id="message"
-        title="Message"
-      >
-        <Image
-          src="/images/img_thanks.jpg"
-          alt="thanks"
-          width={470}
-          height={550}
-          layout="intrinsic"
-          objectFit="cover"
-          quality={100} // 高品質で表示
-          css={css`
-            position: relative;
-            filter: brightness(1.2) contrast(80%) grayscale(20%);
-            mix-blend-mode: hard-light;
-          `}
-        />
-        <Typography variant="body1">
-          謹啓<br />
-          <br />
-          皆様におかれましては<br />
-          ますますご清祥のこととお慶び申し上げます。<br />
-          <br />
-          このたび、私たちは結婚をすることになりました。<br />
-          つきましては、日頃お世話になっております皆様に感謝を込めて、<br />
-          ささやかな小宴を催したく存じます。<br />
-          <br />
-          ご多用中、誠に恐縮ではございますが<br />
-          ぜひご出席をいただきたく　ご案内申し上げます。<br />
-          <br />
-          謹白
-        </Typography>
+      <Section id="message" title="Message">
+      <Grid container spacing={4} justifyContent="center" alignItems="center">
+        {/* 画像用のGrid item */}
+        <Grid size={{ xs: 12, sm: 8, md: 6 }}>
+          <Image
+            src="/images/img_thanks.jpg"
+            alt="thanks"
+            width={470}
+            height={550}
+            style={{ objectFit: 'cover', width: '100%', height: 'auto' }}
+            quality={100}
+            css={css`
+              position: relative;
+              filter: brightness(1.2) contrast(80%) grayscale(20%);
+              mix-blend-mode: hard-light;
+            `}
+          />
+        </Grid>
+
+          {/* テキスト用のGrid item */}
+          <Grid size={{ xs: 12, sm: 8, md: 6 }}>
+            <Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>
+              謹啓<br />
+              <br />
+              皆様におかれましては<br />
+              ますますご清祥のこととお慶び申し上げます。<br />
+              <br />
+              このたび、私たちは結婚をすることになりました。<br />
+              つきましては、日頃お世話になっております皆様に感謝を込めて、<br />
+              ささやかな小宴を催したく存じます。<br />
+              <br />
+              ご多用中、誠に恐縮ではございますが<br />
+              ぜひご出席をいただきたく　ご案内申し上げます。<br />
+              <br />
+              謹白
+            </Typography>
+          </Grid>
+        </Grid>
       </Section>
       <Section
         id="event"

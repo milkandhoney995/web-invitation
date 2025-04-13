@@ -70,8 +70,8 @@ const Hero = () => {
         <Image
           src={images[currentIndex]}
           alt={`hero_image_${currentIndex}`}
-          layout="fill"
-          objectFit="cover"
+          fill
+          style={{ objectFit: "cover" }}
           quality={100}
         />
       </div>

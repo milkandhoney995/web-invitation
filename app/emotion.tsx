@@ -10,21 +10,19 @@ export default function RootStyleRegistry({
   children: React.ReactNode;
 }) {
   const [cache] = useState(() => {
-    const cache = createCache({ key: "css" });
-    cache.compat = true;
-    return cache;
+    const emotionCache = createCache({ key: "css" });
+    emotionCache.compat = true;
+    return emotionCache;
   });
 
-  useServerInsertedHTML(() => {
-    return (
-      <style
-        data-emotion={`${cache.key} ${Object.keys(cache.inserted).join(" ")}`}
-        dangerouslySetInnerHTML={{
-          __html: Object.values(cache.inserted).join(" "),
-        }}
-      />
-    );
-  });
+  useServerInsertedHTML(() => (
+    <style
+      data-emotion={`${cache.key} ${Object.keys(cache.inserted).join(" ")}`}
+      dangerouslySetInnerHTML={{
+        __html: Object.values(cache.inserted).join(" "),
+      }}
+    />
+  ));
 
   return <CacheProvider value={cache}>{children}</CacheProvider>;
 }

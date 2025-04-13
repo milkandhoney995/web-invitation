@@ -1,12 +1,14 @@
 "use client";
 import { Metadata } from 'next';
-import Loading from '@/app/components/Loading';
 import { ThemeProvider } from "@mui/material/styles";
 import GlobalStyles from "@/style/GlobalStyles";
 import RootStyleRegistry from "./emotion";
 import React, { useEffect, useState } from "react";
 import theme from "@/style/theme";
+import dynamic from 'next/dynamic';
 
+// 遅延読み込み（SSR 無効）
+const Loading = dynamic(() => import('./components/Loading'), { ssr: false });
 
 export const metadata: Metadata = {
   title: 'Web招待状',
@@ -14,10 +16,8 @@ export const metadata: Metadata = {
 };
 
 export default function Provider({ children }: { children: React.ReactNode }) {
-
   const [loading, setLoading] = useState(true);
 
-  // ページが完全に読み込まれるまでローディングを表示
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);

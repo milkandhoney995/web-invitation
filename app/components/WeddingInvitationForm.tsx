@@ -93,6 +93,7 @@ const fetchAddressFromPostalCode = async (postalCode: string) => {
 const WeddingInvitationForm = () => {
   const router = useRouter()
   const [serverError, setServerError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
   const defaultValues: IFormType = {
     guests: [
       {
@@ -143,6 +144,7 @@ const WeddingInvitationForm = () => {
 
   // フォームの送信時に呼ばれる関数
   const onSubmit = async (data: IFormType) => {
+    setLoading(true);
     setServerError(null);
     console.log('フォーム送信', data);
 
@@ -158,6 +160,8 @@ const WeddingInvitationForm = () => {
         "送信中にサーバーエラーが発生しました。しばらくしてからもう一度お試しください。";
 
       setServerError(message);
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -413,8 +417,8 @@ const WeddingInvitationForm = () => {
               <AddCircleOutlineIcon />
             </IconButton>
           </Grid>
-          <Button variant="contained" color="primary" type="submit">
-            送信
+          <Button variant="contained" color="primary" type="submit" disabled={loading}>
+            {loading ? '送信中...' : '送信'}
           </Button>
         </Grid>
       </Box>

@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react **/
 import theme from "@/style/theme";
-import { SerializedStyles, css } from "@emotion/react"
-import { Grid, Typography } from "@mui/material";
+import { SerializedStyles, css } from "@emotion/react";
+import { Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { ReactNode } from "react";
 
 const styles = {
@@ -10,18 +10,10 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-evenly",
+    padding: "4rem 2rem",
     height: "fit-content",
-    padding: "4rem",
-    "& h2": {
-      color: "#333",
-      fontSize: "5rem",
-      fontFamily: `${theme.validTheme.fontFamilyEn}`,
-      marginBottom: "4rem"
-    },
     "& .textContainer": {
-      // display: "flex",
-      // flexDirection: "row",
-      alignItems: "center",
+      width: "100%",
       color: "#333",
       fontSize: "16px",
     },
@@ -29,15 +21,16 @@ const styles = {
 }
 
 type Props = {
-  title?: string,
-  id?: string,
-  children?: ReactNode,
-  backgroundColor?: string,
+  title?: string
+  id?: string
+  children?: ReactNode
+  backgroundColor?: string
   propCss?: SerializedStyles
 }
 
 const Section = (props: Props) => {
   const { title, id, children, backgroundColor, propCss } = props;
+
   return (
     <section
       id={id}
@@ -49,13 +42,26 @@ const Section = (props: Props) => {
         propCss
       ]}
     >
-      <Typography variant="h2">{title}</Typography>
+      <Typography
+        variant="h2"
+        component="h2"
+        sx={{
+          fontSize: { xs: "3rem", sm: "4rem", md: "5rem" },
+          fontFamily: `${theme.validTheme.fontFamilyEn}`,
+          marginBottom: { xs: "2rem", sm: "3rem", md: "4rem" },
+        }}
+      >
+        {title}
+      </Typography>
       <Grid
         container
-        spacing={6}
+        spacing={4}
         justifyContent="center"
+        alignItems="center"
         className="textContainer"
-      >{children}</Grid>
+      >
+        {children}
+      </Grid>
     </section>
   )
 };
