@@ -21,7 +21,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 4000);
+    }, 8000);
     return () => clearTimeout(timer);
   }, []);
 
