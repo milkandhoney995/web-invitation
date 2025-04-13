@@ -14,7 +14,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { formSchema, IFormType } from '@/utils/validation';
 import { useRouter } from 'next/navigation';
 import { DynamicGuestField } from '@/types/DynamicGuestField';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios'
 
 const style = {
   container: css({
@@ -91,6 +92,7 @@ const fetchAddressFromPostalCode = async (postalCode: string) => {
 
 const WeddingInvitationForm = () => {
   const router = useRouter()
+  const [serverError, setServerError] = useState<string | null>(null)
   const defaultValues: IFormType = {
     guests: [
       {
@@ -140,15 +142,23 @@ const WeddingInvitationForm = () => {
   }, [fields])
 
   // フォームの送信時に呼ばれる関数
-  const onSubmit = (data: IFormType) => {
+  const onSubmit = async (data: IFormType) => {
+    setServerError(null);
     console.log('フォーム送信', data);
-    router.push('/completed');
 
-    // try {
-    //   await axios.post("https://invite-project.onrender.com/submit", data);
-    // } catch (error) {
-    //   console.error("送信エラー", error);
-    // }
+    try {
+      await axios.post("https://invite-project.onrender.com/submit", data);
+      router.push('/completed');
+    } catch (error: any) {
+      console.error("送信エラー", error);
+
+      const message =
+        error.response?.data?.message || // バックエンドが明示的に message を返していれば使う
+        error.message ||                 // AxiosError が持つ基本の message
+        "送信中にサーバーエラーが発生しました。しばらくしてからもう一度お試しください。";
+
+      setServerError(message);
+    }
   };
 
   const onInvalid = (errors: any) => {
@@ -236,6 +246,12 @@ const WeddingInvitationForm = () => {
         2025.8.27までに<br />
         ご一報賜りますようお願い申し上げます
       </Typography>
+
+      {serverError && (
+        <Typography color="error" sx={{ marginBottom: '2rem', textAlign: 'center' }}>
+          {serverError}
+        </Typography>
+      )}
 
       <Box
         component="form"
