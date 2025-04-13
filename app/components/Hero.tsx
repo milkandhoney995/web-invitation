@@ -4,6 +4,7 @@ import { css } from "@emotion/react"
 import { Typography } from '@mui/material';
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
+import Logo from '@/app/components/Logo';
 
 const styles = {
   hero: css({
@@ -55,13 +56,13 @@ const Hero = () => {
   // スライドショーの切り替え
   useEffect(() => {
     const interval = setInterval(() => {
-      setIsVisible(false); // 画像をフェードアウトさせる
+      setIsVisible(false);
       setTimeout(() => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
         setIsVisible(true);
       }, 1500);
     }, 1500);
-    return () => clearInterval(interval); // クリーンアップ
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -76,16 +77,7 @@ const Hero = () => {
         />
       </div>
       <div className="textContainer">
-        <Typography
-          variant="h1"
-          sx={{
-            fontSize: {
-              xs: '6rem',
-              sm: '8rem',
-              md: '10rem'
-            },
-          }}
-        >Our Wedding</Typography>
+        <Logo />
         <Typography
           variant="h2"
           sx={{
