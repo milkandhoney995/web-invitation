@@ -6,8 +6,8 @@ export const nameSchema = z.string()
   .max(50, '名前は50文字以内で入力してください');
 
 export const kanaSchema = z.string()
-  .regex(/^[\u3040-\u309F\u30A0-\u30FFー]+$/, '名前かなはひらがなかカタカナで入力してください')
   .min(1, '必須項目です')
+  .regex(/^[\u3040-\u309F\u30A0-\u30FFー]+$/, '名前かなはひらがなかカタカナで入力してください')
   .max(50, '名前かなは50文字以内で入力してください');
 
 export const postalCodeSchema = z.string()

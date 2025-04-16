@@ -11,20 +11,6 @@ import { AppBar, Toolbar, IconButton, MenuItem, useMediaQuery, useTheme, Link as
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 
-// メニューアニメーション用のキー・フレーム定義
-const slideIn = css`
-  @keyframes slideIn {
-    from {
-      transform: translate(-50%, -50%) scale(0.5);
-      opacity: 0;
-    }
-    to {
-      transform: translate(-50%, -50%) scale(1);
-      opacity: 1;
-    }
-  }
-`;
-
 const styles = {
   toolbar: css({
     padding: "0",
@@ -64,6 +50,16 @@ const styles = {
       zIndex: 1300,
       opacity: 0,
       animation: 'slideIn 0.5s ease-out forwards',
+      "@keyframes slideIn": {
+        from: {
+          transform: 'translate(-50%, -50%) scale(0.5)',
+          opacity: 0,
+        },
+        to: {
+          transform: 'translate(-50%, -50%) scale(1)',
+          opacity: 1,
+        },
+      }
     }
   }),
   menuItem: css({

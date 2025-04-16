@@ -116,7 +116,6 @@ const WeddingInvitationForm = () => {
   const {
     handleSubmit,
     control,
-    formState: { errors },
     trigger,
     setValue
   } = useForm<IFormType>({
@@ -324,7 +323,6 @@ const WeddingInvitationForm = () => {
                 control={control}
                 onChange={(e) => handleGuestChange(index, e)}
                 handleBlur={(e) => handleBlur(e, index)}
-                errors={errors}
               />
               {/* かな */}
               <TextFieldController
@@ -333,7 +331,6 @@ const WeddingInvitationForm = () => {
                 control={control}
                 onChange={(e) => handleGuestChange(index, e)}
                 handleBlur={(e) => handleBlur(e, index)}
-                errors={errors}
               />
 
               {index === 0 && (
@@ -345,7 +342,6 @@ const WeddingInvitationForm = () => {
                     control={control}
                     onChange={(e) => handlePostalCodeChange(index, e)}
                     handleBlur={(e) => handleBlur(e, index)}
-                    errors={errors}
                   />
 
                   {/* 住所 */}
@@ -355,7 +351,6 @@ const WeddingInvitationForm = () => {
                     control={control}
                     onChange={(e) => handleGuestChange(index, e)}
                     handleBlur={(e) => handleBlur(e, index)}
-                    errors={errors}
                   />
                   {/* 建物名 */}
                   <TextFieldController
@@ -364,7 +359,6 @@ const WeddingInvitationForm = () => {
                     control={control}
                     onChange={(e) => handleGuestChange(index, e)}
                     handleBlur={(e) => handleBlur(e, index)}
-                    errors={errors}
                   />
 
                   {/* 電話番号 */}
@@ -374,7 +368,6 @@ const WeddingInvitationForm = () => {
                     control={control}
                     onChange={(e) => handleGuestChange(index, e)}
                     handleBlur={(e) => handleBlur(e, index)}
-                    errors={errors}
                   />
 
                   {/* メールアドレス */}
@@ -384,7 +377,6 @@ const WeddingInvitationForm = () => {
                     control={control}
                     onChange={(e) => handleGuestChange(index, e)}
                     handleBlur={(e) => handleBlur(e, index)}
-                    errors={errors}
                   />
                 </>
               )}

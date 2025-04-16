@@ -12,16 +12,6 @@ type  TextFieldControllerProps<T extends FieldValues> = {
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 };
 
-const style = css({
-  width: "100%",
-  fontSize: "1rem",
-  transition: "border-color 0.3s, box-shadow 0.3s",
-  "&:focus": {
-    borderColor: `${theme.palette.primary.main}`,
-    boxShadow: `0 0 5px ${theme.palette.primary.main}`
-  },
-})
-
 const Textarea = <T extends FieldValues>({
   name,
   control,
