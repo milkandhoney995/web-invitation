@@ -7,7 +7,7 @@ import { menuItems } from "@/constants/menuItems";
 import Link from 'next/link';
 import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
-import { AppBar, Toolbar, IconButton, Menu, MenuItem, useMediaQuery, useTheme, Link as MuiLink, Typography } from '@mui/material';
+import { AppBar, Toolbar, IconButton, MenuItem, useMediaQuery, useTheme, Link as MuiLink } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 

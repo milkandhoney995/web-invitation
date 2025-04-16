@@ -2,7 +2,7 @@
 "use client";
 
 import React from 'react';
-import { Box, Container, Grid, Typography, Link, IconButton } from '@mui/material';
+import { Box, Container, Grid, Typography } from '@mui/material';
 import { css } from '@emotion/react';
 import theme from '@/style/theme';
 

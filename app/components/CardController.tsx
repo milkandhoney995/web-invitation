@@ -1,6 +1,4 @@
 /** @jsxImportSource @emotion/react **/
-import theme from "@/style/theme";
-import { css } from "@emotion/react"
 import CardMain from "./CardMain";
 import CardBody from "./CardBody";
 

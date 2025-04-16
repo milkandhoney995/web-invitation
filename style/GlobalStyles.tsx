@@ -1,7 +1,6 @@
 import { Theme, ThemeProvider } from "@mui/material/styles"
 import theme from "./theme"
 import { Global, css } from "@emotion/react";
-import { relative } from "path";
 
 type Props = {}
 type Styles = (theme: Theme) => object;

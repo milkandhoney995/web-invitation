@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react **/
-import theme from "@/style/theme";
 import { css } from "@emotion/react"
-import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
+import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
 
 type Props = {
   title?: string

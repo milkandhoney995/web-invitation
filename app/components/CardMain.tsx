@@ -1,9 +1,7 @@
 /** @jsxImportSource @emotion/react **/
-import theme from "@/style/theme";
 import { css } from "@emotion/react"
 import CardTitle from "./CardTitle";
 import CardSubtitle from "./CardSubtitle";
-import Image from 'next/image'
 
 type Props = {
   title?: string
