@@ -210,8 +210,8 @@ const WeddingInvitationForm = () => {
     append({
       name: '',
       kana: '',
-      allergies: first.allergies,
-      message: first.message,
+      allergies: '',
+      message: '',
       postalCode: first.postalCode || '',
       phone: first.phone || '',
       email: first.email || '',
