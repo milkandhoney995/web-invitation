@@ -139,7 +139,7 @@ const WeddingInvitationForm = () => {
         setValue(`guests.${index + 1}.email`, fields[0].email);
       });
     }
-  }, [fields])
+  }, [fields, setValue])
 
   // フォームの送信時に呼ばれる関数
   const onSubmit = async (data: IFormType) => {

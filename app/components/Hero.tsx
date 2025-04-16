@@ -3,7 +3,7 @@ import theme from '@/style/theme';
 import { css } from "@emotion/react"
 import { Typography } from '@mui/material';
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Logo from '@/app/components/Logo';
 
 const styles = {
@@ -47,11 +47,11 @@ const styles = {
 const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
-  const images = [
+  const images = useMemo(() => [ // 関数の再レンダリング時に同じ配列が作られるのを防ぐ
     "/images/img_hero_1.jpg",
     "/images/img_hero_2.jpg",
     "/images/img_hero_3.jpg"
-  ];
+  ], [])
 
   // スライドショーの切り替え
   useEffect(() => {
