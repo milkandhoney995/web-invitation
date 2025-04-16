@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm, useFieldArray } from 'react-hook-form';
+import { useForm, useFieldArray, FieldErrors } from 'react-hook-form';
 import { css } from "@emotion/react"
 import theme from '@/style/theme';
 import RadioGroupController from '@/app/components/RadioGroupController';
@@ -150,21 +150,24 @@ const WeddingInvitationForm = () => {
     try {
       await axios.post("https://invite-project.onrender.com/submit", data);
       router.push('/completed');
-    } catch (error: any) {
-      console.error("送信エラー", error);
-
-      const message =
-        error.response?.data?.message || // バックエンドが明示的に message を返していれば使う
-        error.message ||                 // AxiosError が持つ基本の message
-        "送信中にサーバーエラーが発生しました。しばらくしてからもう一度お試しください。";
-
-      setServerError(message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("送信エラー", error.message);
+        const message =
+          (error as any)?.response?.data?.message ||
+          error.message ||
+          "送信中にサーバーエラーが発生しました。しばらくしてからもう一度お試しください。";
+        setServerError(message);
+      } else {
+        console.error("送信エラー（詳細不明）", error);
+        setServerError("予期しないエラーが発生しました。");
+      }
     } finally {
       setLoading(false)
     }
   };
 
-  const onInvalid = (errors: any) => {
+  const onInvalid = (errors: FieldErrors<IFormType>) => {
     console.log('バリデーションエラー', errors);
   };
 
@@ -224,8 +227,8 @@ const WeddingInvitationForm = () => {
   const handlePostalCodeChange = async (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const postalCode = e.target.value;
     const address = await fetchAddressFromPostalCode(postalCode);
-    setValue(`guests[${index}].postalCode` as any, postalCode);
-    setValue(`guests[${index}].address` as any, address);
+    setValue(`guests.${index}.postalCode`, postalCode);
+    setValue(`guests.${index}.address`, address);
   };
 
   return (
