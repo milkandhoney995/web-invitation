@@ -63,7 +63,7 @@ const Hero = () => {
       }, 1500);
     }, 1500);
     return () => clearInterval(interval);
-  }, []);
+  }, [images.length]);
 
   return (
     <section css={styles.hero}>
