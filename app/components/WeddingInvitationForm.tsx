@@ -151,16 +151,19 @@ const WeddingInvitationForm = () => {
       await axios.post("https://invite-project.onrender.com/submit", data);
       router.push('/completed');
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error("送信エラー", error.message);
+      if (axios.isAxiosError(error)) {
+        console.error("送信エラー", error);
         const message =
-          (error as any)?.response?.data?.message ||
-          error.message ||
+          error.response?.data?.message || // サーバーからのメッセージ
+          error.message ||                 // 通常のAxiosエラーメッセージ
           "送信中にサーバーエラーが発生しました。しばらくしてからもう一度お試しください。";
         setServerError(message);
+      } else if (error instanceof Error) {
+        console.error("その他のエラー", error.message);
+        setServerError(error.message);
       } else {
-        console.error("送信エラー（詳細不明）", error);
-        setServerError("予期しないエラーが発生しました。");
+        console.error("予期せぬエラー", error);
+        setServerError("予期せぬエラーが発生しました。");
       }
     } finally {
       setLoading(false)
