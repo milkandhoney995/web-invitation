@@ -22,27 +22,27 @@ export default function Home() {
     <div>
       <Hero />
       <Section id="message" title="Message">
-      <Grid container spacing={4} justifyContent="center" alignItems="center">
-        {/* 画像用のGrid item */}
-        <Grid size={{ xs: 12, sm: 8, md: 6 }}>
-          <Image
-            src="/images/img_thanks.jpg"
-            alt="thanks"
-            width={470}
-            height={550}
-            style={{ objectFit: 'cover', width: '100%', height: 'auto' }}
-            quality={100}
-            css={css`
-              position: relative;
-              filter: brightness(1.2) contrast(80%) grayscale(20%);
-              mix-blend-mode: hard-light;
-            `}
-          />
-        </Grid>
+        <Grid container spacing={4} justifyContent="center" alignItems="center">
+          {/* 画像用のGrid item */}
+          <Grid size={{ xs: 12, sm: 8, md: 6 }}>
+            <Image
+              src="/images/img_thanks.jpg"
+              alt="thanks"
+              width={470}
+              height={550}
+              style={{ objectFit: 'cover', width: '100%', height: 'auto' }}
+              quality={100}
+              css={css`
+                position: relative;
+                filter: brightness(1.2) contrast(80%) grayscale(20%);
+                mix-blend-mode: hard-light;
+              `}
+            />
+          </Grid>
 
           {/* テキスト用のGrid item */}
           <Grid size={{ xs: 12, sm: 8, md: 6 }}>
-            <Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>
+            <Typography variant="body1" sx={{ whiteSpace: 'pre-line', textAlign: 'center' }}>
               謹啓<br />
               <br />
               皆様におかれましては<br />
