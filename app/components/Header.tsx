@@ -107,7 +107,7 @@ const Header = () => {
     else setIsSticky(false);
   };
 
-  const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleMenuClick = () => {
     setOpenMenu(true);
   };
 
