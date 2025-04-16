@@ -1,10 +1,20 @@
-// constants/eventData.ts
-export const WEDDING_EVENTS = [
+type WeddingEvent = {
+  title: string;
+  place: string;
+  date: string;
+  mainImg: string;
+  bodyImg: string;
+  mapUrl: string;
+  access: string;
+};
+
+
+export const WEDDING_EVENTS: WeddingEvent[] = [
   {
     title: '挙式',
     place: '国際基督教大学教会',
     date: '2025年9月27日(土)\n受付：午後2:30\n開始：午後3:00',
-    address: '〒181-8585 東京都三鷹市大沢 3-10-2',
+    mainImg: '/images/church.avif',
     bodyImg: '/images/church_map.png',
     mapUrl: 'https://maps.app.goo.gl/Dp5Fxs2ZkpE51jcH6',
     access: `
@@ -21,6 +31,8 @@ export const WEDDING_EVENTS = [
     title: '披露宴',
     place: 'TERAKOYA',
     date: '2025年9月27日(土)\n受付：午後4:30\n開始：午後5:00',
+    mainImg: '/images/terakoya.jpeg',
+    bodyImg: '/images/terakoya_map.png',
     mapUrl: 'https://maps.app.goo.gl/HynmTCntUGfewvLx7',
     access: `
     〒184-0013 東京都小金井市前原町3-33-32\n

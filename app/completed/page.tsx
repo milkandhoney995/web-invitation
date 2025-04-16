@@ -8,6 +8,9 @@ import { useRouter } from 'next/navigation';
 import Section from "@/app/components/Section";
 
 const style = {
+  main: css({
+    flex: "1"
+  }),
   body: css({
     display: "flex",
     flexDirection: "column",
@@ -25,7 +28,9 @@ const CompletedPage = () => {
   }
 
   return (
-    <Section>
+    <Section
+      propCss={style.main}
+    >
       <Typography variant="h3">ご回答ありがとうございます</Typography>
       <div css={style.body}>
         <Typography variant="h4">xxx@gmail.comから送信済みメールをご確認ください。</Typography>

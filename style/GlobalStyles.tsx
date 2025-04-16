@@ -27,7 +27,9 @@ const resetCss = css({
   body: {
     fontFamily: "sans-serif",
     height: "100%",
-    margin: "0"
+    margin: "0",
+    display: "flex",
+    flexDirection: "column"
   },
   h4: {
     fontWeight: "normal",

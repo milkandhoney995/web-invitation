@@ -1,4 +1,3 @@
-// constants/messages.ts
 export const RSVP_MESSAGE = `
 郵送でのご案内状に代わり、当招待状をお送りしております\n
 お手数ではございますが、出席情報のご登録をお願い申し上げます\n

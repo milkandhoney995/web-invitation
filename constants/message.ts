@@ -1,4 +1,3 @@
-// constants/messages.ts
 export const INVITATION_MESSAGE = `
 謹啓\n
 \n

@@ -56,36 +56,24 @@ export default function Home() {
         backgroundColor={theme.validTheme.backgroundColor1}
         propCss={style.textContainerEvent}
       >
-        <CardController
-          mainImg="/images/church.avif"
-          mainTitle={WEDDING_EVENTS[0].title}
-          bodyTitle={WEDDING_EVENTS[0].place}
-          bodyImg="/images/church_map.png"
-          mapUrl={WEDDING_EVENTS[0].mapUrl}
-        >
-          <>
-            {WEDDING_EVENTS[0].date}
-          </>
-          <>
-            {WEDDING_EVENTS[0].access}
-          </>
+        {WEDDING_EVENTS.map((event, index) => (
+          <CardController
+            key={index}
+            mainImg={event.mainImg}
+            mainTitle={event.title}
+            bodyTitle={event.place}
+            bodyImg={event.bodyImg}
+            mapUrl={event.mapUrl}
+          >
+            <>
+              {event.date}
+            </>
+            <>
+              {event.access}
+            </>
 
-        </CardController>
-        <CardController
-          mainImg="/images/terakoya.jpeg"
-          mainTitle={WEDDING_EVENTS[1].title}
-          bodyTitle={WEDDING_EVENTS[1].place}
-          bodyImg="/images/terakoya_map.png"
-          mapUrl={WEDDING_EVENTS[1].mapUrl}
-        >
-          <>
-            {WEDDING_EVENTS[1].date}
-          </>
-          <>
-            {WEDDING_EVENTS[1].access}
-          </>
-
-        </CardController>
+          </CardController>
+        ))}
       </Section>
       <Section
         id="rsvp"
