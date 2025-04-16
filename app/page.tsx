@@ -8,6 +8,8 @@ import theme from "@/style/theme";
 import WeddingInvitationForm from "./components/WeddingInvitationForm";
 import CardController from "./components/CardController";
 import { Grid, Typography } from "@mui/material";
+import { WEDDING_EVENTS } from "@/constants/eventData";
+import { INVITATION_MESSAGE } from "@/constants/message";
 
 const style = {
   textContainerEvent: css({
@@ -43,19 +45,7 @@ export default function Home() {
           {/* テキスト用のGrid item */}
           <Grid size={{ xs: 12, sm: 8, md: 6 }}>
             <Typography variant="body1" sx={{ whiteSpace: 'pre-line', textAlign: 'center' }}>
-              謹啓<br />
-              <br />
-              皆様におかれましては<br />
-              ますますご清祥のこととお慶び申し上げます。<br />
-              <br />
-              このたび、私たちは結婚をすることになりました。<br />
-              つきましては、日頃お世話になっております皆様に感謝を込めて、<br />
-              ささやかな小宴を催したく存じます。<br />
-              <br />
-              ご多用中、誠に恐縮ではございますが<br />
-              ぜひご出席をいただきたく　ご案内申し上げます。<br />
-              <br />
-              謹白
+              {INVITATION_MESSAGE}
             </Typography>
           </Grid>
         </Grid>
@@ -68,49 +58,31 @@ export default function Home() {
       >
         <CardController
           mainImg="/images/church.avif"
-          mainTitle="挙式"
-          bodyTitle="国際基督教大学教会"
+          mainTitle={WEDDING_EVENTS[0].title}
+          bodyTitle={WEDDING_EVENTS[0].place}
           bodyImg="/images/church_map.png"
-          mapUrl="https://maps.app.goo.gl/Dp5Fxs2ZkpE51jcH6"
+          mapUrl={WEDDING_EVENTS[0].mapUrl}
         >
           <>
-            2025年9月27日(土)<br />
-            受付：午後2:30<br />
-            開始：午後3:00
+            {WEDDING_EVENTS[0].date}
           </>
           <>
-            〒181-8585　東京都三鷹市大沢 3-10-2<br />
-            <br />
-            ＊JR中央線三鷹駅からお越しの場合<br />
-            南口の5番乗り場から小田急バス「（鷹51）国際基督教大学」行終点下車<br />
-            <br />
-            ＊JR中央線武蔵境駅からお越しの場合<br />
-            南口の2番乗り場から小田急バス「（境93）国際基督教大学」行終点下車<br />
-            <br />
-            ＊調布駅からお越しの場合<br />
-            北口の14番乗り場から小田急バス「（境91）武蔵境駅南口」行<br />
-            または「（ 鷹51）三鷹駅（西野御塔坂下経由）」行乗車「富士重工前」下車 徒歩10分
+            {WEDDING_EVENTS[0].access}
           </>
 
         </CardController>
         <CardController
           mainImg="/images/terakoya.jpeg"
-          mainTitle="披露宴"
-          bodyTitle="TERAKOYA"
+          mainTitle={WEDDING_EVENTS[1].title}
+          bodyTitle={WEDDING_EVENTS[1].place}
           bodyImg="/images/terakoya_map.png"
-          mapUrl="https://maps.app.goo.gl/HynmTCntUGfewvLx7"
+          mapUrl={WEDDING_EVENTS[1].mapUrl}
         >
           <>
-            2025年9月27日(土)<br />
-            受付：午後4:30<br />
-            開始：午後5:00
+            {WEDDING_EVENTS[1].date}
           </>
           <>
-            〒184-0013　東京都小金井市前原町3-33-32<br />
-            電話番号: 042-388-9555<br />
-            <br />
-            挙式後、国際基督教大学教会より送迎バスをご用意しております。<br />
-            ご利用の方は出欠の回答画面にて、お知らせくださいますようお願い申し上げます。<br />
+            {WEDDING_EVENTS[1].access}
           </>
 
         </CardController>

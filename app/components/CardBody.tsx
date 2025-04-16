@@ -13,7 +13,10 @@ type Props = {
 const style = {
   cardMedia: css({
     filter: "brightness(0.9) contrast(70%)"
-  })
+  }),
+  body: css({
+    whiteSpace: 'pre-line'
+  }),
 }
 
 const CardBody = (props: Props) => {
@@ -32,7 +35,7 @@ const CardBody = (props: Props) => {
           <Typography gutterBottom variant="h5" component="div">
             {title}
           </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          <Typography variant="body2" sx={{ color: 'text.secondary' }} css={style.body}>
             {children}
           </Typography>
         </CardContent>

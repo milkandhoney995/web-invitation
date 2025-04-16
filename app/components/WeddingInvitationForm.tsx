@@ -16,6 +16,7 @@ import { useRouter } from 'next/navigation';
 import { DynamicGuestField } from '@/types/DynamicGuestField';
 import { useEffect, useState } from 'react';
 import axios from 'axios'
+import { RSVP_MESSAGE } from '@/constants/rsvpData';
 
 const style = {
   container: css({
@@ -27,6 +28,9 @@ const style = {
     "& .MuiTypography-root": {
       textAlign: "center",
     },
+    "& h6": {
+      whiteSpace: 'pre-line'
+    }
   }),
   form: css({
     display: "flex",
@@ -245,15 +249,7 @@ const WeddingInvitationForm = () => {
       ]}
     >
       <Typography variant="h6" sx={{ marginBottom: `${theme.validTheme.num48}` }}>
-        郵送でのご案内状に代わり、当招待状をお送りしております<br />
-        <br />
-        お手数ではございますが、出席情報のご登録をお願い申し上げます<br />
-        <br />
-        また当日のお食事のご用意にあたり<br />
-        アレルギー等がある方は、アレルギー欄にご記入くださいますようお願い申し上げます<br />
-        <br />
-        2025.8.27までに<br />
-        ご一報賜りますようお願い申し上げます
+        {RSVP_MESSAGE}
       </Typography>
 
       {serverError && (
