@@ -1,6 +1,4 @@
 /** @jsxImportSource @emotion/react **/
-import theme from "@/style/theme";
-import { css } from "@emotion/react"
 import { Typography } from "@mui/material";
 
 type Props = {

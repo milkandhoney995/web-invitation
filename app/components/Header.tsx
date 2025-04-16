@@ -92,7 +92,6 @@ const styles = {
 
 const Header = () => {
   const [isSticky, setIsSticky] = useState<boolean>(false);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openMenu, setOpenMenu] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -109,12 +108,10 @@ const Header = () => {
   };
 
   const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
     setOpenMenu(true);
   };
 
   const handleMenuClose = () => {
-    setAnchorEl(null);
     setOpenMenu(false);
   };
 
