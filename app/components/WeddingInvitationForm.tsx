@@ -17,6 +17,7 @@ import { DynamicGuestField } from '@/types/DynamicGuestField';
 import { useEffect, useState } from 'react';
 import axios from 'axios'
 import { RSVP_MESSAGE } from '@/constants/rsvpData';
+import { labelData } from '@/constants/labelData';
 
 const style = {
   container: css({
@@ -288,7 +289,7 @@ const WeddingInvitationForm = () => {
                 <>
                   {/* 挙式への出席 */}
                   <RadioGroupController
-                    legend='挙式への出席'
+                    legend={labelData.attendingCeremony}
                     name={`guests.${index}.attendingCeremony` as DynamicGuestField}
                     control={control}
                     handleBlur={(e) => handleBlur(e, index)}
@@ -298,7 +299,7 @@ const WeddingInvitationForm = () => {
 
                   {/* 披露宴への出席 */}
                   <RadioGroupController
-                    legend='披露宴への出席'
+                    legend={labelData.attendingReception}
                     name={`guests.${index}.attendingReception` as DynamicGuestField}
                     control={control}
                     handleBlur={(e) => handleBlur(e, index)}
@@ -308,7 +309,7 @@ const WeddingInvitationForm = () => {
 
                   {/* 披露宴会場へのバス利用 */}
                   <RadioGroupController
-                    legend='披露宴会場へのバス利用'
+                    legend={labelData.useBus}
                     handleBlur={(e) => handleBlur(e, index)}
                     onChange={(e) => handleRadioChange(index, e)}
                     name={`guests.${index}.useBus` as DynamicGuestField}
@@ -320,7 +321,7 @@ const WeddingInvitationForm = () => {
 
               {/* お名前 */}
               <TextFieldController
-                label="お名前"
+                label={labelData.name}
                 name={`guests.${index}.name` as DynamicGuestField}
                 control={control}
                 onChange={(e) => handleGuestChange(index, e)}
@@ -328,7 +329,7 @@ const WeddingInvitationForm = () => {
               />
               {/* かな */}
               <TextFieldController
-                label="かな"
+                label={labelData.kana}
                 name={`guests.${index}.kana` as DynamicGuestField}
                 control={control}
                 onChange={(e) => handleGuestChange(index, e)}
@@ -339,7 +340,7 @@ const WeddingInvitationForm = () => {
                 <>
                   {/* 郵便番号 */}
                   <TextFieldController
-                    label="郵便番号"
+                    label={labelData.postalCode}
                     name={`guests.${index}.postalCode` as DynamicGuestField}
                     control={control}
                     onChange={(e) => handlePostalCodeChange(index, e)}
@@ -348,7 +349,7 @@ const WeddingInvitationForm = () => {
 
                   {/* 住所 */}
                   <TextFieldController
-                    label="住所"
+                    label={labelData.address}
                     name={`guests.${index}.address` as DynamicGuestField}
                     control={control}
                     onChange={(e) => handleGuestChange(index, e)}
@@ -356,7 +357,7 @@ const WeddingInvitationForm = () => {
                   />
                   {/* 建物名 */}
                   <TextFieldController
-                    label="建物名"
+                    label={labelData.buildingName}
                     name={`guests.${index}.buildingName` as DynamicGuestField}
                     control={control}
                     onChange={(e) => handleGuestChange(index, e)}
@@ -365,7 +366,7 @@ const WeddingInvitationForm = () => {
 
                   {/* 電話番号 */}
                   <TextFieldController
-                    label="電話番号"
+                    label={labelData.phone}
                     name={`guests.${index}.phone` as DynamicGuestField}
                     control={control}
                     onChange={(e) => handleGuestChange(index, e)}
@@ -374,7 +375,7 @@ const WeddingInvitationForm = () => {
 
                   {/* メールアドレス */}
                   <TextFieldController
-                    label="メールアドレス"
+                    label={labelData.email}
                     name={`guests.${index}.email` as DynamicGuestField}
                     control={control}
                     onChange={(e) => handleGuestChange(index, e)}
@@ -386,7 +387,7 @@ const WeddingInvitationForm = () => {
               {/* アレルギー */}
               <Textarea
                 control={control}
-                label="アレルギー（あれば記入）"
+                label={labelData.allergies}
                 name={`guests.${index}.allergies` as DynamicGuestField}
                 onChange={(e) => handleGuestChange(index, e)}
               />
@@ -394,7 +395,7 @@ const WeddingInvitationForm = () => {
               {/* メッセージ */}
               <Textarea
                 control={control}
-                label="メッセージ（自由にどうぞ）"
+                label={labelData.message}
                 name={`guests.${index}.message` as DynamicGuestField}
                 onChange={(e) => handleGuestChange(index, e)}
               />
@@ -407,6 +408,7 @@ const WeddingInvitationForm = () => {
             <IconButton
               color="primary"
               onClick={handleAddGuest}
+              data-testid="add-guest-button"
             >
               <AddCircleOutlineIcon />
             </IconButton>
