@@ -6,6 +6,7 @@ import theme from '@/style/theme';
 import RadioGroupController from '@/app/components/RadioGroupController';
 import TextFieldController from '@/app/components/TextFieldController';
 import Textarea from '@/app/components/Textarea';
+import FullScreenLoader from '@/app/components/FullScreenLoader';
 import { Button, Box, Typography, Container, Grid, IconButton } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
@@ -158,6 +159,7 @@ const WeddingInvitationForm = () => {
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         console.error("送信エラー", error);
+        setLoading(false);
         const message =
           error.response?.data?.message || // サーバーからのメッセージ
           error.message ||                 // 通常のAxiosエラーメッセージ
@@ -258,7 +260,7 @@ const WeddingInvitationForm = () => {
           {serverError}
         </Typography>
       )}
-
+      {loading && <FullScreenLoader />}
       <Box
         component="form"
         sx={style.form}
@@ -414,7 +416,7 @@ const WeddingInvitationForm = () => {
             </IconButton>
           </Grid>
           <Button variant="contained" color="primary" type="submit" disabled={loading}>
-            {loading ? '送信中...' : '送信'}
+            送信
           </Button>
         </Grid>
       </Box>
