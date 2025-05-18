@@ -1,18 +1,14 @@
 import React from "react";
 import Provider from "./provider";
-import Header from "@/app/components/Header";
-import Footer from "@/app/components/Footer";
+import dynamic from "next/dynamic";
+import ClientLayout from "./ClientLayout";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html>
-      <head></head>
+      <head />
       <body>
-        <Provider>
-          <Header />
-          {children}
-          <Footer />
-        </Provider>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
