@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { Controller, Control, FieldValues, Path } from 'react-hook-form';
 import { RadioGroup, FormControlLabel, Radio, FormLabel, FormControl } from '@mui/material';

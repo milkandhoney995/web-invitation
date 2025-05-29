@@ -296,7 +296,7 @@ const WeddingInvitationForm = () => {
                     control={control}
                     handleBlur={(e) => handleBlur(e, index)}
                     onChange={(e) => handleRadioChange(index, e)}
-                    items={[ { value: "true", label: "出席"}, { value: "false", label: "欠席"} ]}
+                    items={labelData.attendingCeremonyList}
                   />
 
                   {/* 披露宴への出席 */}
@@ -306,7 +306,7 @@ const WeddingInvitationForm = () => {
                     control={control}
                     handleBlur={(e) => handleBlur(e, index)}
                     onChange={(e) => handleRadioChange(index, e)}
-                    items={[ { value: "true", label: "出席"}, { value: "false", label: "欠席"} ]}
+                    items={labelData.attendingReceptionList}
                   />
 
                   {/* 披露宴会場へのバス利用 */}
@@ -316,7 +316,7 @@ const WeddingInvitationForm = () => {
                     onChange={(e) => handleRadioChange(index, e)}
                     name={`guests.${index}.useBus` as DynamicGuestField}
                     control={control}
-                    items={[ { value: "true", label: "利用する"}, { value: "false", label: "利用しない"} ]}
+                    items={labelData.useBusList}
                   />
                 </>
               )}
@@ -416,7 +416,7 @@ const WeddingInvitationForm = () => {
             </IconButton>
           </Grid>
           <Button variant="contained" color="primary" type="submit" disabled={loading}>
-            送信
+            {labelData.sendData}
           </Button>
         </Grid>
       </Box>
