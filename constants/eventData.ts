@@ -13,7 +13,7 @@ export const WEDDING_EVENTS: WeddingEvent[] = [
   {
     title: '挙式',
     place: '国際基督教大学教会',
-    date: '2025年9月27日(土)\n受付：午後2:30\n開始：午後3:00',
+    date: '日時　　　2025年9月27日（土）\n受付　　　14時30分\n挙式　　　15時00分',
     mainImg: '/images/church.avif',
     bodyImg: '/images/church_map.png',
     mapUrl: 'https://maps.app.goo.gl/Dp5Fxs2ZkpE51jcH6',
@@ -30,7 +30,7 @@ export const WEDDING_EVENTS: WeddingEvent[] = [
   {
     title: '披露宴',
     place: 'TERAKOYA',
-    date: '2025年9月27日(土)\n受付：午後4:30\n開始：午後5:00',
+    date: '日時　　　2025年9月27日（土）\n受付　　　16時30分\n披露宴　　17時00分',
     mainImg: '/images/terakoya.jpeg',
     bodyImg: '/images/terakoya_map.png',
     mapUrl: 'https://maps.app.goo.gl/HynmTCntUGfewvLx7',

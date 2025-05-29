@@ -10,7 +10,8 @@ type Props = {
 const style = {
   title: css({
     color: `${theme.validTheme.cardSubtitleColor}`,
-    whiteSpace: 'pre-line'
+    whiteSpace: 'pre-line',
+    fontSize: "1.25rem"
   })
 }
 

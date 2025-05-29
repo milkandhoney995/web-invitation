@@ -415,7 +415,7 @@ const WeddingInvitationForm = () => {
               <AddCircleOutlineIcon />
             </IconButton>
           </Grid>
-          <Button variant="contained" color="primary" type="submit" disabled={loading}>
+          <Button variant="contained" color="primary" size='large' type="submit" disabled={loading}>
             {labelData.sendData}
           </Button>
         </Grid>
