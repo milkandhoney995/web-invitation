@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react **/
+import theme from "@/style/theme";
 import { css } from "@emotion/react"
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
 
@@ -11,6 +12,12 @@ type Props = {
 }
 
 const style = {
+  contents: css({
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: theme.validTheme.num48
+  }),
   cardMedia: css({
     filter: "brightness(0.9) contrast(70%)"
   }),
@@ -31,11 +38,11 @@ const CardBody = (props: Props) => {
           alt={title}
           css={style.cardMedia}
         />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+        <CardContent sx={style.contents}>
+          <Typography gutterBottom variant="h3">
             {title}
           </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }} css={style.body}>
+          <Typography variant="body1" sx={{ color: 'text.secondary' }} css={style.body}>
             {children}
           </Typography>
         </CardContent>

@@ -60,14 +60,10 @@ export default function Home() {
           <CardController
             key={index}
             mainImg={event.mainImg}
-            mainTitle={event.title}
-            bodyTitle={event.place}
+            bodyTitle={event.title}
             bodyImg={event.bodyImg}
             mapUrl={event.mapUrl}
           >
-            <>
-              {event.date}
-            </>
             <>
               {event.access}
             </>

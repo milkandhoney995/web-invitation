@@ -90,6 +90,12 @@ const theme = createTheme({
     },
     MuiButton: {
       styleOverrides: {
+        root: {
+          padding: "0.5rem 2rem"
+        },
+        sizeLarge: {
+          fontSize: '1.5rem',
+        },
         containedPrimary: {
           color: themeStyle["default"].buttonFontColor,
           '&:hover': {

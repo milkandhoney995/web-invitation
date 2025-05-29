@@ -1,7 +1,9 @@
 export const labelData = {
   attendingCeremony: '挙式への出席',
   attendingReception: '披露宴への出席',
-  useBus: '披露宴会場へのバス利用',
+  useBus: `
+    披露宴会場へのバス利用（挙式後、国際基督教大学教会より送迎バスをご用意しております。\nご利用の方は出欠の回答画面にて、お知らせくださいますようお願い申し上げます。）
+  `,
   name: 'お名前',
   kana: 'かな',
   postalCode: '郵便番号',

@@ -4,6 +4,7 @@ import React from 'react';
 import { Controller, Control, FieldValues, Path } from 'react-hook-form';
 import { RadioGroup, FormControlLabel, Radio, FormLabel, FormControl } from '@mui/material';
 import { DynamicGuestField, GuestField } from '@/types/DynamicGuestField';
+import { css } from "@emotion/react"
 
 interface Items {
   value: string
@@ -17,6 +18,12 @@ interface RadioGroupControllerProps<T extends FieldValues> {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   legend: string;
   items: Array<Items>;
+}
+
+const style = {
+  title: css({
+    whiteSpace: 'pre-line'
+  })
 }
 
 const RadioGroupController = <T extends FieldValues>({
@@ -33,7 +40,7 @@ const RadioGroupController = <T extends FieldValues>({
       control={control}
       render={({ field }) => (
         <>
-          <FormLabel component="legend">{legend}</FormLabel>
+          <FormLabel component="legend" sx={style.title}>{legend}</FormLabel>
           <FormControl fullWidth>
             <RadioGroup
               {...field}

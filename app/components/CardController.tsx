@@ -1,33 +1,26 @@
 /** @jsxImportSource @emotion/react **/
-import CardMain from "./CardMain";
 import CardBody from "./CardBody";
 
 interface Props  {
-  mainTitle?: string
   bodyTitle?: string
-  children: React.ReactNode[]
+  children: React.ReactNode
   mainImg: string
   bodyImg: string
   mapUrl: string
 }
 
 const CardController = (props: Props) => {
-  const { mainTitle, bodyTitle, children, mainImg, bodyImg, mapUrl } = props
+  const { bodyTitle, children, mainImg, bodyImg, mapUrl } = props
 
   return (
     <div>
-      <CardMain
-        title={mainTitle}
-      >
-        {children[0]}
-      </CardMain>
       <CardBody
         title={bodyTitle}
         mainImg={mainImg}
         bodyImg={bodyImg}
         mapUrl={mapUrl}
       >
-        {children[1]}
+        {children}
       </CardBody>
     </div>
   )
