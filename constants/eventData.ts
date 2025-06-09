@@ -19,7 +19,7 @@ export const WEDDING_EVENTS: WeddingEvent[] = [
     \n挙式　　　　15時00分
     \n場所　　　　国際基督教大学教会
     \n住所　　　　〒181-8585 東京都三鷹市大沢 3-10-2
-    \n電話番号　　042-388-9555`
+    \n\n`
   },
   {
     title: '披露宴',
