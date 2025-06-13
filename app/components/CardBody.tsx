@@ -24,6 +24,10 @@ const style = {
   body: css({
     whiteSpace: 'pre-line'
   }),
+  button: css({
+    display: "flex",
+    justifyContent: "center"
+  })
 }
 
 const CardBody = (props: Props) => {
@@ -57,9 +61,12 @@ const CardBody = (props: Props) => {
               xs: 'contain',
               sm: 'cover',
             },
+            marginBottom: theme.validTheme.num32
           }}
         />
-        <CardActions>
+        <CardActions
+          sx={style.button}
+        >
           <Button
             variant="contained"
             size="small"
