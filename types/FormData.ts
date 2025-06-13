@@ -10,6 +10,7 @@ export interface IFormInput {
   phone: string;
   email: string;
   allergies: string;
+  hasAllergies: boolean;
   message: string;
 }
 

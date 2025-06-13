@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm, useFieldArray, FieldErrors } from 'react-hook-form';
+import { useForm, useFieldArray, FieldErrors, useWatch } from 'react-hook-form';
 import { css } from "@emotion/react"
 import theme from '@/style/theme';
 import RadioGroupController from '@/app/components/RadioGroupController';
@@ -114,6 +114,7 @@ const WeddingInvitationForm = () => {
         phone: '',
         email: '',
         allergies: '',
+        hasAllergies: false,
         message: '',
       },
     ],
@@ -133,6 +134,12 @@ const WeddingInvitationForm = () => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "guests",
+  });
+
+  const guestsData = useWatch({
+    control,
+    name: "guests",
+    defaultValue: defaultValues.guests,
   });
 
   useEffect(() => {
@@ -218,6 +225,7 @@ const WeddingInvitationForm = () => {
       name: '',
       kana: '',
       allergies: '',
+      hasAllergies: false,
       message: '',
       postalCode: first.postalCode || '',
       phone: first.phone || '',
@@ -266,144 +274,160 @@ const WeddingInvitationForm = () => {
         sx={style.form}
         onSubmit={handleSubmit(onSubmit, onInvalid)}
       >
-        {fields.map((field, index) => (
-          <div key={field.id}>
-            { index !== 0 &&
-              (
-                <Grid sx={style.title} container>
-                  <Typography variant="h6" sx={{ flex: 1 }}>{index + 1}人目</Typography>
-                  <IconButton
-                    color="primary"
-                    onClick={() => handleRemoveGuest(index)}
-                    sx={{ marginLeft: 'auto' }}
-                  >
-                    <DeleteOutlineOutlinedIcon />
-                  </IconButton>
-                </Grid>
-              )
-            }
+        {fields.map((field, index) => {
+          const hasAllergies = guestsData?.[index]?.hasAllergies;
 
-            <Grid
-              container
-              sx={style.body}
-            >
-              { index === 0 && (
-                <>
-                  {/* 挙式への出席 */}
-                  <RadioGroupController
-                    legend={labelData.attendingCeremony}
-                    name={`guests.${index}.attendingCeremony` as DynamicGuestField}
-                    control={control}
-                    handleBlur={(e) => handleBlur(e, index)}
-                    onChange={(e) => handleRadioChange(index, e)}
-                    items={labelData.attendingCeremonyList}
-                  />
+          return (
+            <div key={field.id}>
+              { index !== 0 &&
+                (
+                  <Grid sx={style.title} container>
+                    <Typography variant="h6" sx={{ flex: 1 }}>{index + 1}人目</Typography>
+                    <IconButton
+                      color="primary"
+                      onClick={() => handleRemoveGuest(index)}
+                      sx={{ marginLeft: 'auto' }}
+                    >
+                      <DeleteOutlineOutlinedIcon />
+                    </IconButton>
+                  </Grid>
+                )
+              }
 
-                  {/* 披露宴への出席 */}
-                  <RadioGroupController
-                    legend={labelData.attendingReception}
-                    name={`guests.${index}.attendingReception` as DynamicGuestField}
-                    control={control}
-                    handleBlur={(e) => handleBlur(e, index)}
-                    onChange={(e) => handleRadioChange(index, e)}
-                    items={labelData.attendingReceptionList}
-                  />
+              <Grid
+                container
+                sx={style.body}
+              >
+                { index === 0 && (
+                  <>
+                    {/* 挙式への出席 */}
+                    <RadioGroupController
+                      legend={labelData.attendingCeremony}
+                      name={`guests.${index}.attendingCeremony` as DynamicGuestField}
+                      control={control}
+                      handleBlur={(e) => handleBlur(e, index)}
+                      onChange={(e) => handleRadioChange(index, e)}
+                      items={labelData.attendingCeremonyList}
+                    />
 
-                  {/* 披露宴会場へのバス利用 */}
-                  <RadioGroupController
-                    legend={labelData.useBus}
-                    handleBlur={(e) => handleBlur(e, index)}
-                    onChange={(e) => handleRadioChange(index, e)}
-                    name={`guests.${index}.useBus` as DynamicGuestField}
-                    control={control}
-                    items={labelData.useBusList}
-                  />
-                </>
-              )}
+                    {/* 披露宴への出席 */}
+                    <RadioGroupController
+                      legend={labelData.attendingReception}
+                      name={`guests.${index}.attendingReception` as DynamicGuestField}
+                      control={control}
+                      handleBlur={(e) => handleBlur(e, index)}
+                      onChange={(e) => handleRadioChange(index, e)}
+                      items={labelData.attendingReceptionList}
+                    />
 
-              {/* お名前 */}
-              <TextFieldController
-                label={labelData.name}
-                name={`guests.${index}.name` as DynamicGuestField}
-                control={control}
-                onChange={(e) => handleGuestChange(index, e)}
-                handleBlur={(e) => handleBlur(e, index)}
-              />
-              {/* かな */}
-              <TextFieldController
-                label={labelData.kana}
-                name={`guests.${index}.kana` as DynamicGuestField}
-                control={control}
-                onChange={(e) => handleGuestChange(index, e)}
-                handleBlur={(e) => handleBlur(e, index)}
-              />
+                    {/* 披露宴会場へのバス利用 */}
+                    <RadioGroupController
+                      legend={labelData.useBus}
+                      handleBlur={(e) => handleBlur(e, index)}
+                      onChange={(e) => handleRadioChange(index, e)}
+                      name={`guests.${index}.useBus` as DynamicGuestField}
+                      control={control}
+                      items={labelData.useBusList}
+                    />
+                  </>
+                )}
 
-              {index === 0 && (
-                <>
-                  {/* 郵便番号 */}
-                  <TextFieldController
-                    label={labelData.postalCode}
-                    name={`guests.${index}.postalCode` as DynamicGuestField}
-                    control={control}
-                    onChange={(e) => handlePostalCodeChange(index, e)}
-                    handleBlur={(e) => handleBlur(e, index)}
-                  />
+                {/* お名前 */}
+                <TextFieldController
+                  label={labelData.name}
+                  name={`guests.${index}.name` as DynamicGuestField}
+                  control={control}
+                  onChange={(e) => handleGuestChange(index, e)}
+                  handleBlur={(e) => handleBlur(e, index)}
+                />
+                {/* かな */}
+                <TextFieldController
+                  label={labelData.kana}
+                  name={`guests.${index}.kana` as DynamicGuestField}
+                  control={control}
+                  onChange={(e) => handleGuestChange(index, e)}
+                  handleBlur={(e) => handleBlur(e, index)}
+                />
 
-                  {/* 住所 */}
-                  <TextFieldController
-                    label={labelData.address}
-                    name={`guests.${index}.address` as DynamicGuestField}
-                    control={control}
-                    onChange={(e) => handleGuestChange(index, e)}
-                    handleBlur={(e) => handleBlur(e, index)}
-                  />
-                  {/* 建物名 */}
-                  <TextFieldController
-                    label={labelData.buildingName}
-                    name={`guests.${index}.buildingName` as DynamicGuestField}
-                    control={control}
-                    onChange={(e) => handleGuestChange(index, e)}
-                    handleBlur={(e) => handleBlur(e, index)}
-                  />
+                {index === 0 && (
+                  <>
+                    {/* 郵便番号 */}
+                    <TextFieldController
+                      label={labelData.postalCode}
+                      name={`guests.${index}.postalCode` as DynamicGuestField}
+                      control={control}
+                      onChange={(e) => handlePostalCodeChange(index, e)}
+                      handleBlur={(e) => handleBlur(e, index)}
+                    />
 
-                  {/* 電話番号 */}
-                  <TextFieldController
-                    label={labelData.phone}
-                    name={`guests.${index}.phone` as DynamicGuestField}
-                    control={control}
-                    onChange={(e) => handleGuestChange(index, e)}
-                    handleBlur={(e) => handleBlur(e, index)}
-                  />
+                    {/* 住所 */}
+                    <TextFieldController
+                      label={labelData.address}
+                      name={`guests.${index}.address` as DynamicGuestField}
+                      control={control}
+                      onChange={(e) => handleGuestChange(index, e)}
+                      handleBlur={(e) => handleBlur(e, index)}
+                    />
+                    {/* 建物名 */}
+                    <TextFieldController
+                      label={labelData.buildingName}
+                      name={`guests.${index}.buildingName` as DynamicGuestField}
+                      control={control}
+                      onChange={(e) => handleGuestChange(index, e)}
+                      handleBlur={(e) => handleBlur(e, index)}
+                    />
 
-                  {/* メールアドレス */}
-                  <TextFieldController
-                    label={labelData.email}
-                    name={`guests.${index}.email` as DynamicGuestField}
-                    control={control}
-                    onChange={(e) => handleGuestChange(index, e)}
-                    handleBlur={(e) => handleBlur(e, index)}
-                  />
-                </>
-              )}
+                    {/* 電話番号 */}
+                    <TextFieldController
+                      label={labelData.phone}
+                      name={`guests.${index}.phone` as DynamicGuestField}
+                      control={control}
+                      onChange={(e) => handleGuestChange(index, e)}
+                      handleBlur={(e) => handleBlur(e, index)}
+                    />
 
-              {/* アレルギー */}
-              <Textarea
-                control={control}
-                label={labelData.allergies}
-                name={`guests.${index}.allergies` as DynamicGuestField}
-                onChange={(e) => handleGuestChange(index, e)}
-              />
+                    {/* メールアドレス */}
+                    <TextFieldController
+                      label={labelData.email}
+                      name={`guests.${index}.email` as DynamicGuestField}
+                      control={control}
+                      onChange={(e) => handleGuestChange(index, e)}
+                      handleBlur={(e) => handleBlur(e, index)}
+                    />
+                  </>
+                )}
 
-              {/* メッセージ */}
-              <Textarea
-                control={control}
-                label={labelData.message}
-                name={`guests.${index}.message` as DynamicGuestField}
-                onChange={(e) => handleGuestChange(index, e)}
-              />
-            </Grid>
-          </div>
-        ))}
+                {/* アレルギー */}
+                <RadioGroupController
+                  legend={labelData.hasAllergies}
+                  name={`guests.${index}.hasAllergies` as DynamicGuestField}
+                  control={control}
+                  handleBlur={(e) => handleBlur(e, index)}
+                  onChange={(e) => handleRadioChange(index, e)}
+                  items={labelData.allergiesList}
+                />
+                { hasAllergies && (
+                  <>
+                    <Textarea
+                      control={control}
+                      label={labelData.allergies}
+                      name={`guests.${index}.allergies` as DynamicGuestField}
+                      onChange={(e) => handleGuestChange(index, e)}
+                    />
+                  </>
+                )}
+
+                {/* メッセージ */}
+                <Textarea
+                  control={control}
+                  label={labelData.message}
+                  name={`guests.${index}.message` as DynamicGuestField}
+                  onChange={(e) => handleGuestChange(index, e)}
+                />
+              </Grid>
+            </div>
+          )
+        })}
 
         <Grid sx={style.form} container>
           <Grid container spacing={12} sx={style.iconButton}>

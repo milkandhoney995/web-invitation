@@ -10,5 +10,6 @@ export interface Guest {
   phone: string;
   email: string;
   allergies: string;
+  hasAllergies: boolean;
   message: string;
 }

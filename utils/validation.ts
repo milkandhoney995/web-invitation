@@ -33,6 +33,7 @@ const guestSchemaBase = z.object({
   address: z.string().optional(),
   buildingName: z.string().optional(),
   allergies: z.string().optional(),
+  hasAllergies: z.boolean(),
   message: z.string().optional(),
 });
 
@@ -64,6 +65,20 @@ export const formSchema = z.object({
       path: ['guests', 0, 'postalCode'],
     });
   }
+
+  // 全ゲストのhasAllergiesがtrueならallergies必須
+  data.guests.forEach((guest, index) => {
+    // hasAllergiesが未定義またはnullの場合は型エラーになるためここでチェック不要
+    if (guest.hasAllergies) {
+      if (!guest.allergies || guest.allergies.trim() === '') {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'アレルギーの詳細を入力してください',
+          path: ['guests', index, 'allergies'],
+        });
+      }
+    }
+  });
 });
 
 export type IFormType = z.infer<typeof formSchema>
