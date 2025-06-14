@@ -33,7 +33,7 @@ const guestSchemaBase = z.object({
   address: z.string().optional(),
   buildingName: z.string().optional(),
   allergies: z.string().optional(),
-  hasAllergies: z.boolean(),
+  hasAllergies: z.boolean().optional(),
   message: z.string().optional(),
 });
 
