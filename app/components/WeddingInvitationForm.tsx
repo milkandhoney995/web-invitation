@@ -160,16 +160,23 @@ const WeddingInvitationForm = () => {
     setServerError(null);
     console.log('フォーム送信', data);
 
+    // hasAllergies を除外した guests データを生成
+    const sanitizedGuests = data.guests.map(({ hasAllergies, ...rest }) => rest);
+
+    // APIに送信するデータを整形
+    const payload = {
+      guests: sanitizedGuests,
+    };
+
     try {
-      await axios.post("https://invite-project.onrender.com/submit", data);
+      await axios.post("https://invite-project.onrender.com/submit", payload);
       router.push('/completed');
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         console.error("送信エラー", error);
-        setLoading(false);
         const message =
-          error.response?.data?.message || // サーバーからのメッセージ
-          error.message ||                 // 通常のAxiosエラーメッセージ
+          error.response?.data?.message ||
+          error.message ||
           "送信中にサーバーエラーが発生しました。しばらくしてからもう一度お試しください。";
         setServerError(message);
       } else if (error instanceof Error) {
@@ -180,9 +187,10 @@ const WeddingInvitationForm = () => {
         setServerError("予期せぬエラーが発生しました。");
       }
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
+  
 
   const onInvalid = (errors: FieldErrors<IFormType>) => {
     console.log('バリデーションエラー', errors);
