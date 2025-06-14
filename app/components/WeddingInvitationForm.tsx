@@ -161,7 +161,10 @@ const WeddingInvitationForm = () => {
     console.log('フォーム送信', data);
 
     // hasAllergies を除外した guests データを生成
-    const sanitizedGuests = data.guests.map(({ hasAllergies: _, ...rest }) => rest);
+    const sanitizedGuests = data.guests.map((guest) => {
+      const { hasAllergies, ...rest } = guest;
+      return rest;
+    });
 
     // APIに送信するデータを整形
     const payload = {
