@@ -217,35 +217,9 @@ const WeddingInvitationForm = () => {
   };
 
   const handleAddGuest = () => {
-    // 1人目のデータを取得
-    const first = fields[0] ?? {
-      name: '',
-      kana: '',
-      postalCode: '',
-      phone: '',
-      email: '',
-      address: '',
-      buildingName: '',
-      attendingCeremony: true,
-      attendingReception: true,
-      useBus: true,
-    };
-
-    // 新しいゲストを追加
+    // 1人目のデータを取得し、新しいゲストを追加
     append({
-      name: '',
-      kana: '',
-      allergies: '',
-      hasAllergies: false,
-      message: '',
-      postalCode: first.postalCode || '',
-      phone: first.phone || '',
-      email: first.email || '',
-      address: first.address || '',
-      buildingName: first.buildingName || '',
-      attendingCeremony: first.attendingCeremony,
-      attendingReception: first.attendingReception,
-      useBus: first.useBus,
+      ...defaultValues.guests[0]
     });
   };
 
