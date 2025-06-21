@@ -250,12 +250,6 @@ const WeddingInvitationForm = () => {
     setValue(`guests.${index}.address`, address);
   };
 
-  const onSubmitWrapper = async () => {
-    const ok = await trigger();  // 全フィールド再バリデ
-    if (!ok) return;
-    handleSubmit(onSubmit, onInvalid)();
-  };
-
   return (
     <Container
       sx={[
@@ -279,7 +273,7 @@ const WeddingInvitationForm = () => {
       <Box
         component="form"
         sx={style.form}
-        onSubmit={onSubmitWrapper}
+        onSubmit={handleSubmit(onSubmit, onInvalid)}
       >
         {fields.map((field, index) => {
           const hasAllergies = guestsData?.[index]?.hasAllergies;
