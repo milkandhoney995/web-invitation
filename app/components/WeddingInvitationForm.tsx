@@ -194,7 +194,6 @@ const WeddingInvitationForm = () => {
       setLoading(false);
     }
   };
-  
 
   const onInvalid = (errors: FieldErrors<IFormType>) => {
     console.log('バリデーションエラー', errors);
@@ -207,7 +206,7 @@ const WeddingInvitationForm = () => {
   const handleGuestChange = (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     const fieldName = `guests[${index}].${name}` as DynamicGuestField
-    setValue(fieldName, value);
+    setValue(fieldName, value, { shouldValidate: true });
   };
 
   const handleRadioChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
