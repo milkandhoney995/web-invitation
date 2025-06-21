@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm, useFieldArray, FieldErrors, useWatch } from 'react-hook-form';
+import { useForm, useFieldArray, FieldErrors, useWatch, Resolver } from 'react-hook-form';
 import { css } from "@emotion/react"
 import theme from '@/style/theme';
 import RadioGroupController from '@/app/components/RadioGroupController';
@@ -120,6 +120,22 @@ const WeddingInvitationForm = () => {
     ],
   };
 
+  const customResolver: Resolver<IFormType> = async (values, context, options) => {
+    const result = await zodResolver(formSchema)(values, context, options);
+    const errors = result.errors as FieldErrors<IFormType>;
+
+    if (Array.isArray(errors.guests)) {
+      errors.guests = errors.guests.map((err) => {
+        return err ?? undefined;
+      }) as NonNullable<typeof errors.guests>;
+    }
+
+    return {
+      ...result,
+      errors,
+    };
+  };
+
   const {
     handleSubmit,
     control,
@@ -128,7 +144,7 @@ const WeddingInvitationForm = () => {
   } = useForm<IFormType>({
     mode: 'onBlur',
     defaultValues,
-    resolver: zodResolver(formSchema),
+    resolver: customResolver,
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -234,6 +250,12 @@ const WeddingInvitationForm = () => {
     setValue(`guests.${index}.address`, address);
   };
 
+  const onSubmitWrapper = async () => {
+    const ok = await trigger();  // 全フィールド再バリデ
+    if (!ok) return;
+    handleSubmit(onSubmit, onInvalid)();
+  };
+
   return (
     <Container
       sx={[
@@ -257,7 +279,7 @@ const WeddingInvitationForm = () => {
       <Box
         component="form"
         sx={style.form}
-        onSubmit={handleSubmit(onSubmit, onInvalid)}
+        onSubmit={onSubmitWrapper}
       >
         {fields.map((field, index) => {
           const hasAllergies = guestsData?.[index]?.hasAllergies;
