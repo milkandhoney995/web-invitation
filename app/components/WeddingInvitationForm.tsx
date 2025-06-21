@@ -206,7 +206,7 @@ const WeddingInvitationForm = () => {
   const handleGuestChange = (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     const fieldName = `guests[${index}].${name}` as DynamicGuestField
-    setValue(fieldName, value, { shouldValidate: true });
+    setValue(fieldName, value, { shouldValidate: true, shouldDirty: true });
   };
 
   const handleRadioChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
