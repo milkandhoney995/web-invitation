@@ -24,9 +24,9 @@ export const emailSchema = z.string()
 const guestSchemaBase = z.object({
   name: nameSchema,
   kana: kanaSchema,
-  postalCode: postalCodeSchema.optional(),
-  phone: phoneNumberSchema.optional(),
-  email: emailSchema.optional(),
+  postalCode: postalCodeSchema,
+  phone: phoneNumberSchema,
+  email: emailSchema,
   attendingCeremony: z.boolean(),
   attendingReception: z.boolean(),
   useBus: z.boolean(),
