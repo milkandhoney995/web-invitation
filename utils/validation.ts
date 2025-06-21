@@ -37,48 +37,49 @@ const guestSchemaBase = z.object({
   message: z.string().optional(),
 });
 
-export const formSchema = z.object({
-  guests: z.array(guestSchemaBase).min(1, "1人以上の登録が必要です")
-}).superRefine((data, ctx) => {
-  const first = data.guests[0];
+export const formSchema = z
+  .object({
+    guests: z.array(guestSchemaBase).min(1, "1人以上の登録が必要です")
+  })
+  .superRefine((data, ctx) => {
+    // 全ゲストのhasAllergiesがtrueならallergies必須
+    data.guests.forEach((guest, index) => {
+      // 1人目だけ email, phone, postalCode を必須に
+      if (index === 0) {
+        if (!guest.email || guest.email.trim() === '') {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: '必須項目です',
+            path: ['guests', index, 'email'],
+          });
+        }
 
-  if (!first.email || first.email.trim() === '') {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: '必須項目です',
-      path: ['guests', 0, 'email'],
-    });
-  }
+        if (!guest.phone || guest.phone.trim() === '') {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: '必須項目です',
+            path: ['guests', index, 'phone'],
+          });
+        }
 
-  if (!first.phone || first.phone.trim() === '') {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: '必須項目です',
-      path: ['guests', 0, 'phone'],
-    });
-  }
+        if (!guest.postalCode || guest.postalCode.trim() === '') {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: '必須項目です',
+            path: ['guests', index, 'postalCode'],
+          });
+        }
+      }
 
-  if (!first.postalCode || first.postalCode.trim() === '') {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: '必須項目です',
-      path: ['guests', 0, 'postalCode'],
-    });
-  }
-
-  // 全ゲストのhasAllergiesがtrueならallergies必須
-  data.guests.forEach((guest, index) => {
-    // hasAllergiesが未定義またはnullの場合は型エラーになるためここでチェック不要
-    if (guest.hasAllergies) {
-      if (!guest.allergies || guest.allergies.trim() === '') {
+      // hasAllergiesが未定義またはnullの場合は型エラーになるためここでチェック不要
+      if (guest.hasAllergies && (!guest.allergies || guest.allergies.trim() === '')) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: 'アレルギーの詳細を入力してください',
           path: ['guests', index, 'allergies'],
         });
       }
-    }
+    });
   });
-});
 
 export type IFormType = z.infer<typeof formSchema>
