@@ -146,10 +146,10 @@ const WeddingInvitationForm = () => {
     if (fields.length > 1) {
       // 1人目の情報を基に、2人目以降のフィールドに初期値を設定する
       fields.slice(1).forEach((field, index) => {
-        setValue(`guests.${index + 1}.postalCode`, fields[0].postalCode);
-        setValue(`guests.${index + 1}.address`, fields[0].address);
-        setValue(`guests.${index + 1}.phone`, fields[0].phone);
-        setValue(`guests.${index + 1}.email`, fields[0].email);
+        setValue(`guests.${index + 1}.postalCode`, fields[0].postalCode, { shouldValidate: true, shouldDirty: true });
+        setValue(`guests.${index + 1}.address`, fields[0].address, { shouldValidate: true, shouldDirty: true });
+        setValue(`guests.${index + 1}.phone`, fields[0].phone, { shouldValidate: true, shouldDirty: true });
+        setValue(`guests.${index + 1}.email`, fields[0].email, { shouldValidate: true, shouldDirty: true });
       });
     }
   }, [fields, setValue])
