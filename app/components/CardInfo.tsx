@@ -1,6 +1,4 @@
 /** @jsxImportSource @emotion/react **/
-import { CEREMONY_INFO_ITEMS, CEREMONY_INFO_TITIE } from "@/constants/eventData";
-import theme from "@/style/theme";
 import { css } from "@emotion/react"
 
 type Props = {

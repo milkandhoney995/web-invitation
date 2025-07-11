@@ -8,7 +8,7 @@ import theme from "@/style/theme";
 import WeddingInvitationForm from "./components/WeddingInvitationForm";
 import CardController from "./components/CardController";
 import { Grid, Typography } from "@mui/material";
-import { CEREMONY_INFO_TITIE, WEDDING_EVENTS } from "@/constants/eventData";
+import { WEDDING_EVENTS } from "@/constants/eventData";
 import { INVITATION_MESSAGE } from "@/constants/message";
 
 const style = {
