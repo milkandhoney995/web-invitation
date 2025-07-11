@@ -2,13 +2,15 @@
 import theme from "@/style/theme";
 import { css } from "@emotion/react"
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
+import CardInfo from "./CardInfo";
 
 type Props = {
   title?: string
-  children?: React.ReactNode
   mainImg: string
   bodyImg: string
   mapUrl: string
+  titles: string[]
+  infos: string[]
 }
 
 const style = {
@@ -16,13 +18,18 @@ const style = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: theme.validTheme.num48
+    padding: `clamp(${theme.validTheme.num16}, 4vw, ${theme.validTheme.num48})`,
+    paddingBottom: theme.validTheme.num48,
+    paddingTop: theme.validTheme.num48
   }),
   cardMedia: css({
     filter: "brightness(0.9) contrast(70%)"
   }),
   body: css({
-    whiteSpace: 'pre-line'
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    whiteSpace: 'pre-line',
+    width: "100%"
   }),
   button: css({
     display: "flex",
@@ -31,7 +38,7 @@ const style = {
 }
 
 const CardBody = (props: Props) => {
-  const { title, children, mainImg, bodyImg, mapUrl } = props
+  const { title, mainImg, bodyImg, mapUrl, titles, infos } = props
   return (
     <>
       <Card>
@@ -46,8 +53,8 @@ const CardBody = (props: Props) => {
           <Typography gutterBottom variant="h3">
             {title}
           </Typography>
-          <Typography variant="body1" sx={{ color: 'text.secondary' }} css={style.body}>
-            {children}
+          <Typography variant="body1" component="div" sx={{ color: 'text.secondary' }} css={style.body}>
+            <CardInfo titles={titles} infos={infos} />
           </Typography>
         </CardContent>
         <CardMedia

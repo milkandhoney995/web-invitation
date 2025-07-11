@@ -8,7 +8,7 @@ import theme from "@/style/theme";
 import WeddingInvitationForm from "./components/WeddingInvitationForm";
 import CardController from "./components/CardController";
 import { Grid, Typography } from "@mui/material";
-import { WEDDING_EVENTS } from "@/constants/eventData";
+import { CEREMONY_INFO_TITIE, WEDDING_EVENTS } from "@/constants/eventData";
 import { INVITATION_MESSAGE } from "@/constants/message";
 
 const style = {
@@ -63,12 +63,9 @@ export default function Home() {
             bodyTitle={event.title}
             bodyImg={event.bodyImg}
             mapUrl={event.mapUrl}
-          >
-            <>
-              {event.access}
-            </>
-
-          </CardController>
+            titles={event.titles}
+            infos={event.infos}
+          />
         ))}
       </Section>
       <Section

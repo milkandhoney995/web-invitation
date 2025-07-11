@@ -3,14 +3,15 @@ import CardBody from "./CardBody";
 
 interface Props  {
   bodyTitle?: string
-  children: React.ReactNode
   mainImg: string
   bodyImg: string
   mapUrl: string
+  titles: string[]
+  infos: string[]
 }
 
 const CardController = (props: Props) => {
-  const { bodyTitle, children, mainImg, bodyImg, mapUrl } = props
+  const { bodyTitle, mainImg, bodyImg, mapUrl, titles, infos } = props
 
   return (
     <div>
@@ -19,9 +20,9 @@ const CardController = (props: Props) => {
         mainImg={mainImg}
         bodyImg={bodyImg}
         mapUrl={mapUrl}
-      >
-        {children}
-      </CardBody>
+        titles={titles}
+        infos={infos}
+      />
     </div>
   )
 }

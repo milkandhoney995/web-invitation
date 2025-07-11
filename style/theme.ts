@@ -73,6 +73,9 @@ const theme = createTheme({
     h2: {
       fontFamily: forum.style.fontFamily, // サブタイトルやナビゲーション用フォント
     },
+    h3: {
+      fontFamily: `${themeStyle.default.fontFamilyEn}, ${themeStyle.default.fontFamilyJa}, sans-serif`,
+    },
     body1: {
       fontFamily: themeStyle.default.fontFamilyJa, // 本文用フォント
     },
