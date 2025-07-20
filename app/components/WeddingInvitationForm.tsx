@@ -167,19 +167,23 @@ const WeddingInvitationForm = () => {
         setValue(`guests.${index + 1}.phone`, fields[0].phone, { shouldValidate: true, shouldDirty: true });
         setValue(`guests.${index + 1}.email`, fields[0].email, { shouldValidate: true, shouldDirty: true });
       });
+      console.log('fields[0]', fields[0]);
     }
   }, [fields, setValue])
 
   // フォームの送信時に呼ばれる関数
   const onSubmit = async (data: IFormType) => {
+    console.log('=== raw guests ===');
+    data.guests.forEach((g, i) => {
+      console.log(`guest[${i}]`, g);
+    });
     setLoading(true);
     setServerError(null);
     console.log('フォーム送信', data);
 
-    // hasAllergies を除外した guests データを生成
+    // guests データを生成
     const sanitizedGuests = data.guests.map((guest) => {
       const rest = { ...guest };
-      delete rest.hasAllergies;
       return rest;
     });
 
@@ -187,6 +191,7 @@ const WeddingInvitationForm = () => {
     const payload = {
       guests: sanitizedGuests,
     };
+    console.log("送信されるデータ:", JSON.stringify(payload, null, 2));
 
     try {
       await axios.post("https://invite-project.onrender.com/submit", payload);
@@ -221,7 +226,8 @@ const WeddingInvitationForm = () => {
 
   const handleGuestChange = (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    const fieldName = `guests[${index}].${name}` as DynamicGuestField
+    const pureFieldName = name.split('.').pop()!;
+    const fieldName = `guests.${index}.${pureFieldName}` as DynamicGuestField
     setValue(fieldName, value, { shouldValidate: true, shouldDirty: true });
   };
 
@@ -235,7 +241,19 @@ const WeddingInvitationForm = () => {
   const handleAddGuest = () => {
     // 1人目のデータを取得し、新しいゲストを追加
     append({
-      ...defaultValues.guests[0]
+      attendingCeremony: true,
+      attendingReception: true,
+      useBus: true,
+      name: '',
+      kana: '',
+      postalCode: '',
+      address: '',
+      buildingName: '',
+      phone: '',
+      email: '',
+      allergies: '',
+      hasAllergies: false,
+      message: '',
     });
   };
 
