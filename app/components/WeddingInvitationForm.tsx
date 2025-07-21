@@ -158,19 +158,6 @@ const WeddingInvitationForm = () => {
     defaultValue: defaultValues.guests,
   });
 
-  useEffect(() => {
-    if (fields.length > 1) {
-      // 1人目の情報を基に、2人目以降のフィールドに初期値を設定する
-      fields.slice(1).forEach((field, index) => {
-        setValue(`guests.${index + 1}.postalCode`, fields[0].postalCode, { shouldValidate: true, shouldDirty: true });
-        setValue(`guests.${index + 1}.address`, fields[0].address, { shouldValidate: true, shouldDirty: true });
-        setValue(`guests.${index + 1}.phone`, fields[0].phone, { shouldValidate: true, shouldDirty: true });
-        setValue(`guests.${index + 1}.email`, fields[0].email, { shouldValidate: true, shouldDirty: true });
-      });
-      console.log('fields[0]', fields[0]);
-    }
-  }, [fields, setValue])
-
   // フォームの送信時に呼ばれる関数
   const onSubmit = async (data: IFormType) => {
     console.log('=== raw guests ===');
@@ -224,37 +211,38 @@ const WeddingInvitationForm = () => {
     trigger(`guests.${index}.${fieldName}`)
   };
 
-  const handleGuestChange = (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleGuestChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    const pureFieldName = name.split('.').pop()!;
-    const fieldName = `guests.${index}.${pureFieldName}` as DynamicGuestField
-    setValue(fieldName, value, { shouldValidate: true, shouldDirty: true });
+    setValue(name as DynamicGuestField, value, { shouldValidate: true, shouldDirty: true });
   };
 
-  const handleRadioChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const fieldName = `guests[${index}].${name}` as DynamicGuestField;
     const booleanValue = value === 'true';
-    setValue(fieldName, booleanValue);
+    setValue(name as DynamicGuestField, booleanValue, { shouldValidate: true, shouldDirty: true });
   };
 
   const handleAddGuest = () => {
-    // 1人目のデータを取得し、新しいゲストを追加
-    append({
+    const firstGuest = guestsData?.[0];
+
+    // デフォルトゲストデータを作成
+    const newGuest = {
       attendingCeremony: true,
       attendingReception: true,
       useBus: true,
       name: '',
       kana: '',
-      postalCode: '',
-      address: '',
+      postalCode: firstGuest?.postalCode || '',
+      address: firstGuest?.address || '',
       buildingName: '',
-      phone: '',
-      email: '',
+      phone: firstGuest?.phone || '',
+      email: firstGuest?.email || '',
       allergies: '',
       hasAllergies: false,
       message: '',
-    });
+    };
+
+    append(newGuest);
   };
 
   const handleRemoveGuest = (index: number) => {
@@ -325,7 +313,7 @@ const WeddingInvitationForm = () => {
                       name={`guests.${index}.attendingCeremony` as DynamicGuestField}
                       control={control}
                       handleBlur={(e) => handleBlur(e, index)}
-                      onChange={(e) => handleRadioChange(index, e)}
+                      onChange={(e) => handleRadioChange(e)}
                       items={labelData.attendingCeremonyList}
                     />
 
@@ -335,7 +323,7 @@ const WeddingInvitationForm = () => {
                       name={`guests.${index}.attendingReception` as DynamicGuestField}
                       control={control}
                       handleBlur={(e) => handleBlur(e, index)}
-                      onChange={(e) => handleRadioChange(index, e)}
+                      onChange={(e) => handleRadioChange(e)}
                       items={labelData.attendingReceptionList}
                     />
 
@@ -343,7 +331,7 @@ const WeddingInvitationForm = () => {
                     <RadioGroupController
                       legend={labelData.useBus}
                       handleBlur={(e) => handleBlur(e, index)}
-                      onChange={(e) => handleRadioChange(index, e)}
+                      onChange={(e) => handleRadioChange(e)}
                       name={`guests.${index}.useBus` as DynamicGuestField}
                       control={control}
                       items={labelData.useBusList}
@@ -356,7 +344,7 @@ const WeddingInvitationForm = () => {
                   label={labelData.name}
                   name={`guests.${index}.name` as DynamicGuestField}
                   control={control}
-                  onChange={(e) => handleGuestChange(index, e)}
+                  onChange={(e) => handleGuestChange(e)}
                   handleBlur={(e) => handleBlur(e, index)}
                 />
                 {/* かな */}
@@ -364,7 +352,7 @@ const WeddingInvitationForm = () => {
                   label={labelData.kana}
                   name={`guests.${index}.kana` as DynamicGuestField}
                   control={control}
-                  onChange={(e) => handleGuestChange(index, e)}
+                  onChange={(e) => handleGuestChange(e)}
                   handleBlur={(e) => handleBlur(e, index)}
                 />
 
@@ -384,7 +372,7 @@ const WeddingInvitationForm = () => {
                       label={labelData.address}
                       name={`guests.${index}.address` as DynamicGuestField}
                       control={control}
-                      onChange={(e) => handleGuestChange(index, e)}
+                      onChange={(e) => handleGuestChange(e)}
                       handleBlur={(e) => handleBlur(e, index)}
                     />
                     {/* 建物名 */}
@@ -392,7 +380,7 @@ const WeddingInvitationForm = () => {
                       label={labelData.buildingName}
                       name={`guests.${index}.buildingName` as DynamicGuestField}
                       control={control}
-                      onChange={(e) => handleGuestChange(index, e)}
+                      onChange={(e) => handleGuestChange(e)}
                       handleBlur={(e) => handleBlur(e, index)}
                     />
 
@@ -401,7 +389,7 @@ const WeddingInvitationForm = () => {
                       label={labelData.phone}
                       name={`guests.${index}.phone` as DynamicGuestField}
                       control={control}
-                      onChange={(e) => handleGuestChange(index, e)}
+                      onChange={(e) => handleGuestChange(e)}
                       handleBlur={(e) => handleBlur(e, index)}
                     />
 
@@ -410,7 +398,7 @@ const WeddingInvitationForm = () => {
                       label={labelData.email}
                       name={`guests.${index}.email` as DynamicGuestField}
                       control={control}
-                      onChange={(e) => handleGuestChange(index, e)}
+                      onChange={(e) => handleGuestChange(e)}
                       handleBlur={(e) => handleBlur(e, index)}
                     />
                   </>
@@ -422,7 +410,7 @@ const WeddingInvitationForm = () => {
                   name={`guests.${index}.hasAllergies` as DynamicGuestField}
                   control={control}
                   handleBlur={(e) => handleBlur(e, index)}
-                  onChange={(e) => handleRadioChange(index, e)}
+                  onChange={(e) => handleRadioChange(e)}
                   items={labelData.allergiesList}
                 />
                 { hasAllergies && (
@@ -431,7 +419,7 @@ const WeddingInvitationForm = () => {
                       control={control}
                       label={labelData.allergies}
                       name={`guests.${index}.allergies` as DynamicGuestField}
-                      onChange={(e) => handleGuestChange(index, e)}
+                      onChange={(e) => handleGuestChange(e)}
                     />
                   </>
                 )}
@@ -441,7 +429,7 @@ const WeddingInvitationForm = () => {
                   control={control}
                   label={labelData.message}
                   name={`guests.${index}.message` as DynamicGuestField}
-                  onChange={(e) => handleGuestChange(index, e)}
+                  onChange={(e) => handleGuestChange(e)}
                 />
               </Grid>
             </div>
