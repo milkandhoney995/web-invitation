@@ -15,7 +15,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { formSchema, IFormType } from '@/utils/validation';
 import { useRouter } from 'next/navigation';
 import { DynamicGuestField } from '@/types/DynamicGuestField';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios'
 import { RSVP_MESSAGE } from '@/constants/rsvpData';
 import { labelData } from '@/constants/labelData';
