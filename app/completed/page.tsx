@@ -33,7 +33,7 @@ const CompletedPage = () => {
     >
       <Typography variant="h3">ご回答ありがとうございます</Typography>
       <div css={style.body}>
-        <Typography variant="h4">xxx@gmail.comから送信済みメールをご確認ください。</Typography>
+        <Typography variant="h4">kuriharada.wedding@gmail.comから送信済みメールをご確認ください。</Typography>
         <Button variant="contained" color="primary" onClick={handleClick}>
           トップに戻る
         </Button>
