@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
       <Container maxWidth="lg">
         <Grid container spacing={4} justifyContent="space-between">
           <Typography variant="body2" sx={{  fontFamily: `${theme.validTheme.fontFamilySubEn}` }}>
-            © 2025 Uta-Tai Wedding. All rights reserved.
+            © 2025 kuriharada wedding. All rights reserved.
           </Typography>
         </Grid>
       </Container>
