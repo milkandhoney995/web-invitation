@@ -4,7 +4,6 @@
 import { css } from "@emotion/react"
 import theme from "@/style/theme";
 import { Typography } from "@mui/material";
-import { useRouter } from 'next/navigation';
 import Section from "@/app/components/Section";
 
 const style = {
