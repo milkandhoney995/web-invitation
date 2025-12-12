@@ -14,7 +14,7 @@ export const kanaSchema = z.string()
   .max(50, '名前かなは50文字以内で入力してください');
 
 export const postalCodeSchema = z.string()
-  .regex(/^\d{3}-\d{4}$/, '郵便番号はXXX-XXXXの形式で入力してください');
+  .regex(/^\d{7}$/, '郵便番号はXXXXXXXの形式で入力してください');
 
 export const phoneNumberSchema = z.string()
   .regex(/^0\d{1,4}\d{1,4}\d{4}$/, '電話番号はXXXXXXXXXXXの形式で入力してください');
@@ -26,8 +26,8 @@ export const emailSchema = z.string()
 // 2人目以降：空文字または未定義を許容（入力があれば形式チェック）
 const optionalPostalCodeSchema = z.string()
   .optional()
-  .refine(val => !val || /^\d{3}-\d{4}$/.test(val), {
-    message: '郵便番号はXXX-XXXXの形式で入力してください',
+  .refine(val => !val || /^\d{7}$/.test(val), {
+    message: '郵便番号はXXXXXXXの形式で入力してください',
   });
 
 const optionalPhoneNumberSchema = z.string()

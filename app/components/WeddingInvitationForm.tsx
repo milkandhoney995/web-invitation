@@ -122,18 +122,8 @@ const WeddingInvitationForm = () => {
 
   const customResolver: Resolver<IFormType> = async (values, context, options) => {
     const result = await zodResolver(formSchema)(values, context, options);
-    const errors = result.errors as FieldErrors<IFormType>;
 
-    if (Array.isArray(errors.guests)) {
-      errors.guests = errors.guests.map((err) => {
-        return err ?? undefined;
-      }) as NonNullable<typeof errors.guests>;
-    }
-
-    return {
-      ...result,
-      errors,
-    };
+    return result;
   };
 
   const {
