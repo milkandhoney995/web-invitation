@@ -1,9 +1,21 @@
-import { beforeAll } from 'vitest';
-import { setProjectAnnotations } from '@storybook/experimental-nextjs-vite';
-import * as projectAnnotations from './preview';
+import { beforeAll, afterEach } from "vitest";
+import { cleanup } from "@testing-library/react";
+import { setProjectAnnotations } from "@storybook/react";
+import * as projectAnnotations from "./preview";
 
-// This is an important step to apply the right configuration when testing your stories.
-// More info at: https://storybook.js.org/docs/api/portable-stories/portable-stories-vitest#setprojectannotations
+// Storybook の preview 設定を Vitest に適用
 const project = setProjectAnnotations([projectAnnotations]);
 
-beforeAll(project.beforeAll);
+beforeAll(() => {
+  if (project.beforeAll) {
+    if (Array.isArray(project.beforeAll)) {
+      project.beforeAll.forEach(fn => fn());
+    } else {
+      project.beforeAll();
+    }
+  }
+});
+
+afterEach(() => {
+  cleanup();
+});
