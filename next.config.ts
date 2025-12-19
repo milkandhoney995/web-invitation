@@ -1,8 +1,7 @@
-import type { NextConfig } from "next";
+import { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  matcher: ['/', '/((?!maintenance).*)'],
+  // ここには通常の NextConfig オプションだけ
 };
 
 export default nextConfig;
