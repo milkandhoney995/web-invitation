@@ -88,7 +88,7 @@ export const formSchema = z.object({
     const result = schema.safeParse(guest);
 
     if (!result.success) {
-      result.error.errors.forEach(error => {
+      result.error.issues.forEach(error => {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: error.message,

@@ -14,7 +14,6 @@ export default defineConfig({
     clearMocks: true, // テストごとにモックをクリア
     coverage: {
       reporter: ['text', 'lcov'],
-      all: true,
       include: ['app/**/*.{ts,tsx}', 'components/**/*.{ts,tsx}'],
     },
   },
