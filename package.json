@@ -46,7 +46,7 @@
     "storybook": "^10.1.11",
     "typescript": "^5",
     "vitest": "^4.0.16",
-    "zod": "^4.2.1"
+    "zod": "^4.3.4"
   },
   "eslintConfig": {
     "extends": [
