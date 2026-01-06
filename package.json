@@ -42,11 +42,11 @@
     "eslint-config-next": "^16.1.1",
     "eslint-plugin-storybook": "^10.1.11",
     "playwright": "^1.51.1",
-    "react-hook-form": "^7.69.0",
+    "react-hook-form": "^7.70.0",
     "storybook": "^10.1.11",
     "typescript": "^5",
     "vitest": "^4.0.16",
-    "zod": "^4.3.4"
+    "zod": "^4.3.5"
   },
   "eslintConfig": {
     "extends": [
