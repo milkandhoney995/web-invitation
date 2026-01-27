@@ -11,9 +11,9 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "next": "^16.1.4",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "next": "^16.1.5",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "react-redux": "^9.2.0"
   },
   "devDependencies": {
@@ -37,9 +37,9 @@
     "@types/testing-library__jest-dom": "^5.14.9",
     "@vitest/browser": "^4.0.18",
     "@vitest/coverage-v8": "^4.0.18",
-    "axios": "^1.8.4",
+    "axios": "^1.13.3",
     "eslint": "^9",
-    "eslint-config-next": "^16.1.4",
+    "eslint-config-next": "^16.1.5",
     "eslint-plugin-storybook": "^10.2.0",
     "playwright": "^1.58.0",
     "react-hook-form": "^7.71.1",
