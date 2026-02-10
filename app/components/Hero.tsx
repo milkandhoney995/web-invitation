@@ -4,7 +4,7 @@ import { css } from "@emotion/react"
 import { Typography } from '@mui/material';
 import Image from 'next/image'
 import { useState, useEffect, useMemo } from 'react'
-import Logo from '@/app/components/Logo';
+import Logo from './logo/Logo';
 
 const styles = {
   hero: css({

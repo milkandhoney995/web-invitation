@@ -5,11 +5,11 @@ import Section from "./components/Section";
 import Image from 'next/image'
 import { css } from "@emotion/react"
 import theme from "@/style/theme";
-import WeddingInvitationForm from "./components/WeddingInvitationForm";
 import CardController from "./components/CardController";
 import { Grid, Typography } from "@mui/material";
 import { WEDDING_EVENTS } from "@/constants/eventData";
 import { INVITATION_MESSAGE } from "@/constants/message";
+import { WeddingInvitationForm } from "./components";
 
 const style = {
   textContainerEvent: css({
