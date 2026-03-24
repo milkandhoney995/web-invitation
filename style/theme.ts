@@ -3,6 +3,28 @@ import { Josefin_Sans } from 'next/font/google';
 import { Pinyon_Script } from 'next/font/google';
 import { Forum } from 'next/font/google';
 
+type ValidTheme = {
+  fontColorMain: string;
+  fontFamilyJa: string;
+  fontFamilyEn: string;
+  fontFamilySubEn: string;
+  heroSubTitleFont: string;
+  navigationFont: string;
+  cardSubtitleColor: string;
+  formBackground: string;
+  formRadius: string;
+  formPadding: string;
+  backgroundColor: string;
+  backgroundColor1: string;
+  buttonColor: string;
+  buttonFontColor: string;
+  num16: string;
+  num32: string;
+  num48: string;
+  num64: string;
+  num80: string;
+};
+
 // Google Fonts (Parisienne) をインポート
 const enFont = Josefin_Sans({
   weight: '400',
@@ -18,7 +40,7 @@ const enHeaderTitleFont = Pinyon_Script({
   subsets: ['latin'],
 })
 
-const themeStyle: { [ key: string ]: any } = {
+const themeStyle: Record<string, ValidTheme> = {
   default: {
     // fonts
     fontColorMain: "#1e1e1e",

@@ -95,12 +95,6 @@ const Header = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    // クライアントサイドでのみ実行
-    setIsClient(true);
-  }, []);
 
   const handleScroll = () => {
     if (window.scrollY > 300) setIsSticky(true);
@@ -122,15 +116,12 @@ const Header = () => {
   };
 
   useEffect(() => {
-    // クライアントサイドでのみイベントリスナーを追加
-    if (isClient) {
-      window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll);
 
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
-    }
-  }, [isClient]); // isClientがtrueになるまで待機
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <AppBar
@@ -150,7 +141,7 @@ const Header = () => {
       <Toolbar css={styles.toolbar}>
         <div css={{ flexGrow: 1 }} />
         {/* モバイル用のメニューアイコン */}
-        {isMobile && isClient ? (
+        {isMobile ? (
           <>
             {/* MenuIcon はメニューが閉じている時のみ表示 */}
             {!openMenu && (

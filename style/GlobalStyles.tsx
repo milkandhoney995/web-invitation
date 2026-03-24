@@ -1,9 +1,6 @@
-import { Theme, ThemeProvider } from "@mui/material/styles"
+import { ThemeProvider } from "@mui/material/styles"
 import theme from "./theme"
 import { Global, css } from "@emotion/react";
-
-type Props = {}
-type Styles = (theme: Theme) => object;
 
 const globalStyles = css({
   html: {
@@ -43,7 +40,7 @@ const resetCss = css({
 
 })
 
-const GlobalStyles = (props: Props) => {
+const GlobalStyles = () => {
   return (
     <ThemeProvider theme={theme}>
       <Global styles={[globalStyles, resetCss]} />
