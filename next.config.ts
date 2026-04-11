@@ -1,7 +1,9 @@
 import { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  // ここには通常の NextConfig オプションだけ
+  images: {
+    qualities: [100, 75],
+  },
 };
 
 export default nextConfig;
