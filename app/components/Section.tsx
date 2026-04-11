@@ -56,8 +56,7 @@ const Section = (props: Props) => {
       <Grid
         container
         spacing={4}
-        justifyContent="center"
-        alignItems="center"
+        sx={{ justifyContent: 'center', alignItems: 'center' }}
         className="textContainer"
       >
         {children}

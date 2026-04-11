@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
   return (
     <Box sx={styles.footerWrapperStyle}>
       <Container maxWidth="lg">
-        <Grid container spacing={4} justifyContent="space-between">
+        <Grid container spacing={4} sx={{ justifyContent: 'space-between' }}>
           <Typography variant="body2" sx={{  fontFamily: `${theme.validTheme.fontFamilySubEn}` }}>
             © 2025 kuriharada wedding. All rights reserved.
           </Typography>

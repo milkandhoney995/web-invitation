@@ -24,7 +24,7 @@ export default function Home() {
     <div>
       <Hero />
       <Section id="message" title="Message">
-        <Grid container spacing={4} justifyContent="center" alignItems="center">
+        <Grid container spacing={4} sx={{ justifyContent: 'center', alignItems: 'center' }}>
           {/* 画像用のGrid item */}
           <Grid size={{ xs: 12, sm: 8, md: 6 }}>
             <Image
