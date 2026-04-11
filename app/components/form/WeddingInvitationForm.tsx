@@ -8,7 +8,7 @@ import TextFieldController from '@/app/components/TextFieldController';
 import Textarea from '@/app/components/Textarea';
 import FullScreenLoader from '@/app/components/FullScreenLoader';
 import { Button, Box, Typography, Container, Grid, IconButton } from '@mui/material';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { IFormInput  } from '@/types/FormData';
 import { zodResolver } from '@hookform/resolvers/zod';
